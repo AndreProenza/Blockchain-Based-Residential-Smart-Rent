@@ -4,6 +4,9 @@ A tokenization model, allowing for users to self-manage a representation of thei
 
 ## Master Thesis in Computer Science and Engineering
 
+![ist-logo](https://user-images.githubusercontent.com/78174997/190400534-e7c93898-9fb1-4de6-9d60-4f5749c204dc.png)
+
+
 #
 
 ## Author
