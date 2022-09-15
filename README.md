@@ -11,21 +11,29 @@ A tokenization model, allowing for users to self-manage a representation of thei
 
 ## Author
 
-**André Proença** - [GitHub](https://github.com/AndreProenza)
+- **André Proença** - [GitHub](https://github.com/AndreProenza)
+
+#
+
+## Supervisors
+
+- **Miguel Correia** - [Instituto Superior Técnico](https://tecnico.ulisboa.pt/en/) Professor
+- **Tiago Dias** - [Unlockit](https://unlockit.io/) Founder and CEO
 
 ---
 
 # Table of Contents
 1. [Blockchain Based Residential Smart Rent](#blockchain-based-residential-smart-rent)
 2. [Author](#author)
-3. [Information about Thesis idea](#information-about-thesis-idea)
-4. [More about Unlockit](#more-about-unlockit)
-5. [Introduction](#introduction)
-6. [Description](#description)
-7. [Expected Results](#expected-results)
-8. [Desirable knowledge for further reading](#desirable-knowledge-for-further-reading)
-9. [Used Technologies](#used-technologies)
-10. [Getting Started](#getting-started)
+3. [Supervisors](#supervisors)
+4. [Information about Thesis idea](#information-about-thesis-idea)
+5. [More about Unlockit](#more-about-unlockit)
+6. [Introduction](#introduction)
+7. [Description](#description)
+8. [Expected Results](#expected-results)
+9. [Desirable knowledge for further reading](#desirable-knowledge-for-further-reading)
+10. [Used Technologies](#used-technologies)
+11. [Getting Started](#getting-started)
 
 
 
