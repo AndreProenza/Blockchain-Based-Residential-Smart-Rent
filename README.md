@@ -46,9 +46,7 @@ The Thesis is being developed in cooperation with [Unlockit](https://unlockit.io
 
 ### More about Unlockit
 
-[Unlockit](https://unlockit.io/)
-
-Real estate made simple
+[Unlockit](https://unlockit.io/) - Real estate made simple
 
 "We digitized and streamlined the real estate transactional process so you can close deals faster, from anywhere and from any device."
 
