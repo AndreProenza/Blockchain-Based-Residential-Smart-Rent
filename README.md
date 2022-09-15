@@ -30,7 +30,7 @@ The student will work on a decentralised ledger that aims to solve some of the a
 
 ---
 
-### Nice to have requirements for further readings
+### Desirable knowledge for further reading
 
 - Blockchain Fundamental concepts 
 - Real Estate concepts 
@@ -38,7 +38,7 @@ The student will work on a decentralised ledger that aims to solve some of the a
 
 #
 
-### Thesis relation with Unlockit
+### Thesis in cooperation with Unlockit
 
 The Thesis is being developed in cooperation with [Unlockit](https://unlockit.io/), a DLT-based company operating in the real estate industry. 
 
@@ -47,7 +47,9 @@ The Thesis is being developed in cooperation with [Unlockit](https://unlockit.io
 ### More about Unlockit
 
 [Unlockit](https://unlockit.io/)
+
 Real estate made simple
+
 "We digitized and streamlined the real estate transactional process so you can close deals faster, from anywhere and from any device."
 
 ![unlockit](https://user-images.githubusercontent.com/78174997/190391282-19aaad62-4e3f-443c-9d6e-355d3230bfb9.jpeg)
