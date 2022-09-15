@@ -1,8 +1,50 @@
 # Blockchain Based Residential Smart Rent
 
+A tokenization model, allowing for users to self-manage a representation of their properties on the ledger for diverse purposes.
+
 ## Master Thesis in Computer Science and Engineering
 
-### Motivation
+#
+
+## Author
+
+**André Proença** - [GitHub](https://github.com/AndreProenza)
+
+---
+
+# Table of Contents
+1. [Blockchain Based Residential Smart Rent](#blockchain-based-residential-smart-rent)
+2. [Author](#author)
+3. [Information about Thesis idea](#information-about-thesis-idea)
+4. [More about Unlockit](#more-about-unlockit)
+5. [Introduction](#introduction)
+6. [Description](#description)
+7. [Expected Results](#expected-results)
+8. [Desirable knowledge for further reading](#desirable-knowledge-for-further-reading)
+9. [Used Technologies](#used-technologies)
+10. [Getting Started](#getting-started)
+
+
+
+---
+
+## Information about Thesis idea
+
+The Thesis idea was provided by [Instituto Superior Técnico](https://tecnico.ulisboa.pt/en/) in cooperation with [Unlockit](https://unlockit.io/), a DLT-based company operating in the real estate industry.
+
+#
+
+## More about Unlockit
+
+[Unlockit](https://unlockit.io/) - Real estate made simple
+
+"We digitized and streamlined the real estate transactional process so you can close deals faster, from anywhere and from any device."
+
+![unlockit](https://user-images.githubusercontent.com/78174997/190391282-19aaad62-4e3f-443c-9d6e-355d3230bfb9.jpeg)
+
+---
+
+## Introduction
 
 The real estate market is fragmented and real estate mediation processes are considered extremely complex, inefficient, and opaque. This complexity and lack of transparency results from the current process of buying and selling a property, involving a large number of actors with different responsibilities and objectives, which often leads to a conflict of interest, resulting in a lack of trust between the parties. The current solution to this problem is the use of intermediaries such as banks, real estate agencies, notaries and law firms. 
 
@@ -14,21 +56,17 @@ Companies and governments alike are now investing heavily in DLT technology to o
 
 #
 
-### Description
+## Description
 
-The main solution to be developed specifies a tokenization model, allowing for users to self-manage a representation of their properties on the ledger for diverse purposes.  
+The main solution to be developed specifies a tokenization model, allowing for users to self-manage a representation of their properties on the ledger for diverse purposes. This representation is often referred to as Digital Twin. Our platform will provide Digital Twin-based services anchored in a DLT which will further promote flexibility to manage real estate.  
 
-This representation is often referred to as Digital Twin. Our platform will provide Digital Twin-based services anchored in a DLT which will further promote flexibility to manage real estate.  
+One of the use cases is allowing partitioning the ownership of a property (smart rent), where the owner of real estate can sell or rent parts of it to one or more clients. This activity includes designing the model for Digital Twins, implementing the smart rent as a smart contract, and providing the end-user tools to manage their properties. 
 
-One of the use cases is allowing partitioning the ownership of a property (smart rent), where the owner of real estate can sell or rent parts of it to one or more clients. 
-
-This activity includes designing the model for Digital Twins, implementing the smart rent as a smart contract, and providing the end-user tools to manage their properties. 
-
-The student will work on a decentralised ledger that aims to solve some of the above problems. 
+The work will be done on a decentralised ledger that aims to solve some of the above problems. 
 
 #
  
-### Expected Results
+## Expected Results
 
 - Study the state of the art on blockchain technology (permissionless and private DLTs) and solutions that apply to the real estate market. 
 - Identify the main challenges currently faced by Real Estate rent processes; 
@@ -38,7 +76,7 @@ The student will work on a decentralised ledger that aims to solve some of the a
 
 ---
 
-### Desirable knowledge for further reading
+## Desirable knowledge for further reading
 
 - Blockchain Fundamental concepts 
 - Real Estate concepts 
@@ -46,18 +84,15 @@ The student will work on a decentralised ledger that aims to solve some of the a
 
 #
 
-### Thesis in cooperation with Unlockit
+## Used Technologies
 
-The Thesis is being developed in cooperation with [Unlockit](https://unlockit.io/), a DLT-based company operating in the real estate industry. 
-
-#
-
-### More about Unlockit
-
-[Unlockit](https://unlockit.io/) - Real estate made simple
-
-"We digitized and streamlined the real estate transactional process so you can close deals faster, from anywhere and from any device."
-
-![unlockit](https://user-images.githubusercontent.com/78174997/190391282-19aaad62-4e3f-443c-9d6e-355d3230bfb9.jpeg)
+* [Daml](https://docs.daml.com/index.html) - Smart contract language designed to build composable applications on an abstract Daml Ledger Model;
 
 
+---
+
+## Getting Started
+
+The following instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+- Clone this repository
