@@ -85,7 +85,7 @@ The work will be done on a decentralised ledger that aims to solve some of the a
 - Real Estate concepts 
 - Programming Basic skills 
 
-#
+---
 
 ## Used Technologies
 
