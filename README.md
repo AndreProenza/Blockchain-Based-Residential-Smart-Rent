@@ -106,15 +106,7 @@ The work will be done on a decentralised ledger that aims to solve some of the a
 
 The thesis process requires writing 3 documents plus 1 optional:
 
-1) Project Paper
-2) Dissertation 
-3) Extended Summary 
-4) A Scientific/Technical Paper on the Thesis Topic (optional)
-
-The above stated documents can be located in the following folders:
-
 1) [Project Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Project-Paper)
 2) [Dissertation](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Dissertation)
 3) [Extended Summary](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Extended-Summary)
-4) [Scientific/Technical Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/[Scientific-Paper)
-
+4) [Scientific/Technical Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/[Scientific-Paper) on the Thesis Topic (optional)
