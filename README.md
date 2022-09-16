@@ -104,6 +104,17 @@ The work will be done on a decentralised ledger that aims to solve some of the a
 
 ## Getting Started
 
-The following instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+The thesis process requires writing 3 documents plus 1 optional:
 
-- Clone this repository
+1) Project Paper
+2) Dissertation 
+3) Extended Summary 
+4) A Scientific/Technical Paper on the Thesis Topic (optional)
+
+The above stated documents can be located in the following folders:
+
+1) 
+2)
+3)
+4)
+
