@@ -113,8 +113,8 @@ The thesis process requires writing 3 documents plus 1 optional:
 
 The above stated documents can be located in the following folders:
 
-1) 
-2)
-3)
-4)
+1) [Project Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Project-Paper)
+2) [Dissertation](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Dissertation)
+3) [Extended Summary](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Extended-Summary)
+4) [Scientific/Technical Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/[Scientific-Paper)
 
