@@ -17,7 +17,7 @@ A tokenization model, allowing for users to self-manage a representation of thei
 
 ## Supervisors
 
-- **Miguel Correia** - [Instituto Superior Técnico](https://tecnico.ulisboa.pt/en/) Professor
+- **Miguel Correia** - [Instituto Superior Técnico](https://tecnico.ulisboa.pt/en/) Full Professor & Blockchain and Cybersecurity Specialist
 - **Tiago Dias** - [Unlockit](https://unlockit.io/) Founder and CEO
 
 ---
