@@ -26,7 +26,7 @@ A tokenization model, allowing for users to self-manage a representation of thei
 1. [Blockchain Based Residential Smart Rent](#blockchain-based-residential-smart-rent)
 2. [Author](#author)
 3. [Supervisors](#supervisors)
-4. [Information about Thesis idea](#information-about-thesis-idea)
+4. [Cooperation](#cooperation)
 5. [More about Unlockit](#more-about-unlockit)
 6. [Introduction](#introduction)
 7. [Description](#description)
@@ -39,7 +39,7 @@ A tokenization model, allowing for users to self-manage a representation of thei
 
 ---
 
-## Information about Thesis idea
+## Cooperation
 
 The Thesis idea was provided by [Instituto Superior Técnico](https://tecnico.ulisboa.pt/en/) in cooperation with [Unlockit](https://unlockit.io/), a DLT-based company operating in the real estate industry.
 
@@ -61,15 +61,19 @@ The Thesis idea was provided by [Instituto Superior Técnico](https://tecnico.ul
   <summary><b>&nbsp;Show&nbsp;more</b></summary>
 <div>
 
-
+<h6>
 The real estate market is fragmented and real estate mediation processes are considered extremely complex, inefficient, and opaque. This complexity and lack of transparency results from the current process of buying and selling a property, involving a large number of actors with different responsibilities and objectives, which often leads to a conflict of interest, resulting in a lack of trust between the parties. The current solution to this problem is the use of intermediaries such as banks, real estate agencies, notaries and law firms. 
+</h6>
 
+<h6>
 However, this intermediation makes the process slower and more expensive due to the process and communication inefficiencies. 
 Blockchain technology helps to solve the intermediation problems and in the verification and traceability of multistep transactions needing verification and traceability. 
+</h6>
 
+<h6>
 It can provide secure transactions, reduce compliance costs, and speed up data transfer processing. 
 Companies and governments alike are now investing heavily in DLT technology to offer better services and products to people.
- 
+</h6>
  
 </div>
 </details>
@@ -78,11 +82,24 @@ Companies and governments alike are now investing heavily in DLT technology to o
 
 ## Description
 
+<details>
+  <summary><b>&nbsp;Show&nbsp;more</b></summary>
+<div>
+
+<h6>
 The main solution to be developed specifies a tokenization model, allowing for users to self-manage a representation of their properties on the ledger for diverse purposes. This representation is often referred to as Digital Twin. Our platform will provide Digital Twin-based services anchored in a DLT which will further promote flexibility to manage real estate.  
+</h6>
 
-One of the use cases is allowing partitioning the ownership of a property (smart rent), where the owner of real estate can sell or rent parts of it to one or more clients. This activity includes designing the model for Digital Twins, implementing the smart rent as a smart contract, and providing the end-user tools to manage their properties. 
+<h6>
+One of the use cases is allowing partitioning the ownership of a property (smart rent), where the owner of real estate can sell or rent parts of it to one or more clients. This activity includes designing the model for Digital Twins, implementing the smart rent as a smart contract, and providing the end-user tools to manage their properties.
+</h6>
 
+<h6>
 The work will be done on a decentralised ledger that aims to solve some of the above problems. 
+</h6>
+  
+</div>
+</details>
 
 #
  
