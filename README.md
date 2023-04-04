@@ -57,6 +57,11 @@ The Thesis idea was provided by [Instituto Superior Técnico](https://tecnico.ul
 
 ## Introduction
 
+<details>
+  <summary><b>&nbsp;Show&nbsp;more</b></summary>
+<div>
+
+
 The real estate market is fragmented and real estate mediation processes are considered extremely complex, inefficient, and opaque. This complexity and lack of transparency results from the current process of buying and selling a property, involving a large number of actors with different responsibilities and objectives, which often leads to a conflict of interest, resulting in a lack of trust between the parties. The current solution to this problem is the use of intermediaries such as banks, real estate agencies, notaries and law firms. 
 
 However, this intermediation makes the process slower and more expensive due to the process and communication inefficiencies. 
@@ -64,6 +69,10 @@ Blockchain technology helps to solve the intermediation problems and in the veri
 
 It can provide secure transactions, reduce compliance costs, and speed up data transfer processing. 
 Companies and governments alike are now investing heavily in DLT technology to offer better services and products to people.
+ 
+ 
+</div>
+</details>
 
 #
 
