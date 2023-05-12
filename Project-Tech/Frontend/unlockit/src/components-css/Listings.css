@@ -1,0 +1,133 @@
+.listings-banner {
+    background-color: rgb(235, 235, 235);
+}
+
+.listings-search-text {
+    color: #717BEF;
+}
+
+.listings-search-subtext {
+    font-size: 1.1rem;
+}
+
+.container-listings, .container-in-top {
+    width: 82vw !important;
+}
+
+.container-in-top {
+    padding-top: 30px;
+    padding-bottom: 5px;
+}
+
+.listings-top {
+    /* background-color: rgb(157, 192, 192); */
+}
+
+.settings-listings {
+    /* background-color: rgb(203, 203, 203); */
+}
+
+.listings-listings {
+    /* background-color: rgb(120, 120, 126); */
+}
+
+.listings-property-item {
+    margin: 1.1%;
+    border-radius: 1%;
+}
+
+.card-property {
+    width: 100%;
+    height: 100%;
+}
+
+.card-container, .card-details-container {
+    padding-left: 0% !important;
+    padding-right: 0% !important;
+}
+
+.card-container-row {
+    margin-right: 0%;
+}
+
+.card-details-title {
+    margin-top: 2% !important;
+    color: #717BEF;
+    font-size: 1rem !important;
+}
+
+.card-details-price {
+    font-size: 1.3rem;
+    line-height: 1.875rem;
+    font-weight: bold;
+}
+
+.card-details-normal-font {
+    font-size: 0.8rem !important;
+    font-weight:normal;
+}
+
+.card-details-text {
+    margin-top: 2%;
+    font-size: 0.9rem !important;
+    color: gray;
+}
+
+.card-details-button {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 1%;
+    border: solid 1px gray !important;
+    background: none !important;
+    color: #717BEF !important;
+}
+
+.card-details-button:hover {
+    border: solid 2px #717BEF !important;
+    color: white !important;
+    background-color: #717BEF !important;
+}
+
+.listings-settings-container {
+    margin: 6%;
+    background-color: white;
+    border-radius: 3.5%;
+    padding: 5%;
+}
+
+.listings-settings-row {
+    margin: 3% !important;
+}
+
+.dropdown-toggle {
+    border: solid 1px gray !important;
+    background: none !important;
+    color: #717BEF !important;
+}
+
+.dropdown-toggle:hover {
+    border: solid 2px #717BEF !important;
+    color: white !important;
+    background-color: #717BEF !important;
+}
+
+.listings-settings-text {
+    margin-bottom: 2% !important;
+    font-size: 1rem;
+    color: rgb(50, 50, 50);
+    font-weight: 500;
+}
+
+.listings-settings-dropdown {
+    display:inline-block;
+    margin-right: 2%;
+}
+
+.dropdown-menu {
+    height: 23vh;
+    overflow-y: scroll;
+  }
+
+.dropdown-item {
+    font-size: 0.8rem;
+}

@@ -1,0 +1,35 @@
+.nav {
+    border-bottom: solid #4e59cf;
+}
+
+
+.navbar-brand {
+    color: #717BEF !important;
+}
+
+.navbar-brand:hover {
+    color: #4e59cf !important;
+}
+
+
+.nav-link {
+    color: #696464 !important;
+}
+
+.nav-link:hover {
+    color: #717BEF !important;
+}
+
+#unlockit-symbol {
+    padding-right: 2%;
+    font-size: 20px;
+}
+
+.logout-btn {
+    color: #717BEF !important;
+    padding-left: 0;
+}
+
+.logout-btn:hover {
+    color: #0e101e !important;
+}

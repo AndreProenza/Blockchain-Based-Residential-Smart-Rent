@@ -1,0 +1,104 @@
+.banner-home {
+    margin: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url("../assets/home-banner.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
+.search-div {
+    margin: auto;
+    margin-top: 6%;
+    padding-bottom: 2%;
+    padding-top: 2%;
+    backdrop-filter: blur(10px);
+    border: solid 1px rgb(188, 188, 188);
+    border-radius: 5%;
+    width: 50vw;
+}
+
+.unlockit-logo {
+    margin: 20px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.text-home-1 {
+    margin-top: 3vh;
+    font-size: 2.3vw;
+    color: white;
+}
+
+.text-home-2 {
+    margin-top: 4vh;
+    font-size: 1.4vw;
+    color: white;
+}
+
+.search-bar-home {
+    margin: auto;
+    width: 30vw;
+    border: none;
+    font-size: 18px;
+}
+
+.form {
+    border: none;
+    height: 7vh;
+    border-radius: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: rgb(255, 255, 255) !important;
+    box-shadow: rgb(0 0 0 / 28%) 0px 5px 27px -14px;
+}
+
+.button-search {
+    border-radius: 50%;
+    width: 3.5vw;
+    border: solid 1px gray;
+    background: none;
+    color: gray
+}
+
+.button-search:hover {
+    border: solid 2px #717BEF;
+    color: white;
+    background-color: #717BEF;
+}
+
+.inner-form,
+.button-search {
+    margin: 1%;
+    border-radius: 50%;
+}
+
+
+@media only screen and (max-width: 700px) {
+
+    .text-home-1 {
+        font-size: 4vw;
+    }
+
+    .text-home-2 {
+        font-size: 3vw;
+    }
+
+    .search-bar-home {
+        width: 60vw;
+    }
+
+    .button-search {
+        width: 12vw;
+    }
+
+    .search-div {
+        width: 80vw;
+    }
+}

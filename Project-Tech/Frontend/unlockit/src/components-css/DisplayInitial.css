@@ -1,0 +1,76 @@
+.banner {
+    margin: auto;
+    background-position: top top;
+    background-repeat: no-repeat;
+    background-image: url("../assets/unlockit_banner.jpg");
+    height: 100vh;
+    width: 100vw;
+}
+
+.unlockit-logo {
+    margin: 20px;
+}
+
+.separator-1 {
+    height: 5vh;
+}
+
+.separator-2 {
+    height: 15vh;
+}
+
+.text-1 {
+    font-size: 4.2vw;
+    color: white;
+}
+
+.text-2 {
+    font-size: 1.3vw;
+    color: white;
+}
+
+.text-3 {
+    color: white;
+    font-size: 1.3vw;
+}
+
+
+.align-center {
+    text-align: center;
+}
+
+.green-button {
+    border: 2px solid #75FB97;
+    background-color: #75FB97;
+    color: #717BEF !important;
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    padding: 15px 60px;
+    font-size: 16px !important;
+    display: inline !important;
+}
+
+
+.green-button:hover {
+    border-bottom-right-radius: 50px;
+    padding: 15px 60px;
+    font-size: 16px !important;
+    background-color: transparent;
+    color: #75FB97 !important;
+}
+
+
+@media only screen and (max-width: 700px) {
+
+    .text-1 {
+        font-size: 6.4vw;
+    }
+    
+    .text-2 {
+        font-size: 3.3vw;
+    }
+    
+    .text-3 {
+        font-size: 3.3vw;
+    }
+  }
