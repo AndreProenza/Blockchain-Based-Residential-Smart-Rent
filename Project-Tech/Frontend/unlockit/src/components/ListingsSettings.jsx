@@ -14,7 +14,8 @@ export const ListingsSettings = () => {
                 <Col sm>
                     <p className="listings-settings-text">Property</p>
                     <DropdownButton id="dropdown-basic-button" className="listings-settings-dropdown" title="Type">
-                        <Dropdown.Item href="#/t1">T1</Dropdown.Item>
+                        <Dropdown.Item href="#/room">Room</Dropdown.Item>
+                        <Dropdown.Item href="#/t1">T2</Dropdown.Item>
                         <Dropdown.Item href="#/t2">T2</Dropdown.Item>
                         <Dropdown.Item href="#/t3">T3</Dropdown.Item>
                         <Dropdown.Item href="#/t4">T4</Dropdown.Item>

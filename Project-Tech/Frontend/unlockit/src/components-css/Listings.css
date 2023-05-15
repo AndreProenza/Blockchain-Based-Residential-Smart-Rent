@@ -1,5 +1,6 @@
 .listings-banner {
     background-color: rgb(235, 235, 235);
+    min-height: 100vh;
 }
 
 .listings-search-text {
@@ -8,6 +9,7 @@
 
 .listings-search-subtext {
     font-size: 1.1rem;
+    margin-bottom: 0.2%;
 }
 
 .container-listings, .container-in-top {
@@ -18,6 +20,21 @@
     padding-top: 30px;
     padding-bottom: 5px;
 }
+
+.toggle-group-button-listings {
+    display: block !important;
+    text-align: right !important;
+    margin-right: 1%;
+}
+
+.toggle-button-listings {
+    color: #717BEF !important;
+}
+
+
+/* .toggle-button-listings:checked {
+    background-color: #5f617d !important;
+} */
 
 .listings-top {
     /* background-color: rgb(157, 192, 192); */
@@ -68,9 +85,9 @@
 }
 
 .card-details-text {
-    margin-top: 2%;
+    margin-top: 2%;background: none !important;
     font-size: 0.9rem !important;
-    color: gray;
+    color: gray !important;;
 }
 
 .card-details-button {
@@ -89,7 +106,7 @@
 }
 
 .listings-settings-container {
-    margin: 6%;
+    margin: 4%;
     background-color: white;
     border-radius: 3.5%;
     padding: 5%;
@@ -130,4 +147,17 @@
 
 .dropdown-item {
     font-size: 0.8rem;
+}
+
+
+@media only screen and (max-width: 700px) {
+
+    .card-property {
+        border: none !important;
+    }
+
+    .toggle-group-button-listings {
+        margin-top: 2%;
+        text-align: left !important;
+    }
 }

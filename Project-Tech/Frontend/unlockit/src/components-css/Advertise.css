@@ -1,0 +1,83 @@
+.advertise-banner {
+    background-color: rgb(235, 235, 235);
+    min-height: 100vh;
+}
+
+.advertise-publish-text {
+    color: #717BEF;
+}
+
+.advertise-publish-subtext {
+    font-size: 1.1rem;
+    margin-bottom: 0.2%;
+}
+
+.container-advertise, .container-advertise-in-top {
+    width: 82vw !important;
+}
+
+.container-advertise-in-top {
+    padding-top: 30px;
+    padding-bottom: 5px;
+}
+
+.advertise-top {
+    /* background-color: rgb(157, 192, 192); */
+}
+
+/* .settings-advertise {
+    background-color: rgb(203, 203, 203);
+}
+
+.photo-advertise {
+    background-color: rgb(120, 120, 126);
+} */
+
+.photo-card-advertise {
+    margin-top: 4.2%;
+}
+
+.photo-card-img-advertise {
+    padding: 2%;
+    border-radius: 2%;
+}
+
+.advertise-settings-container {
+    margin: 4%;
+    background-color: white;
+    border-radius: 3.5%;
+    padding: 5%;
+}
+
+.advertise-settings-row {
+    margin: 3% !important;
+}
+
+.advertise-settings-text {
+    margin-bottom: 2% !important;
+    font-size: 1rem;
+    color: rgb(50, 50, 50);
+    font-weight: 500;
+}
+
+.advertise-settings-dropdown {
+    display:inline-block;
+    margin-right: 2%;
+}
+
+.dropdown-menu {
+    height: 23vh;
+    overflow-y: scroll;
+  }
+
+.dropdown-item {
+    font-size: 0.8rem;
+}
+
+
+
+
+@media only screen and (max-width: 700px) {
+
+    
+}

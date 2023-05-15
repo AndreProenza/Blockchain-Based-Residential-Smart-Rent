@@ -15,9 +15,10 @@ export const Navigator = () => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/home">Home</Nav.Link>
-                            <Nav.Link href="listings">Listings</Nav.Link>
-                            <Nav.Link href="contracts">Contracts</Nav.Link>
-                            <Nav.Link href="profile">Profile</Nav.Link>
+                            <Nav.Link href="/listings">Listings</Nav.Link>
+                            <Nav.Link href="/advertise">Advertise</Nav.Link>
+                            <Nav.Link href="/contracts">Contracts</Nav.Link>
+                            <Nav.Link href="/profile">Profile</Nav.Link>
                         </Nav>
                         <Button variant="outline-light" className="logout-btn" href='/logout'>Logout</Button>{' '}
                     </Navbar.Collapse>

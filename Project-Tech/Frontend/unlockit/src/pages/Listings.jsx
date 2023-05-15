@@ -1,6 +1,7 @@
 import { Navigator } from "../components/Navigator";
 import { ListingsList } from "../components/ListingsList";
 import { ListingsSettings } from "../components/ListingsSettings";
+import { ToggleListings } from "../components/ToggleListings";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,6 +16,7 @@ export const Listings = () => {
                 <Container className="container-in-top">
                     <h5 className="listings-search-text">Search</h5>
                     <p className="listings-search-subtext">100 properties in Location</p>
+                    <ToggleListings />
                 </Container>
             </div>
 
