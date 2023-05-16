@@ -3,7 +3,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 
@@ -13,9 +12,9 @@ export const AdvertiseSettings = () => {
     return (
         <Container className="advertise-settings-container">
             <Row className="advertise-settings-row">
-                <p className="advertise-settings-text">Select</p>
+                <p className="advertise-settings-text advertise-settings-header-text">Property</p>
                 <Col sm>
-                    <p className="advertise-settings-text">Property location</p>
+                    <p className="advertise-settings-text">Property Location</p>
                     <DropdownButton id="dropdown-basic-button" className="advertise-settings-dropdown" title="Location">
                         <Dropdown.Item href="#/lisbon">Lisbon</Dropdown.Item>
                         <Dropdown.Item href="#/porto">Porto</Dropdown.Item>
@@ -26,7 +25,7 @@ export const AdvertiseSettings = () => {
             </Row>
             <Row className="advertise-settings-row">
                 <Col sm>
-                    <p className="advertise-settings-text">Property type</p>
+                    <p className="advertise-settings-text">Property Type</p>
                     <DropdownButton id="dropdown-basic-button" className="advertise-settings-dropdown" title="Type">
                         <Dropdown.Item href="#/room">Room</Dropdown.Item>
                         <Dropdown.Item href="#/t1">T2</Dropdown.Item>
@@ -43,20 +42,11 @@ export const AdvertiseSettings = () => {
                     <p className="advertise-settings-text">Property Area</p>
                     <InputGroup className="mb-3">
                         <InputGroup.Text>M²</InputGroup.Text>
-                        <Form.Control 
+                        <Form.Control
                             aria-label="Amount (to the nearest dollar)" />
                     </InputGroup>
                 </Col>
             </Row>
-            {/* <Row className="advertise-settings-row">
-                <Col sm>
-                    <p className="advertise-settings-text">Rental duration</p>
-                    <DropdownButton id="dropdown-basic-button" className="advertise-settings-dropdown" title="Duration">
-                        <Dropdown.Item href="#/room">Long Term</Dropdown.Item>
-                        <Dropdown.Item href="#/apartment">Short Term</Dropdown.Item>
-                    </DropdownButton>
-                </Col>
-            </Row> */}
             <Row className="advertise-settings-row">
                 <Col sm>
                     <p className="advertise-settings-text">Property Title</p>
@@ -87,6 +77,37 @@ export const AdvertiseSettings = () => {
                             placeholder="Describe your property"
                         />
                     </InputGroup>
+                </Col>
+            </Row>
+            <Row className="advertise-settings-row">
+                <Col sm>
+                    <p className="advertise-settings-text advertise-settings-header-text">Contacts</p>
+                    <p className="advertise-settings-text">Full Name</p>
+                    <Form.Control
+                        placeholder="Full name"
+                        aria-label="Full Name"
+                        aria-describedby="basic-addon1"
+                    />
+                </Col>
+            </Row>
+            <Row className="advertise-settings-row">
+                <Col sm>
+                    <p className="advertise-settings-text">Email</p>
+                    <Form.Control
+                        placeholder="Email"
+                        aria-label="Email"
+                        aria-describedby="basic-addon1"
+                    />
+                </Col>
+            </Row>
+            <Row className="advertise-settings-row">
+                <Col sm>
+                    <p className="advertise-settings-text">Phone</p>
+                    <Form.Control
+                        placeholder="Phone number"
+                        aria-label="Phone Number"
+                        aria-describedby="basic-addon1"
+                    />
                 </Col>
             </Row>
         </Container>

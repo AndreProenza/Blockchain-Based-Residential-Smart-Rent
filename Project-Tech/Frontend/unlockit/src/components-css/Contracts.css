@@ -1,0 +1,53 @@
+.contracts-banner {
+    background-color: rgb(235, 235, 235);
+    min-height: 100vh;
+}
+
+.container-contracts, .container-contracts-in-top {
+    width: 82vw !important;
+}
+
+.container-contracts-in-top {
+    padding-top: 30px;
+    padding-bottom: 0px;
+    position: relative;
+}
+
+.contracts-publish-text {
+    color: #717BEF;
+}
+
+.contracts-publish-subtext {
+    font-size: 1.1rem;
+    margin-bottom: 0.2%;
+}
+
+.button-contracts {
+    color: #717BEF !important;
+    background-color: white !important;
+    border: solid 1px gray !important;
+    display: block !important;
+    margin-left: auto;
+    margin-right: 0.5%;
+    margin-bottom: 0.5%;
+    margin-top: 0%;
+}
+
+.button-contracts:hover {
+    color: white !important;
+    background-color: #717BEF !important;
+    border: solid 1px #717BEF !important;
+}
+
+.list-contracts {
+    background-color: rgb(203, 203, 203);
+}
+
+.full-contract {
+    background-color: rgb(120, 120, 126);
+}
+
+.contracts-list-item {
+    margin: 1.1%;
+    /* border-radius: 1%; */
+}

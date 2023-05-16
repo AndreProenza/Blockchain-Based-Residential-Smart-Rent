@@ -18,7 +18,25 @@
 
 .container-advertise-in-top {
     padding-top: 30px;
-    padding-bottom: 5px;
+    padding-bottom: 0px;
+    position: relative;
+}
+
+.button-advertise {
+    color: #717BEF !important;
+    background-color: white !important;
+    border: solid 1px gray !important;
+    display: block !important;
+    margin-left: auto;
+    margin-right: 0.5%;
+    margin-bottom: 0.5%;
+    margin-top: 0%;
+}
+
+.button-advertise:hover {
+    color: white !important;
+    background-color: #717BEF !important;
+    border: solid 1px #717BEF !important;
 }
 
 .advertise-top {
@@ -34,19 +52,26 @@
 } */
 
 .photo-card-advertise {
-    margin-top: 4.2%;
+    margin-top: 0%;
 }
 
 .photo-card-img-advertise {
-    padding: 2%;
-    border-radius: 2%;
+    padding: 5%;
+    border-radius: 2% !important;
+}
+
+.card-advertise {
+    margin-left: 5% !important;
+    margin-right: 5% !important;
 }
 
 .advertise-settings-container {
     margin: 4%;
     background-color: white;
-    border-radius: 3.5%;
+    border-radius: 1%;
+    border: solid 1px rgb(215, 215, 215);
     padding: 5%;
+    margin-top: 0%;
 }
 
 .advertise-settings-row {
@@ -58,6 +83,11 @@
     font-size: 1rem;
     color: rgb(50, 50, 50);
     font-weight: 500;
+}
+
+.advertise-settings-header-text {
+    color: #717BEF;
+    font-size: 1.1rem;
 }
 
 .advertise-settings-dropdown {
@@ -74,10 +104,26 @@
     font-size: 0.8rem;
 }
 
+.rental-advertise {
+    padding-left: 0% !important;
+    padding-right: 0% !important;
+}
 
+.container-rental-advertise {
+    margin-top: 2%;
+}
+
+/* .rental-card-advertise {
+    margin-top: 0%;
+} */
 
 
 @media only screen and (max-width: 700px) {
-
     
+    .button-advertise {
+        display: block !important;
+        margin-left: 0%;
+        margin-bottom: 2%;
+        margin-top: 2%;
+    }
 }
