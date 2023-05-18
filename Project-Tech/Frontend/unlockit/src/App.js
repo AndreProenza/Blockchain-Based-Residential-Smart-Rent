@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Initial } from "./pages/Initial";
-import { Home } from "./pages/Home";
+import { Search } from "./pages/Search";
 import { Login } from "./pages/Login";
-import { Logout } from "./pages/Logout";
 import { Listings } from "./pages/Listings";
 import { Advertise } from "./pages/Advertise";
 import { Profile } from "./pages/Profile";
@@ -18,9 +17,8 @@ function App() {
 
         <Routes>
         <Route path='/' element={<Initial/>} />
-          <Route path='/home' element={<Home />} />
+          <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/logout' element={<Logout />} />
           <Route path='/listings' element={<Listings />} />
           <Route path='/advertise' element={<Advertise />} />
           <Route path='/profile' element={<Profile />} />

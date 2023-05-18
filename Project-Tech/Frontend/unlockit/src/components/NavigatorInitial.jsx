@@ -9,8 +9,8 @@ export const NavigatorInitial = () => {
         <div>
             <Navbar className="nav" bg="light" expand="lg">
                 <Container>
-                    <Navbar.Brand href="/home">Unlockit</Navbar.Brand>
-                    <Button className="logout-btn" variant="outline-light" href='/login'>Login</Button>{' '}
+                    <Navbar.Brand href="/search">Unlockit</Navbar.Brand>
+                    <Button className="logout-btn" variant="outline-light" href='/'>Login</Button>{' '}
                 </Container>
             </Navbar>
         </div>

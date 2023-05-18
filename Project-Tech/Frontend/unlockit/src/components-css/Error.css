@@ -1,0 +1,79 @@
+.error-banner {
+    margin: auto;
+    background-position: top top;
+    background-repeat: no-repeat;
+    background-image: url("../assets/unlockit_banner.jpg");
+    height: 100vh;
+    width: 100vw;
+}
+
+.container-error {
+    /* background-color: rgb(245, 245, 245); */
+    text-align: center;
+    padding-top: 22vh;
+    height: 100vh;
+}
+
+.container-card-error {
+    padding: 2%;
+    margin: auto;
+    width: 26vw;
+    border-radius: 1%;
+    background-color: white;
+    backdrop-filter: blur(10px);
+    border: solid 1px rgb(188, 188, 188);
+    box-shadow: 10px 10px 10px 10px rgb(0.2 0.2 0.2 / 0.2);
+}
+
+.unlockit-logo-error {
+    width: 17% !important;
+    margin: 5%;
+    margin-bottom: 8%;
+    margin-top: 2%;
+}
+
+.unlockit-card-title {
+    margin-top: 1% !important;
+    margin-bottom: 6% !important;
+}
+
+.unlockit-card-text {
+    font-size: 0.90rem;
+    margin-bottom: 7% !important;
+}
+
+
+.unlockit-card-error-contact {
+    margin-bottom: 0% !important;
+    font-size: 0.90rem;
+    font-weight: 200;
+}
+
+.error-contact {
+    text-decoration: none;
+    font-weight: 250;
+}
+
+@media only screen and (max-width: 1200px) {
+    
+    .container-card-error {
+        width: 40vw;
+    }
+    
+}
+
+@media only screen and (max-width: 900px) {
+
+    .container-card-error {
+        width: 60vw;
+    }
+    
+}
+
+@media only screen and (max-width: 400px) {
+
+    .container-card-error {
+        width: 85vw;
+    }
+    
+}

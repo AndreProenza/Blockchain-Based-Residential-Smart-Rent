@@ -20,6 +20,7 @@
 
 .logout-btn {
     color: #717BEF !important;
+    padding-left: 0% !important;
 }
 
 .logout-btn:hover {

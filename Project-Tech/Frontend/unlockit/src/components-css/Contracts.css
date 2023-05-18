@@ -22,15 +22,18 @@
     margin-bottom: 0.2%;
 }
 
+.button-contracts-container {
+    padding-left: 0% !important;
+    padding-right: 0% !important;
+}
+
 .button-contracts {
     color: #717BEF !important;
     background-color: white !important;
     border: solid 1px gray !important;
-    display: block !important;
-    margin-left: auto;
-    margin-right: 0.5%;
-    margin-bottom: 0.5%;
-    margin-top: 0%;
+    width: 25px;
+    height: 25px;
+    padding: 0% !important;
 }
 
 .button-contracts:hover {
@@ -39,15 +42,107 @@
     border: solid 1px #717BEF !important;
 }
 
-.list-contracts {
-    background-color: rgb(203, 203, 203);
-}
+/* .list-contracts-div {
+    background-color: rgb(203, 203, 203);   
+} */
 
-.full-contract {
+.list-contracts {
+    background-color: rgb(246, 246, 246);
+    margin-top: 5%;
+}   
+
+/* .full-contract-div {
     background-color: rgb(120, 120, 126);
-}
+} */
 
 .contracts-list-item {
-    margin: 1.1%;
-    /* border-radius: 1%; */
+    margin: 1%;
+    border-radius: 2% !important;
+    border: solid 1px rgb(237, 237, 237) !important;
+}
+
+.contract-list-item-head-font {
+    font-size: 0.8em !important;
+    font-weight: 300;
+    margin-bottom: 1%;
+    color: #717BEF;
+}
+
+.contract-list-item-body-font {
+    font-size: 0.7em !important;
+    font-weight: 100;
+    margin-bottom: 0%;
+}
+
+.full-contract-container {
+    margin: 4%;
+    margin-top: 3%;
+    /* background-color: white; */
+    background-color: rgb(246, 246, 246);
+    border-radius: 1%;
+    border: solid 1px rgb(215, 215, 215);
+    padding: 5%;
+    padding-top: 3%;
+    padding-bottom: 3% !important;
+}
+
+/* 
+.button-contracts {
+    color: #717BEF !important;
+    background-color: white !important;
+    border: solid 1px gray !important;
+    
+}
+
+.button-contracts:hover {
+    color: white !important;
+    background-color: #717BEF !important;
+    border: solid 1px #717BEF !important;
+} */
+
+.full-contract-buttons {
+    margin-left: 3% !important;
+    /* width: 20px;
+    height: 25px; */
+    /* padding: 0% !important; */
+    /* margin-right: 3% !important; */
+}
+
+.full-contract-buttons-div {
+    text-align: right;
+}
+
+.full-contract-button {
+    margin-right: 1%;
+}
+
+.container-full-contract {
+    margin-top: 2%;
+}
+
+.full-contract-col {
+    padding-left: 0% !important;
+    padding-right: 0% !important;
+}
+
+/* .full-contract-card {
+    margin-top: 0%;
+    margin-bottom: 0% !important;
+} */
+
+.full-contract-row {
+    margin: 3% !important;
+}
+
+.full-contract-text {
+    margin-bottom: 2% !important;
+    font-size: 0.8rem;
+    color: rgb(50, 50, 50);
+    font-weight: 250;
+}
+
+.full-contract-header-text {
+    color: #717BEF;
+    font-size: 1rem;
+    font-weight: 400;
 }

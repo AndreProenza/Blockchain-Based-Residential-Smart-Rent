@@ -51,8 +51,8 @@ export const Advertise = () => {
                                             <Row className="advertise-settings-row">
                                                 <Col sm>
                                                     <p className="advertise-settings-text advertise-settings-header-text">Rental</p>
-                                                    <p className="advertise-settings-text">Rental Duration</p>
-                                                    <DropdownButton id="dropdown-basic-button" className="advertise-settings-dropdown" title="Duration">
+                                                    <p className="advertise-settings-text">Rental Term</p>
+                                                    <DropdownButton id="dropdown-basic-button" className="advertise-settings-dropdown" title="Term">
                                                         <Dropdown.Item href="#/room">Long Term</Dropdown.Item>
                                                         <Dropdown.Item href="#/apartment">Short Term</Dropdown.Item>
                                                     </DropdownButton>
@@ -71,12 +71,12 @@ export const Advertise = () => {
                                                 </Col>
                                             </Row>
                                             <Row className="advertise-settings-row">
-                                                <p className="advertise-settings-text">Rental Contract</p>
+                                                <p className="advertise-settings-text">Rental Conditions</p>
                                                 <InputGroup>
                                                     <Form.Control
                                                         as="textarea"
                                                         aria-label="With textarea"
-                                                        placeholder="Write your rental contract"
+                                                        placeholder="Write your rental conditions"
                                                     />
                                                 </InputGroup>
                                             </Row>

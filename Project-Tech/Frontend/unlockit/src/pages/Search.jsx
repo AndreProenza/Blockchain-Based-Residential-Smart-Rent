@@ -3,9 +3,9 @@ import { Navigator } from "../components/Navigator";
 import Form from 'react-bootstrap/Form';
 import { BsSearch } from "react-icons/bs";
 
-import '../components-css/Home.css';
+import '../components-css/Search.css';
 
-export const Home = () => {
+export const Search = () => {
   return (
     <>
       <div className="banner-home">
@@ -20,7 +20,7 @@ export const Home = () => {
               Where would you like to rent your dream property?
             </p>
             <div className="search-bar-home">
-              <Form className="d-flex form">
+              <Form className="d-flex form search-bar-form">
                 <Form.Control
                   type="search"
                   placeholder="Search location"
@@ -28,7 +28,7 @@ export const Home = () => {
                   aria-label="Search"
                 />
                 <button className="button-search">
-                  <span ><BsSearch className="icon-search"/></span>
+                  <span ><BsSearch className="icon-search" /></span>
                 </button>
               </Form>
             </div>

@@ -1,0 +1,136 @@
+.profile-banner {
+    background-color: rgb(235, 235, 235);
+    min-height: 100vh;
+}
+
+.profile-publish-text {
+    color: #717BEF;
+}
+
+.profile-publish-subtext {
+    font-size: 1.1rem;
+    margin-bottom: 0.2%;
+}
+
+.container-profile, .container-profile-in-top {
+    width: 82vw !important;
+}
+
+.container-profile-in-top {
+    padding-top: 30px;
+    padding-bottom: 0px;
+    position: relative;
+}
+
+.button-profile {
+    color: #717BEF !important;
+    background-color: white !important;
+    border: solid 1px gray !important;
+    display: block !important;
+    margin-left: auto;
+    margin-right: 0.5%;
+    margin-bottom: 0.5%;
+    margin-top: 0%;
+}
+
+.button-profile:hover {
+    color: white !important;
+    background-color: #717BEF !important;
+    border: solid 1px #717BEF !important;
+}
+
+/* .profile-top {
+    background-color: rgb(157, 192, 192);
+} */
+
+/* .settings-profile {
+    background-color: rgb(203, 203, 203);
+}
+
+
+.photo-profile {
+    background-color: rgb(120, 120, 126);
+} */
+
+.profile-settings-container-danger {
+    background-color: none;
+    margin: 4%;
+    border-radius: 1%;
+    border: solid 1.5px rgb(255, 134, 134);
+    padding: 1%;
+    margin-top: 0%;
+}
+
+.photo-card-profile {
+    margin-top: 0%;
+}
+
+.photo-card-img-profile {
+    padding: 5%;
+    border-radius: 2% !important;
+}
+
+.card-profile {
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+}
+
+.profile-settings-container {
+    margin: 4%;
+    background-color: white;
+    border-radius: 1%;
+    border: solid 1px rgb(215, 215, 215);
+    padding: 5%;
+    margin-top: 0%;
+}
+
+.profile-settings-row {
+    margin: 3% !important;
+}
+
+.profile-settings-text {
+    margin-bottom: 2% !important;
+    font-size: 1rem;
+    color: rgb(50, 50, 50);
+    font-weight: 500;
+}
+
+.profile-settings-header-text {
+    color: #717BEF;
+    font-size: 1.1rem;
+}
+
+.profile-settings-header-text-danger {
+    color: #c75d40;
+    font-size: 1.1rem;
+}
+
+
+.profile-settings-dropdown {
+    display:inline-block;
+    margin-right: 2%;
+}
+
+.rental-profile {
+    padding-left: 0% !important;
+    padding-right: 0% !important;
+}
+
+.container-rental-profile {
+    margin-top: 2%;
+}
+
+/* .rental-card-profile {
+    margin-top: 0%;
+} */
+
+
+@media only screen and (max-width: 700px) {
+    
+    .button-profile {
+        display: block !important;
+        margin-left: 0%;
+        margin-bottom: 2%;
+        margin-top: 2%;
+    }
+}
