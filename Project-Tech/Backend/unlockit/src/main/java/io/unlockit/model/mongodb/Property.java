@@ -1,5 +1,6 @@
 package io.unlockit.model.mongodb;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -32,10 +33,11 @@ public class Property {
     @Pattern(regexp = "^[A-Za-z ]{2,5}$", message = "invalid type")
     private String type;
     @NotNull(message = "invalid area, cannot be null")
-    @Min(40)
+    @Min(5)
+    @Max(10000)
     private int area;
     @NotNull(message = "invalid description, cannot be null")
-    @Pattern(regexp = "^[A-Za-z ,.]{1,300}$", message = "Use only letters dots and commas")
+    @Pattern(regexp = "^[A-Za-z ,.]{1,300}$", message = "invalid description. Use only letters dots and commas")
     private String description;
     private Binary photo;
 }

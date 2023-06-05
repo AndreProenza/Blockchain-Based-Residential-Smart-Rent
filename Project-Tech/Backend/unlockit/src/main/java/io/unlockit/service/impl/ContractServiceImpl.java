@@ -46,6 +46,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     private void updateContract(Contract existingContract, Contract contract) {
+        existingContract.setPropertyId(contract.getPropertyId());
         existingContract.setTerm(contract.getTerm());
         existingContract.setInitialDate(contract.getInitialDate());
         existingContract.setFinalDate(contract.getFinalDate());

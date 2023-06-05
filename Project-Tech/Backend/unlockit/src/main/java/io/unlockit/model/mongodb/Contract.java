@@ -19,6 +19,7 @@ public class Contract {
 
     @Id
     private String id;
+    private String propertyId;
     @NotNull(message = "invalid term, cannot be null")
     @Pattern(regexp = "^[A-Za-z ]{9,10}$", message = "invalid term")
     private String term;
@@ -29,7 +30,7 @@ public class Contract {
     @Pattern(regexp = "^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-(20[2-9][0-9]|2100)$", message = "invalid final date")
     private String finalDate;
     @NotNull(message = "invalid price, cannot be null")
-    @Min(60000)
+    @Min(1)
     private int price;
     @NotNull(message = "invalid conditions, cannot be null")
     @Pattern(regexp = "^[A-Za-z ,.]{1,300}$", message = "invalid conditions. Use only letters dots and commas")
