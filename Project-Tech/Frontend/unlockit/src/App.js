@@ -11,12 +11,15 @@ import { Error } from "./pages/Error";
 import './App.css';
 
 function App() {
+
   return (
     <div className="App">
+      {/* <Context.Provider value={{ contextValue }}>
+        {useMemo(() => ( */}
       <Router>
 
         <Routes>
-        <Route path='/' element={<Initial/>} />
+          <Route path='/' element={<Initial />} />
           <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
           <Route path='/listings' element={<Listings />} />
@@ -32,6 +35,8 @@ function App() {
 
 
       </Router>
+      {/* ), [])}
+      </Context.Provider> */}
     </div>
   );
 }

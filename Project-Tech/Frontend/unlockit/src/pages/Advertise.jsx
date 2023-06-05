@@ -3,13 +3,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Button } from "react-bootstrap";
-import InputGroup from 'react-bootstrap/InputGroup';
 import { Navigator } from "../components/Navigator";
 import { AdvertiseSettings } from "../components/AdvertiseSettings";
-import { CheckboxRental } from "../components/CheckboxRental";
+import { AdvertiseRental } from "../components/AdvertiseRental";
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 import logo from "../assets/home-banner.jpg"
 
@@ -17,6 +16,24 @@ import "../components-css/Advertise.css";
 
 
 export const Advertise = () => {
+
+    const advertise = useSelector((state) => state.advertise);
+    const property = useSelector((state) => state.property);
+    const contract = useSelector((state) => state.contract);
+
+    // useEffect(() => {
+    //     console.log(contract);
+    //     console.log(property);
+    //     console.log(advertise);
+    // });
+
+    const publish = () => {
+        console.log('Publish');
+        console.log(contract);
+        console.log(property);
+        console.log(advertise);
+    };
+
     return (
         <div className="advertise-banner">
             <Navigator />
@@ -24,7 +41,7 @@ export const Advertise = () => {
                 <Container className="container-advertise-in-top">
                     <h5 className="advertise-publish-text">Publish</h5>
                     <p className="advertise-publish-subtext">Publish your rental property</p>
-                    <Button className="button-advertise">Publish</Button>
+                    <Button className="button-advertise" onClick={publish}>Publish</Button>
                 </Container>
             </div>
 
@@ -43,48 +60,7 @@ export const Advertise = () => {
                                 </Form.Group>
                             </Card.Body>
                         </Card>
-                        <Container className="container-rental-advertise">
-                            <Row>
-                                <Col sm className="rental-advertise">
-                                    <Card className="rental-card-advertise">
-                                        <Card.Body>
-                                            <Row className="advertise-settings-row">
-                                                <Col sm>
-                                                    <p className="advertise-settings-text advertise-settings-header-text">Rental</p>
-                                                    <p className="advertise-settings-text">Rental Term</p>
-                                                    <DropdownButton id="dropdown-basic-button" className="advertise-settings-dropdown" title="Term">
-                                                        <Dropdown.Item href="#/room">Long Term</Dropdown.Item>
-                                                        <Dropdown.Item href="#/apartment">Short Term</Dropdown.Item>
-                                                    </DropdownButton>
-                                                    {/* <CheckboxRental/> */}
-                                                </Col>
-                                            </Row>
-                                            <Row className="advertise-settings-row">
-                                                <Col sm>
-                                                    <p className="advertise-settings-text">Rental Price</p>
-                                                    <InputGroup className="mb-3">
-                                                        <InputGroup.Text>€</InputGroup.Text>
-                                                        <Form.Control
-                                                            aria-label="Rent payment frequency" />
-                                                        <InputGroup.Text>Month</InputGroup.Text>
-                                                    </InputGroup>
-                                                </Col>
-                                            </Row>
-                                            <Row className="advertise-settings-row">
-                                                <p className="advertise-settings-text">Rental Conditions</p>
-                                                <InputGroup>
-                                                    <Form.Control
-                                                        as="textarea"
-                                                        aria-label="With textarea"
-                                                        placeholder="Write your rental conditions"
-                                                    />
-                                                </InputGroup>
-                                            </Row>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            </Row>
-                        </Container>
+                        <AdvertiseRental />
                     </Col>
                 </Row>
             </Container>

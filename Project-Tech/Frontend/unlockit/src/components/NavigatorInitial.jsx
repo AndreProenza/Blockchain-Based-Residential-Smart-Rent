@@ -10,7 +10,7 @@ export const NavigatorInitial = () => {
             <Navbar className="nav" bg="light" expand="lg">
                 <Container>
                     <Navbar.Brand href="/search">Unlockit</Navbar.Brand>
-                    <Button className="logout-btn" variant="outline-light" href='/'>Login</Button>{' '}
+                    <Button className="logout-btn" variant="outline-light" href='/login'>Login</Button>{' '}
                 </Container>
             </Navbar>
         </div>

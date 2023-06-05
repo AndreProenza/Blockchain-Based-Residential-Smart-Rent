@@ -6,10 +6,20 @@ import { Navigator } from "../components/Navigator";
 import { ProfileInfoSettings } from "../components/ProfileInfoSettings";
 import { ProfileAddressSettings } from "../components/ProfileAddressSettings";
 import { ProfileDangerSettings } from "../components/ProfileDangerSettings";
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import "../components-css/Profile.css";
 
 export const Profile = () => {
+
+    const user = useSelector((state) => state.user);
+
+    const apply = () => {
+        console.log("Apply changes");
+        console.log(user);
+    }
+
     return (
         <div className="profile-banner">
             <Navigator />
@@ -17,7 +27,7 @@ export const Profile = () => {
                 <Container className="container-profile-in-top">
                     <h5 className="profile-publish-text">Profile setup</h5>
                     <p className="profile-publish-subtext">Fill out the following fields to complete your profile</p>
-                    <Button className="button-profile">Apply</Button>
+                    <Button className="button-profile" onClick={apply}>Apply</Button>
                 </Container>
             </div>
 
