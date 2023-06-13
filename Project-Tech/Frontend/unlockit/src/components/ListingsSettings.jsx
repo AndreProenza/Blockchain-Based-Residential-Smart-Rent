@@ -126,6 +126,7 @@ export const ListingsSettings = () => {
                     <p className="listings-settings-text">Property</p>
                     <DropdownButton id="dropdown-basic-button" className="listings-settings-dropdown"
                         title={listings.type ? listings.type : "Type"} onSelect={handleListingsTypeSelect}>
+                        <Dropdown.Item >All</Dropdown.Item>
                         <Dropdown.Item >Room</Dropdown.Item>
                         <Dropdown.Item >T1</Dropdown.Item>
                         <Dropdown.Item >T2</Dropdown.Item>

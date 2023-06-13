@@ -1,13 +1,15 @@
 import { Navigator } from "../components/Navigator";
 import { ListingsList } from "../components/ListingsList";
 import { ListingsSettings } from "../components/ListingsSettings";
-import { ToggleListings } from "../components/ToggleListings";
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useDispatch, useSelector } from 'react-redux';
-import { setListingsLocation } from '../features/listingsSlice';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
+import axios from "axios";
 
 import "../components-css/Listings.css";
 
@@ -15,16 +17,83 @@ export const Listings = () => {
 
     const listings = useSelector((state) => state.listings);
 
-    const dispatch = useDispatch();
+    const [advertises, setAdvertises] = useState([]);
+
+    //------- API ------- //
+
+    // --- TEMP ---
+    const userId = "64807026463db47afca381a2";
+    // ------------
+
+    const getAllByUserIdUrl = AdvertiseEndpoint.getAllByUserId;
+    const getAllByLocationUrl = AdvertiseEndpoint.getAllByLocation;
+
+
+    const getAllAdvertisesByUserId = async () => {
+        try {
+            const url = getAllByUserIdUrl + userId;
+            const response = await axios.get(url);
+            console.log("Status: ", response.status);
+            console.log("Advertises: ", response.data);
+            if (listings.location === "") {
+                setAdvertises(await response.data);
+            }
+            else {
+                setAdvertises(await response.data.filter((advertise) => advertise.location === listings.location));
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+    const getAllAdvertisesByLocation = async () => {
+        try {
+            const url = getAllByLocationUrl + listings.location;
+            const response = await axios.get(url);
+            console.log("Status: ", response.status);
+            console.log("Advertises: ", response.data);
+            setAdvertises(await response.data);
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+
+    //------------------ //
+
+    const handleToggle = (value) => {
+        if (value === 1) {
+            console.log('Listings button clicked');
+            if (listings.location !== "") {
+                getAllAdvertisesByLocation();
+            }
+            else {
+                setAdvertises([]);
+            }
+        }
+        else if (value === 2) {
+            console.log('My Listings button clicked');
+            getAllAdvertisesByUserId();
+        }
+    };
 
     useEffect(() => {
-        // dispatch(setListingsLocation("Lisbon"));
         console.log(listings);
-    })
+        if (listings.location !== "") {
+            getAllAdvertisesByLocation();
+        }
+    }, [listings]);
 
     const isLocationValid = (locationValue) => {
         const formattedLocation = locationValue.toLowerCase();
         if (
+            formattedLocation === 'lisboa' ||
             formattedLocation === 'lisbon' ||
             formattedLocation === 'porto' ||
             formattedLocation === 'faro' ||
@@ -42,12 +111,12 @@ export const Listings = () => {
             <div className="listings-top">
                 <Container className="container-in-top">
                     <h5 className="listings-search-text">Search</h5>
-                    {isLocationValid(listings.location) ? 
+                    {isLocationValid(listings.location) ?
                         (
                             <p className="listings-search-subtext">
-                                100 properties in <span className="listings-search-text">{listings.location ? listings.location : "Location"}</span>
+                                {advertises.length} {advertises.length === 1 ? "property" : "properties"} in <span className="listings-search-text">{listings.location ? listings.location : "Location"}</span>
                             </p>
-                        ) :   
+                        ) :
                         (
                             <>
                                 <p className="listings-search-subtext">
@@ -55,18 +124,26 @@ export const Listings = () => {
                                 </p>
                             </>
                         )
-                    }  
-                    <ToggleListings />
+                    }
+                    <ToggleButtonGroup type="radio" name="options" defaultValue={1} className="toggle-group-button-listings" onChange={handleToggle}>
+                        <ToggleButton variant="outline-light" id="tbg-radio-2" value={1} className="toggle-button-listings">
+                            Listings
+                        </ToggleButton>
+                        <ToggleButton variant="outline-light" id="tbg-radio-1" value={2} className="toggle-button-listings">
+                            My Listings
+                        </ToggleButton>
+                    </ToggleButtonGroup>
+                    {/* <ToggleListings getAllAdvertisesByUserId={getAllAdvertisesByUserId} getAllAdvertisesByLocation={getAllAdvertisesByLocation} advertises={advertises}/> */}
                 </Container>
             </div>
 
             <Container className="container-listings">
                 <Row>
                     <Col sm={3} className="settings-listings">
-                        <ListingsSettings />
+                        <ListingsSettings advertises={advertises}/>
                     </Col>
                     <Col sm={9} className="listings-listings">
-                        <ListingsList />
+                        <ListingsList advertises={advertises} />
                     </Col>
                 </Row>
             </Container>

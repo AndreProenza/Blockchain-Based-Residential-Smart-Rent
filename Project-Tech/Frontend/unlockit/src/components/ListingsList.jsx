@@ -1,27 +1,34 @@
 import { PropertyCard } from "../components/PropertyCard";
-
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import "../components-css/Listings.css";
 
-export const ListingsList = () => {
+export const ListingsList = (props) => {
 
-    // Fetch contracts from db
-    const advertises = [];
+    const { advertises } = props;
+
+    console.log("Advertises length: ", advertises.length);
+    console.log("Advertises: ", advertises);
+
+    // useEffect(() => {
+
+    // });
 
     return (
         <ListGroup>
             {advertises.length > 0 ?
-                (advertises.map(() => {
+                (advertises.map((advertise) => {
                     return (
-                        <ListGroup.Item className="listings-property-item">
-                            <PropertyCard show={true}/>
+                        <ListGroup.Item className="listings-property-item" key={advertise.id}>
+                            <PropertyCard show={true} advertise={advertise}/>
                         </ListGroup.Item>
                     );
                 })) :
                 (
                     <ListGroup.Item className="listings-property-item">
-                        <PropertyCard show={false}/>
+                        <PropertyCard show={false} advertise={null}/>
                     </ListGroup.Item>
                 )
             }

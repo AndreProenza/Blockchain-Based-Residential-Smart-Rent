@@ -1,10 +1,15 @@
+import React from 'react';
+import BackendEndpoint from './BackendEndpoint';
+
 class PropertyEndpoint extends React.Component {
     
-    static baseEndpoint = "api/property";
+    static baseEndpoint = BackendEndpoint.backendUrl + "api/property";
 
-    static register = baseEndpoint + "/register";
-    static all = baseEndpoint + "/all";
-    static getById = baseEndpoint + "/get/";
-    static updateById = baseEndpoint + "/update/";
-    static deleteById = baseEndpoint + "/delete/";
+    static register = PropertyEndpoint.baseEndpoint + "/register";
+    static all = PropertyEndpoint.baseEndpoint + "/all";
+    static getById = PropertyEndpoint.baseEndpoint + "/get/";
+    static updateById = PropertyEndpoint.baseEndpoint + "/update/";
+    static deleteById = PropertyEndpoint.baseEndpoint + "/delete/";
 }
+
+export default PropertyEndpoint;

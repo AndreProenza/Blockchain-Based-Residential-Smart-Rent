@@ -27,7 +27,7 @@ export const AdvertiseRental = () => {
     const schema = yup.object().shape({
 
         price: yup.number().positive().integer().min(1).required("Invalid Price"),
-        conditions: yup.string().matches(/^[A-Za-z ,.]{1,300}$/).required("Invalid conditions. Use only letters dots and commas"),
+        conditions: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,300}$/).required("Invalid conditions. Use only letters dots and commas and numbers"),
     });
 
     const handleChange = (event, valueName) => {

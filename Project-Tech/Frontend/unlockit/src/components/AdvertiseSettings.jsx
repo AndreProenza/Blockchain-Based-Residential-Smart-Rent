@@ -6,7 +6,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAdvertiseTitle } from '../features/advertiseSlice'
+import { setAdvertiseTitle, setAdvertiseLocation } from '../features/advertiseSlice'
 import { setPropertyAddress, setPropertyArea, setPropertyDescription, setPropertyLocation, setPropertyType } from '../features/propertySlice';
 import { useEffect } from 'react';
 import * as yup from 'yup';
@@ -28,9 +28,9 @@ export const AdvertiseSettings = () => {
     const schema = yup.object().shape({
 
         area: yup.number().positive().min(5).max(10000).required("Invalid area, Valid: 5m² - 10000m²"),
-        title: yup.string().matches(/^[A-Za-z ,.]{1,30}$/).required("Invalid title. Use only letters dots and commas"),
-        propertyAddress: yup.string().matches(/^[A-Za-z ,.]{1,50}$/).required("Invalid address. Use only letters dots and commas"),
-        description: yup.string().matches(/^[A-Za-z ,.]{1,300}$/).required("Invalid description. Use only letters dots and commas"),
+        title: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,30}$/).required("Invalid title. Use only letters dots, commas and numbers"),
+        propertyAddress: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,50}$/).required("Invalid address. Use only letters dots and commas and numbers"),
+        description: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,300}$/).required("Invalid description. Use only letters dots and commas and numbers"),
     });
 
     const handleChange = (event, valueName) => {
@@ -38,6 +38,7 @@ export const AdvertiseSettings = () => {
 
         if (valueName === "location") {
             dispatch(setPropertyLocation(value));
+            dispatch(setAdvertiseLocation(value));
         }
         else if (valueName === "type") {
             dispatch(setPropertyType(value));
@@ -62,6 +63,7 @@ export const AdvertiseSettings = () => {
     const handleLocationSelect = (eventKey, event) => {
         const locationName = event.target.textContent;
         dispatch(setPropertyLocation(locationName));
+        dispatch(setAdvertiseLocation(locationName));
     };
 
     const handlePropertyTypeSelect = (eventKey, event) => {

@@ -1,10 +1,17 @@
+import React from 'react';
+import BackendEndpoint from './BackendEndpoint';
+
 class AdvertiseEndpoint extends React.Component {
     
-    static baseEndpoint = "api/advertise";
+    static baseEndpoint = BackendEndpoint.backendUrl + "api/advertise";
 
-    static register = baseEndpoint + "/register";
-    static all = baseEndpoint + "/all";
-    static getById = baseEndpoint + "/get/";
-    static updateById = baseEndpoint + "/update/";
-    static deleteById = baseEndpoint + "/delete/";
+    static register = AdvertiseEndpoint.baseEndpoint + "/register";
+    static all = AdvertiseEndpoint.baseEndpoint + "/all";
+    static getAllByUserId = AdvertiseEndpoint.baseEndpoint + "/user/get/all/";
+    static getAllByLocation = AdvertiseEndpoint.baseEndpoint + "/location/get/all/";
+    static getById = AdvertiseEndpoint.baseEndpoint + "/get/";
+    static updateById = AdvertiseEndpoint.baseEndpoint + "/update/";
+    static deleteById = AdvertiseEndpoint.baseEndpoint + "/delete/";
 }
+
+export default AdvertiseEndpoint;

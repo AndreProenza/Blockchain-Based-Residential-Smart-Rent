@@ -85,9 +85,17 @@
 }
 
 .card-details-text {
-    margin-top: 2%;background: none !important;
-    font-size: 0.9rem !important;
-    color: gray !important;;
+    margin-top: 2%;
+    background: none !important;
+    font-size: 0.8rem !important;
+    color: gray !important;
+}
+
+.card-details-text-black {
+    margin-top: 2%;
+    background: none !important;
+    font-size: 0.8rem !important;
+    color: black !important;
 }
 
 .card-details-button {
@@ -100,7 +108,7 @@
 }
 
 .card-details-button:hover {
-    border: solid 2px #717BEF !important;
+    border: solid 1px #717BEF !important;
     color: white !important;
     background-color: #717BEF !important;
 }

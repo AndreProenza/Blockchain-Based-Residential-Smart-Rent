@@ -17,19 +17,22 @@ export const Search = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(listings);
-  })
+  // useEffect(() => {
+    // console.log(listings);
+  // })
 
   const handleSearch = (event) => {
     event.preventDefault();
     const location = listings.location;
 
     if (isLocationValid(location)) {
-      console.log("Valid location:", location);
+      // console.log("Valid location:", location);
 
       const locationFormatted = location.toLowerCase();
       switch (locationFormatted) {
+        case "lisboa":
+          dispatch(setListingsLocation("Lisbon"));
+          break;
         case "lisbon":
           dispatch(setListingsLocation(capitalizeFirstLetter(locationFormatted)));
           break;
@@ -63,6 +66,7 @@ export const Search = () => {
     const locationValue = location.toLowerCase();
 
     if (
+      locationValue === "lisboa" ||
       locationValue === "lisbon" ||
       locationValue === "porto" ||
       locationValue === "faro" ||

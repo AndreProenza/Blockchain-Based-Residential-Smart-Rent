@@ -14,13 +14,13 @@ export const ProfileAddressSettings = () => {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log(user);
-    }, [dispatch, user])
+    // useEffect(() => {
+    //     // console.log(user);
+    // }, [dispatch])
 
     const schema = yup.object().shape({
 
-        address: yup.string().matches(/^[A-Za-z ,.]{1,50}$/).required("Invalid address. Use only letters dots and commas"),
+        address: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,50}$/).required("Invalid address. Use only letters dots, commas and numbers"),
         country: yup.string().matches(/^[A-Za-z ]{4,44}$/).required("Invalid country"),
         city: yup.string().matches(/^[A-Za-z ]{2,44}$/).required("Invalid city"),
     });

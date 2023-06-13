@@ -6,7 +6,9 @@ export const advertiseSlice = createSlice({
         id: "",
         propertyId: "",
         contractId: "",
-        title: ""
+        title: "",
+        userId: "",
+        location: "",
     },
     reducers: {
         setAdvertise: (state, action) => {
@@ -25,6 +27,12 @@ export const advertiseSlice = createSlice({
         setAdvertiseTitle: (state, action) => {
             state.title = action.payload;
         },
+        setAdvertiseUserId: (state, action) => {
+            state.userId = action.payload;
+        },
+        setAdvertiseLocation: (state, action) => {
+            state.location = action.payload;
+        },
     },
 })
 
@@ -33,7 +41,9 @@ export const {
     setAdvertiseId,
     setAdvertisePropertyId,
     setAdvertiseContractId,
-    setAdvertiseTitle
+    setAdvertiseTitle,
+    setAdvertiseUserId,
+    setAdvertiseLocation,
 } = advertiseSlice.actions
 
 export default advertiseSlice.reducer

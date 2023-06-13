@@ -15,11 +15,11 @@ export const ProfileInfoSettings = () => {
 
     const schema = yup.object().shape({
 
-        firstName: yup.string().matches(/^[A-Za-z ]{1,15}$/).required("Invalid first name"),
-        lastName: yup.string().matches(/^[A-Za-z ]{1,15}$/).required("Invalid last name"),
+        firstName: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{1,15}$/).required("Invalid first name"),
+        lastName: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{1,15}$/).required("Invalid last name"),
         email: yup.string().email().required("Invalid email address"),
         phone: yup.number().positive().min(900000000).max(999999999).required("Invalid phone number. Only PT numbers valid"),
-        taxId: yup.string().matches(/^[A-Za-z ]{2,44}$/).required("Invalid Tax Id. Only PT tax Id valid"),
+        taxId: yup.number().positive().min(100000000).max(999999999).required("Invalid Tax Id. Only PT tax Id valid"),
     });
 
     const handleChange = (event, valueName) => {
