@@ -21,9 +21,9 @@ public class User {
     private String id;
     @Email(message = "invalid email address")
     private String email;
-    @Pattern(regexp = "^[A-Za-z ]{1,15}$", message = "invalid first name")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{1,15}$", message = "invalid first name")
     private String firstName;
-    @Pattern(regexp = "^[A-Za-z ]{1,15}$", message = "invalid last name")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{1,15}$", message = "invalid last name")
     private String lastName;
     @Min(900000000)
     @Max(999999999)
@@ -31,7 +31,7 @@ public class User {
     @Min(100000000)
     @Max(999999999)
     private int taxID;
-    @Pattern(regexp = "^[A-Za-z ,.]{1,50}$", message = "invalid address. Use only letters dots and commas")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,50}$", message = "invalid address. Use only letters dots, commas and numbers")
     private String address;
     @Pattern(regexp = "^[A-Za-z ]{4,44}$", message = "invalid country")
     private String country;

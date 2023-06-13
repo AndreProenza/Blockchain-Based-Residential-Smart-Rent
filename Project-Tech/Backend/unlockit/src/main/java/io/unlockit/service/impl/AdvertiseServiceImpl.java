@@ -7,6 +7,7 @@ import io.unlockit.service.AdvertiseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,32 @@ public class AdvertiseServiceImpl implements AdvertiseService {
     @Override
     public List<Advertise> getAllAdvertises() {
         return advertiseRepository.findAll();
+    }
+
+    @Override
+    public List<Advertise> getAllAdvertisesByUserId(String userId) {
+        List<Advertise> advertises = getAllAdvertises();
+        List<Advertise> filteredAdvertises = new ArrayList<>();
+
+        for (Advertise advertise : advertises) {
+            if (advertise.getUserId().equals(userId)) {
+                filteredAdvertises.add(advertise);
+            }
+        }
+        return filteredAdvertises;
+    }
+
+    @Override
+    public List<Advertise> getAllAdvertisesByLocation(String location) {
+        List<Advertise> advertises = getAllAdvertises();
+        List<Advertise> filteredAdvertises = new ArrayList<>();
+
+        for (Advertise advertise : advertises) {
+            if (advertise.getLocation().equals(location)) {
+                filteredAdvertises.add(advertise);
+            }
+        }
+        return filteredAdvertises;
     }
 
     @Override
@@ -49,6 +76,8 @@ public class AdvertiseServiceImpl implements AdvertiseService {
         existingAdvertise.setPropertyId(advertise.getPropertyId());
         existingAdvertise.setContractId(advertise.getContractId());
         existingAdvertise.setTitle(advertise.getTitle());
+        existingAdvertise.setUserId(advertise.getUserId());
+        existingAdvertise.setLocation(advertise.getLocation());
     }
 
     @Override

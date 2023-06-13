@@ -24,20 +24,20 @@ public class Property {
     @NotNull(message = "invalid landlord id, cannot be null")
     private String landlordId;
     @NotNull(message = "invalid address, cannot be null")
-    @Pattern(regexp = "^[A-Za-z ,.]{1,50}$", message = "invalid address. Use only letters dots and commas")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,50}$", message = "invalid address. Use only letters dots and commas")
     private String address;
     @NotNull(message = "invalid location, cannot be null")
-    @Pattern(regexp = "^[A-Za-z ]{2,44}$", message = "invalid location")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{2,44}$", message = "invalid location")
     private String location;
     @NotNull(message = "invalid type, cannot be null")
-    @Pattern(regexp = "^[A-Za-z ]{2,5}$", message = "invalid type")
+    @Pattern(regexp = "^(Room|T[1-4]|T4\\+|House)$", message = "invalid type")
     private String type;
     @NotNull(message = "invalid area, cannot be null")
     @Min(5)
     @Max(10000)
     private int area;
     @NotNull(message = "invalid description, cannot be null")
-    @Pattern(regexp = "^[A-Za-z ,.]{1,300}$", message = "invalid description. Use only letters dots and commas")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,300}$", message = "invalid description. Use only letters dots and commas and numbers")
     private String description;
     private Binary photo;
 }

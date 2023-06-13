@@ -2,6 +2,7 @@ package io.unlockit.controller;
 
 import io.unlockit.model.mongodb.Advertise;
 import io.unlockit.service.AdvertiseService;
+import io.unlockit.utils.FrontendEndpoint;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = FrontendEndpoint.frontendUrl)
 @RestController
 @RequestMapping("api/advertise")
 public class AdvertiseController {
@@ -27,6 +28,18 @@ public class AdvertiseController {
     @GetMapping("/all")
     public ResponseEntity<List<Advertise>> getAllAdvertises() {
         List<Advertise> advertises = advertiseService.getAllAdvertises();
+        return ResponseEntity.ok().body(advertises);
+    }
+
+    @GetMapping("/user/get/all/{id}")
+    public ResponseEntity<List<Advertise>> getAllAdvertisesByUserId(@PathVariable("id") String userId) {
+        List<Advertise> advertises = advertiseService.getAllAdvertisesByUserId(userId);
+        return ResponseEntity.ok().body(advertises);
+    }
+
+    @GetMapping("/location/get/all/{id}")
+    public ResponseEntity<List<Advertise>> getAllAdvertisesByLocation(@PathVariable("id") String location) {
+        List<Advertise> advertises = advertiseService.getAllAdvertisesByLocation(location);
         return ResponseEntity.ok().body(advertises);
     }
 

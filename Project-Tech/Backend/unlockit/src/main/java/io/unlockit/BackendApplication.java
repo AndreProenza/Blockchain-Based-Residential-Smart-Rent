@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 @OpenAPIDefinition(
@@ -26,7 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 )
 public class BackendApplication {
 
-	// Swagger UI - https://localhost:3000/swagger-ui/index.html
+	// Swagger UI - https://localhost:4000/swagger-ui/index.html
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);

@@ -2,6 +2,7 @@ package io.unlockit.controller;
 
 import io.unlockit.model.mongodb.Contract;
 import io.unlockit.service.ContractService;
+import io.unlockit.utils.FrontendEndpoint;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = FrontendEndpoint.frontendUrl)
 @RestController
 @RequestMapping("api/contract")
 public class ContractController {
