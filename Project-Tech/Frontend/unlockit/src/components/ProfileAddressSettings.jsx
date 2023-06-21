@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserAddress, setUserCountry, setUserCity } from '../features/userSlice';
-import * as yup from 'yup';
 
 import "../components-css/Profile.css";
 
@@ -18,26 +17,19 @@ export const ProfileAddressSettings = () => {
     //     // console.log(user);
     // }, [dispatch])
 
-    const schema = yup.object().shape({
-
-        address: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,50}$/).required("Invalid address. Use only letters dots, commas and numbers"),
-        country: yup.string().matches(/^[A-Za-z ]{4,44}$/).required("Invalid country"),
-        city: yup.string().matches(/^[A-Za-z ]{2,44}$/).required("Invalid city"),
-    });
-
     const handleChange = (event, valueName) => {
 
         if (valueName === "address") {
             dispatch(setUserAddress(event.target.value));
-            console.log(user?.address);
+            console.log(user?.address || "");
         }
         else if (valueName === "country") {
             dispatch(setUserCountry(event.target.value));
-            console.log(user?.country);
+            console.log(user?.country || "");
         }
         else {
             dispatch(setUserCity(event.target.value));
-            console.log(user?.city);
+            console.log(user?.city || "");
         }
     };
 
@@ -53,7 +45,7 @@ export const ProfileAddressSettings = () => {
                         placeholder="Address"
                         aria-label="Address"
                         aria-describedby="basic-addon1"
-                        value={user?.address}
+                        value={user?.address || ""}
                         onChange={(event) => handleChange(event, "address")}
                     />
                 </Col>
@@ -67,7 +59,7 @@ export const ProfileAddressSettings = () => {
                         placeholder="Country"
                         aria-label="Country"
                         aria-describedby="basic-addon1"
-                        value={user?.country}
+                        value={user?.country || ""}
                         onChange={(event) => handleChange(event, "country")}
                     />
                 </Col>
@@ -81,7 +73,7 @@ export const ProfileAddressSettings = () => {
                         placeholder="City"
                         aria-label="City"
                         aria-describedby="basic-addon1"
-                        value={user?.city}
+                        value={user?.city || ""}
                         onChange={(event) => handleChange(event, "city")}
                     />
                 </Col>

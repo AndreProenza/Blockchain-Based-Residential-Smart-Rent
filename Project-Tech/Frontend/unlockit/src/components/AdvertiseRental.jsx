@@ -10,7 +10,6 @@ import { CheckboxRental } from "../components/CheckboxRental";
 import { useDispatch, useSelector } from 'react-redux';
 import { setContractTerm, setContractInitialDate, setContractFinalDate, setContractPrice, setContractConditions, setContractLandlordId } from '../features/contractSlice'
 import { useEffect } from 'react';
-import * as yup from 'yup';
 
 import "../components-css/Advertise.css";
 
@@ -23,12 +22,6 @@ export const AdvertiseRental = () => {
     // useEffect(() => {
     //     console.log(contract);
     // })
-
-    const schema = yup.object().shape({
-
-        price: yup.number().positive().integer().min(1).required("Invalid Price"),
-        conditions: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,300}$/).required("Invalid conditions. Use only letters dots and commas and numbers"),
-    });
 
     const handleChange = (event, valueName) => {
         const value = event.target.value;

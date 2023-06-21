@@ -87,6 +87,14 @@ export const PropertyCard = (props) => {
         return parseInt(property.area) >= parseInt(listings.sizeMin) && parseInt(property.area) <= parseInt(listings.sizeMax);
     }
 
+    // const handleDelete = (key) => {
+    //     setKeys((prevKeys) => prevKeys.filter((prevKey) => prevKey !== key));
+    // };
+
+    // const handleAdd = (key) => {
+    //     setKeys(prevKeys => [...prevKeys, key]);
+    // };
+
     //------------------ //
 
     return (
@@ -97,7 +105,7 @@ export const PropertyCard = (props) => {
                         <Row className="card-container-row">
                             <Col sm={5}>
                                 {show ?
-                                    (<Card.Img src={banner} />) :
+                                    (<Card.Img src={property.photo || banner} />) :
                                     (<Card.Img src={bannerEmpty} />)
                                 }
                             </Col>
@@ -181,7 +189,9 @@ export const PropertyCard = (props) => {
             ) :
             (show ?
                 (
-                    <></>
+                    <>
+                        {/* {handleDelete(advertise.id)} */}
+                    </>
                 ) :
                 (
                     <>

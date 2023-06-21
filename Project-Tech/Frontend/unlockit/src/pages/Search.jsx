@@ -1,10 +1,11 @@
 import logo from "../assets/log.svg"
 import { Navigator } from "../components/Navigator";
+import { ModalSearch } from "../components/ModalSearch";
 import Form from 'react-bootstrap/Form';
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { setListingsLocation } from '../features/listingsSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import '../components-css/Search.css';
@@ -17,9 +18,11 @@ export const Search = () => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-    // console.log(listings);
-  // })
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+  // console.log(listings);
+  }, [])
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -55,6 +58,7 @@ export const Search = () => {
     }
     else {
       console.log("Invalid location:", location);
+      setShow(true);
     }
   };
 
@@ -119,6 +123,7 @@ export const Search = () => {
           </div>
         </div>
       </div>
+      <ModalSearch show={show} setShow={setShow}/>
     </>
   );
 };

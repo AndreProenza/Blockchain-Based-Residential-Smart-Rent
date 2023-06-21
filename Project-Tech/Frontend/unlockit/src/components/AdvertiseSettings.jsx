@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAdvertiseTitle, setAdvertiseLocation } from '../features/advertiseSlice'
 import { setPropertyAddress, setPropertyArea, setPropertyDescription, setPropertyLocation, setPropertyType } from '../features/propertySlice';
 import { useEffect } from 'react';
-import * as yup from 'yup';
 
 import "../components-css/Advertise.css";
 
@@ -24,14 +23,6 @@ export const AdvertiseSettings = () => {
     //     console.log(property);
     //     console.log(advertise);
     // })
-
-    const schema = yup.object().shape({
-
-        area: yup.number().positive().min(5).max(10000).required("Invalid area, Valid: 5m² - 10000m²"),
-        title: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,30}$/).required("Invalid title. Use only letters dots, commas and numbers"),
-        propertyAddress: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,50}$/).required("Invalid address. Use only letters dots and commas and numbers"),
-        description: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,300}$/).required("Invalid description. Use only letters dots and commas and numbers"),
-    });
 
     const handleChange = (event, valueName) => {
         const value = event.target.value;

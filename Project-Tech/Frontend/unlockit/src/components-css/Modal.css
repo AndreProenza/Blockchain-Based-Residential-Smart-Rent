@@ -1,0 +1,52 @@
+.button-modal {
+    color: #717BEF !important;
+    background-color: white !important;
+    border: solid 1px gray !important;
+    display: block !important;
+    margin-left: auto;
+    margin-right: 0.5%;
+    margin-bottom: 0.5%;
+    margin-top: 0%;
+}
+
+.button-modal:hover {
+    color: white !important;
+    background-color: #717BEF !important;
+    border: solid 1px #717BEF !important;
+}
+
+.modal-text-color {
+    color: #717BEF !important;
+}
+
+.modal-error-text {
+    font-size: 0.8em !important;
+}
+
+.modal-success-text {
+    font-size: 0.9em !important;
+}
+
+.modal-success-text-bold {
+    font-size: 0.9em !important;
+    font-weight: bold !important;
+}
+
+.modal-error-text-title {
+    font-size: 1em !important;
+    color: #dc3545;
+}
+
+.modal-error-text-subtitle {
+    font-size: 0.9em !important;
+    color: #dc3545;
+}
+
+.modal-success-text-title {
+    font-size: 1em !important;
+    color: #198754;
+}
+
+.modal-error-text-search {
+    font-size: 0.9em !important;
+}

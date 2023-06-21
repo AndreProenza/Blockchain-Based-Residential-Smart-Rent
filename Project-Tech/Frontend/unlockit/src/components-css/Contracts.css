@@ -72,6 +72,14 @@
     font-size: 0.7em !important;
     font-weight: 100;
     margin-bottom: 0%;
+    color: #717BEF;
+}
+
+.contract-list-item-id {
+    font-size: 0.8em !important;
+    font-weight: 100;
+    margin-bottom: 0%;
+    color: black;
 }
 
 .full-contract-container {

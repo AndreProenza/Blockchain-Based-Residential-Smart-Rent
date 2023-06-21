@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserFirstName, setUserLastName, setUserEmail, setUserPhone, setUserTaxId } from '../features/userSlice';
-import * as yup from 'yup';
 
 import "../components-css/Profile.css";
 
@@ -12,15 +11,6 @@ export const ProfileInfoSettings = () => {
 
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
-
-    const schema = yup.object().shape({
-
-        firstName: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{1,15}$/).required("Invalid first name"),
-        lastName: yup.string().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{1,15}$/).required("Invalid last name"),
-        email: yup.string().email().required("Invalid email address"),
-        phone: yup.number().positive().min(900000000).max(999999999).required("Invalid phone number. Only PT numbers valid"),
-        taxId: yup.number().positive().min(100000000).max(999999999).required("Invalid Tax Id. Only PT tax Id valid"),
-    });
 
     const handleChange = (event, valueName) => {
 
@@ -53,7 +43,7 @@ export const ProfileInfoSettings = () => {
                         placeholder="First Name"
                         aria-label="First Name"
                         aria-describedby="basic-addon1"
-                        value={user?.firstName}
+                        value={user?.firstName || ""}
                         onChange={(event) => handleChange(event, "firstName")}
                     />
                 </Col>
@@ -67,7 +57,7 @@ export const ProfileInfoSettings = () => {
                         placeholder="Last Name"
                         aria-label="Last Name"
                         aria-describedby="basic-addon1"
-                        value={user?.lastName}
+                        value={user?.lastName || ""}
                         onChange={(event) => handleChange(event, "lastName")}
                     />
                 </Col>
@@ -81,7 +71,7 @@ export const ProfileInfoSettings = () => {
                         placeholder="Email"
                         aria-label="Email"
                         aria-describedby="basic-addon1"
-                        value={user?.email}
+                        value={user?.email || ""}
                         onChange={(event) => handleChange(event, "email")}
                     />
                 </Col>
@@ -95,7 +85,7 @@ export const ProfileInfoSettings = () => {
                         placeholder="Phone Number"
                         aria-label="Phone Number"
                         aria-describedby="basic-addon1"
-                        value={user?.phone}
+                        value={user?.phone || ""}
                         onChange={(event) => handleChange(event, "phone")}
                     />
                 </Col>
@@ -109,7 +99,7 @@ export const ProfileInfoSettings = () => {
                         placeholder="Tax ID"
                         aria-label="Tax ID"
                         aria-describedby="basic-addon1"
-                        value={user?.taxId}
+                        value={user?.taxId || ""}
                         onChange={(event) => handleChange(event, "taxId")}
                     />
                 </Col>
