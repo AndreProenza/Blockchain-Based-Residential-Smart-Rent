@@ -25,10 +25,10 @@ public class User {
     private String firstName;
     @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{1,15}$", message = "invalid last name")
     private String lastName;
-    @Min(900000000)
+    @Min(0)
     @Max(999999999)
     private int phone;
-    @Min(100000000)
+    @Min(0)
     @Max(999999999)
     private int taxID;
     @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,50}$", message = "invalid address. Use only letters dots, commas and numbers")

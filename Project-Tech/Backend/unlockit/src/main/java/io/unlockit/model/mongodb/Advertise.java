@@ -23,7 +23,7 @@ public class Advertise {
     @NotNull(message = "invalid contract id, cannot be null")
     private String contractId;
     @NotNull(message = "invalid title, cannot be null")
-    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,30}$", message = "invalid title, Use only letters dots, commas and numbers")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,40}$", message = "invalid title, Use only letters dots, commas and numbers")
     private String title;
     @NotNull(message = "invalid user id, cannot be null")
     private String userId;

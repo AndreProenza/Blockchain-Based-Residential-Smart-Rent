@@ -8,9 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -39,6 +39,6 @@ public class Property {
     @NotNull(message = "invalid description, cannot be null")
     @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,300}$", message = "invalid description. Use only letters dots and commas and numbers")
     private String description;
-    private Binary photo;
+    private String photo;
 }
 
