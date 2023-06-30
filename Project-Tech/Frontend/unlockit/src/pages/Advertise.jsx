@@ -8,6 +8,7 @@ import { Navigator } from "../components/Navigator";
 import { AdvertiseSettings } from "../components/AdvertiseSettings";
 import { AdvertiseRental } from "../components/AdvertiseRental";
 import { ModalAdvertise } from "../components/ModalAdvertise";
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPropertyPhoto } from '../features/propertySlice'
@@ -17,6 +18,7 @@ import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import axios from "axios";
 import * as yup from 'yup';
+import Auth from '../auth/Auth';
 
 import banner from "../assets/empty-banner.png"
 
@@ -25,9 +27,12 @@ import "../components-css/Advertise.css";
 
 export const Advertise = () => {
 
+    const navigate = useNavigate();
+
     const advertise = useSelector((state) => state.advertise);
     const property = useSelector((state) => state.property);
     const contract = useSelector((state) => state.contract);
+    const userLogin = useSelector((state) => state.userLogin);
 
     const dispatch = useDispatch();
 
@@ -39,8 +44,8 @@ export const Advertise = () => {
 
     //------- API ------- //
 
-    // --- TEMP ---
-    const userId = "64807026463db47afca381a2";
+    // --- UserId ---
+    const userId = userLogin.id;
     // ------------
     let propertyData = {};
     let propertyId = "";
@@ -52,6 +57,7 @@ export const Advertise = () => {
 
     const getUserByIdUrl = UserEndpoint.getById;
     const updateUserByIdUrl = UserEndpoint.updateById;
+    const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
 
     const registerPropertyUrl = PropertyEndpoint.register;
     const allPropertyUrl = PropertyEndpoint.all;
@@ -71,12 +77,32 @@ export const Advertise = () => {
     const updateAdvertiseByIdUrl = AdvertiseEndpoint.updateById;
     const deleteAdvertiseByIdUrl = AdvertiseEndpoint.deleteById;
 
+    const checkLoginExpireTime = async () => {
+        try {
+            const response = await axios.get(getLoginExpireTimeUrl, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                console.log("Login expire time: ", response.data);
+                if (Number(response.data) <= Auth.expireTimeLimit) {
+                    Auth.removeTokenFromSessionStorage();
+                    navigate("/login");
+                }
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const registerProperty = async () => {
         try {
             setPropertyData();
 
             console.log(propertyData);
-            const response = await axios.post(registerPropertyUrl, propertyData);
+            const response = await axios.post(registerPropertyUrl, propertyData, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("PropertyId: ", response.data.id);
             propertyId = response.data.id;
@@ -106,7 +132,7 @@ export const Advertise = () => {
             setContractData();
 
             console.log(contractData);
-            const response = await axios.post(registerContractUrl, contractData);
+            const response = await axios.post(registerContractUrl, contractData, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("ContractId: ", response.data.id);
             contractId = response.data.id;
@@ -137,7 +163,7 @@ export const Advertise = () => {
             setAdvertiseData();
 
             console.log(advertiseData);
-            const response = await axios.post(registerAdvertiseUrl, advertiseData);
+            const response = await axios.post(registerAdvertiseUrl, advertiseData, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("AdvertiseId: ", response.data.id);
             advertiseId = response.data.id;
@@ -163,7 +189,7 @@ export const Advertise = () => {
     const deleteProperty = async () => {
         try {
             const url = deletePropertyByIdUrl + propertyId;
-            const response = await axios.delete(url);
+            const response = await axios.delete(url, Auth.authHeader());
             console.log("Status: ", response.status);
         } catch (error) {
             console.log(error);
@@ -173,7 +199,7 @@ export const Advertise = () => {
     const deleteContract = async () => {
         try {
             const url = deleteContractByIdUrl + contractId;
-            const response = await axios.delete(url);
+            const response = await axios.delete(url, Auth.authHeader());
             console.log("Status: ", response.status);
         } catch (error) {
             console.log(error);
@@ -183,7 +209,7 @@ export const Advertise = () => {
     const deleteAdvertise = async () => {
         try {
             const url = deleteAdvertiseByIdUrl + advertiseId;
-            const response = await axios.delete(url);
+            const response = await axios.delete(url, Auth.authHeader());
             console.log("Status: ", response.status);
         } catch (error) {
             console.log(error);
@@ -193,7 +219,7 @@ export const Advertise = () => {
     const getUser = async () => {
         try {
             const url = getUserByIdUrl + userId;
-            const response = await axios.get(url);
+            const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("User: ", response.data);
             user = response.data;
@@ -219,7 +245,7 @@ export const Advertise = () => {
     const updateUserById = async () => {
         try {
             const url = updateUserByIdUrl + userId;
-            const response = await axios.put(url, user);
+            const response = await axios.put(url, user, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("User: ", response.data);
             return true;
@@ -266,11 +292,11 @@ export const Advertise = () => {
 
     useEffect(() => {
 
-        console.log("________");
         console.log("isValid: ", isValid);
-        console.log("________");
 
         const publish = async () => {
+            await checkLoginExpireTime();
+
             console.log("publish");
             try {
                 if (await registerProperty()) {

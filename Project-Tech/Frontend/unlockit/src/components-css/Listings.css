@@ -89,6 +89,7 @@
     background: none !important;
     font-size: 0.8rem !important;
     color: gray !important;
+    padding-right: 10px;
 }
 
 .card-details-text-black {

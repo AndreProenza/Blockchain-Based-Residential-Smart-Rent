@@ -5,7 +5,10 @@ class UserEndpoint extends React.Component {
 
     static baseEndpoint = BackendEndpoint.backendUrl + "api/user";
 
-    static register = UserEndpoint.baseEndpoint + "/register";
+    static isLoggedIn = UserEndpoint.baseEndpoint + "/loggedin";
+    static getUserId = UserEndpoint.baseEndpoint + "/login/get/userid";
+    static getLoginExpireTime = UserEndpoint.baseEndpoint + "/login/time";
+    static login = UserEndpoint.baseEndpoint + "/login";
     static all = UserEndpoint.baseEndpoint + "/all";
     static getByEmail = UserEndpoint.baseEndpoint + "/getbyemail/";
     static getById = UserEndpoint.baseEndpoint + "/get/";

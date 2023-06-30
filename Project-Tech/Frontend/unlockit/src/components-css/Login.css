@@ -55,7 +55,22 @@
     border: solid 1px gray !important;
 }
 
+
 .google-button-login:hover {
+    color: white !important;
+    background-color: #717BEF !important;
+    border: solid 1px #717BEF !important;
+}
+
+.back-button-login {
+    font-size: 0.8em !important;
+    width: 60px;
+    color: #717BEF !important;
+    background-color: white !important;
+    border: solid 1px gray !important;
+}
+
+.back-button-login:hover {
     color: white !important;
     background-color: #717BEF !important;
     border: solid 1px #717BEF !important;
@@ -70,6 +85,13 @@
 .google-create-account {
     text-decoration: none;
     font-weight: 250;
+}
+
+.google-login-div {
+    width: 240px;
+    margin: auto;
+    /*background-color: beige;*/
+    margin-bottom: 3%;
 }
 
 

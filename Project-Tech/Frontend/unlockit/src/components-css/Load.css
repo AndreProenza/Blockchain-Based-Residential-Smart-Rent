@@ -1,20 +1,19 @@
-.error-banner {
+.load-banner {
     margin: auto;
-    background-position: top top;
-    background-repeat: no-repeat;
-    background-image: url("../assets/unlockit_banner.jpg");
+    background-color: rgb(235, 235, 235);
     height: 100vh;
     width: 100vw;
 }
 
-.container-error {
+.container-load {
     /* background-color: rgb(245, 245, 245); */
     text-align: center;
     padding-top: 22vh;
     height: 100vh;
 }
 
-.container-card-error {
+.container-card-load {
+    align-items: center;
     padding: 2%;
     margin: auto;
     width: 26vw;
@@ -25,10 +24,10 @@
     box-shadow: 10px 10px 10px 10px rgb(0.2 0.2 0.2 / 0.2);
 }
 
-.unlockit-logo-error {
+.unlockit-logo-load {
     width: 17% !important;
     margin: 5%;
-    margin-bottom: 8%;
+    margin-bottom: 1%;
     margin-top: 2%;
 }
 
@@ -43,34 +42,20 @@
 }
 
 
-.unlockit-card-error-contact {
+.unlockit-card-load-contact {
     margin-bottom: 0% !important;
     font-size: 0.90rem;
     font-weight: 200;
 }
 
-.error-contact {
+.load-contact {
     text-decoration: none;
     font-weight: 250;
 }
 
-.back-button-error {
-    font-size: 0.8em !important;
-    width: 60px;
-    color: #717BEF !important;
-    background-color: white !important;
-    border: solid 1px gray !important;
-}
-
-.back-button-error:hover {
-    color: white !important;
-    background-color: #717BEF !important;
-    border: solid 1px #717BEF !important;
-}
-
 @media only screen and (max-width: 1200px) {
     
-    .container-card-error {
+    .container-card-load {
         width: 40vw;
     }
     
@@ -78,7 +63,7 @@
 
 @media only screen and (max-width: 900px) {
 
-    .container-card-error {
+    .container-card-load {
         width: 60vw;
     }
     
@@ -86,7 +71,7 @@
 
 @media only screen and (max-width: 400px) {
 
-    .container-card-error {
+    .container-card-load {
         width: 85vw;
     }
     

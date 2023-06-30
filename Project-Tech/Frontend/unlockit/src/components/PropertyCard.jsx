@@ -3,16 +3,20 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import axios from "axios";
+import Auth from '../auth/Auth';
 
 import banner from '../assets/home-banner.jpg';
 import bannerEmpty from '../assets/empty-banner.png';
 
 export const PropertyCard = (props) => {
+
+    const navigate = useNavigate();
 
     const { show, advertise } = props;
 
@@ -29,10 +33,16 @@ export const PropertyCard = (props) => {
     const getPropertyById = async () => {
         try {
             const url = getPropertyByIdUrl + advertise.propertyId;
-            const response = await axios.get(url);
+            const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
-            console.log("Property: ", response.data);
-            setProperty(await response.data);
+            if (response.status === 200) {
+                console.log("Property: ", response.data);
+                setProperty(await response.data);
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
             return true;
         } catch (error) {
             console.log(error);
@@ -44,10 +54,16 @@ export const PropertyCard = (props) => {
     const getContractById = async () => {
         try {
             const url = getContractByIdUrl + advertise.contractId;
-            const response = await axios.get(url);
+            const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
-            console.log("Contract: ", response.data);
-            setContract(await response.data);
+            if (response.status === 200) {
+                console.log("Contract: ", response.data);
+                setContract(await response.data);
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
             return true;
         } catch (error) {
             console.log(error);

@@ -6,16 +6,21 @@ import Card from 'react-bootstrap/Card';
 import { Button } from "react-bootstrap";
 import { Navigator } from "../components/Navigator";
 import { BsSearch } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import axios from "axios";
+import Auth from '../auth/Auth';
 
 import "../components-css/Contracts.css";
 
 export const Contracts = () => {
+
+    const navigate = useNavigate();
 
     const [showRental, setShowRental] = useState(false);
     const [advertises, setAdvertises] = useState([]);
@@ -24,30 +29,58 @@ export const Contracts = () => {
     const [landlord, setLandlord] = useState({});
     const [tenant, setTenant] = useState({});
 
+    const userLogin = useSelector((state) => state.userLogin);
+
     //------- API ------- //
 
-    // --- TEMP ---
-    const userId = "64807026463db47afca381a2";
+    // --- UserId ---
+    const userId = userLogin.id;
     // ------------
 
     const getAllByUserIdUrl = AdvertiseEndpoint.getAllByUserId;
     const getPropertyByIdUrl = PropertyEndpoint.getById;
     const getContractByIdUrl = ContractEndpoint.getById;
     const getByIdUrl = UserEndpoint.getById;
+    const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
 
+    const checkLoginExpireTime = async () => {
+        try {
+            const response = await axios.get(getLoginExpireTimeUrl, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                console.log("Login expire time: ", response.data);
+                if (Number(response.data) <= Auth.expireTimeLimit) {
+                    Auth.removeTokenFromSessionStorage();
+                    navigate("/login");
+                }
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const getUserById = async (userId, isLandlord) => {
         try {
             const url = getByIdUrl + userId;
-            const response = await axios.get(url);
+            const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
-            if (isLandlord) {
-                console.log("Landlord: ", response.data);
-                setLandlord(await response.data);
+            if (response.status === 200) {
+                if (isLandlord) {
+                    console.log("Landlord: ", response.data);
+                    setLandlord(await response.data);
+                }
+                else {
+                    console.log("Tenant: ", response.data);
+                    setTenant(await response.data);
+                }
             }
             else {
-                console.log("Tenant: ", response.data);
-                setTenant(await response.data);
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
             }
         } catch (error) {
             console.log(error);
@@ -56,11 +89,12 @@ export const Contracts = () => {
     };
 
     const handleContract = async (advertise) => {
+        await checkLoginExpireTime();
 
         const getPropertyById = async (advertise) => {
             try {
                 const url = getPropertyByIdUrl + advertise.propertyId;
-                const response = await axios.get(url);
+                const response = await axios.get(url, Auth.authHeader());
                 console.log("Status: ", response.status);
                 console.log("Property: ", response.data);
                 setProperty(await response.data);
@@ -75,7 +109,7 @@ export const Contracts = () => {
         const getContractById = async (advertise) => {
             try {
                 const url = getContractByIdUrl + advertise.contractId;
-                const response = await axios.get(url);
+                const response = await axios.get(url, Auth.authHeader());
                 console.log("Status: ", response.status);
                 console.log("Contract: ", response.data);
                 setContract(await response.data);
@@ -103,10 +137,16 @@ export const Contracts = () => {
         const getAllAdvertisesByUserId = async () => {
             try {
                 const url = getAllByUserIdUrl + userId;
-                const response = await axios.get(url);
+                const response = await axios.get(url, Auth.authHeader());
                 console.log("Status: ", response.status);
-                console.log("Advertises: ", response.data);
-                setAdvertises(await response.data);
+                if (response.status === 200) {
+                    console.log("Advertises: ", response.data);
+                    setAdvertises(await response.data);
+                }
+                else {
+                    Auth.removeTokenFromSessionStorage();
+                    navigate("/login");
+                }
                 return true;
             } catch (error) {
                 console.log(error);
@@ -218,7 +258,7 @@ export const Contracts = () => {
                                                                         </p>
                                                                         <p className="full-contract-text"><strong>LEASE TERM.</strong> This Agreement shall begin on the
                                                                             <strong> {formatDate(contract.initialDate)}</strong>, and end on the <strong>{formatDate(contract.finalDate)}</strong>,
-                                                                             hereinafter known as the “Lease Term”.
+                                                                            hereinafter known as the “Lease Term”.
                                                                         </p>
                                                                         <p className="full-contract-text">
                                                                             <strong>PROPERTY.</strong> The Landlord agrees to lease the described property to the Tenant:

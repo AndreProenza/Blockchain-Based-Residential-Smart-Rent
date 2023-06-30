@@ -7,6 +7,7 @@ import { Advertise } from "./pages/Advertise";
 import { Profile } from "./pages/Profile";
 import { Contracts } from "./pages/Contracts";
 import { Error } from "./pages/Error";
+import ProtectedRoutes from "./auth/ProtectedRoutes";
 
 import './App.css';
 
@@ -14,29 +15,28 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Context.Provider value={{ contextValue }}>
-        {useMemo(() => ( */}
       <Router>
 
         <Routes>
+          <Route element={<ProtectedRoutes />}>
+            <Route path='/search' element={<Search />} />
+            <Route path='/listings' element={<Listings />} />
+            <Route path='/advertise' element={<Advertise />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/contracts' element={<Contracts />} />
+          </Route>
+
           <Route path='/' element={<Initial />} />
-          <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/listings' element={<Listings />} />
-          <Route path='/advertise' element={<Advertise />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/contracts' element={<Contracts />} />
           <Route path='*' element={<Error />} />
         </Routes>
 
         <header className="App-header">
-          {/* <img src={logo} className="App-logo" alt="logo" /> */}
+
         </header>
 
 
       </Router>
-      {/* ), [])}
-      </Context.Provider> */}
     </div>
   );
 }

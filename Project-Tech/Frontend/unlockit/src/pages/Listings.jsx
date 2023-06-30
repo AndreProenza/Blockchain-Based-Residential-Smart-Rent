@@ -8,22 +8,30 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
+import UserEndpoint from '../endpoints/UserEndpoint';
 import axios from "axios";
+import Auth from '../auth/Auth';
 
 import "../components-css/Listings.css";
 
 export const Listings = () => {
 
+    const navigate = useNavigate();
+
     const listings = useSelector((state) => state.listings);
+    const userLogin = useSelector((state) => state.userLogin);
 
     const [advertises, setAdvertises] = useState([]);
 
     //------- API ------- //
 
-    // --- TEMP ---
-    const userId = "64807026463db47afca381a2";
+    // --- UserId ---
+    const userId = userLogin.id;
     // ------------
+
+    const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
 
     const getAllByUserIdUrl = AdvertiseEndpoint.getAllByUserId;
     const getAllByLocationUrl = AdvertiseEndpoint.getAllByLocation;
@@ -32,7 +40,7 @@ export const Listings = () => {
     const getAllAdvertisesByUserId = async () => {
         try {
             const url = getAllByUserIdUrl + userId;
-            const response = await axios.get(url);
+            const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Advertises: ", response.data);
             if (listings.location === "") {
@@ -52,7 +60,7 @@ export const Listings = () => {
     const getAllAdvertisesByLocation = async () => {
         try {
             const url = getAllByLocationUrl + listings.location;
-            const response = await axios.get(url);
+            const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Advertises: ", response.data);
             setAdvertises(await response.data);
@@ -67,7 +75,29 @@ export const Listings = () => {
 
     //------------------ //
 
-    const handleToggle = (value) => {
+    const checkLoginExpireTime = async () => {
+        try {
+            const response = await axios.get(getLoginExpireTimeUrl, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                console.log("response.data: ", response.data);
+                if (Number(response.data) <= Auth.expireTimeLimit) {
+                    Auth.removeTokenFromSessionStorage();
+                    navigate("/login");
+                }
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleToggle = async (value) => {
+        await checkLoginExpireTime();
+
         if (value === 1) {
             console.log('Listings button clicked');
             if (listings.location !== "") {
@@ -140,7 +170,7 @@ export const Listings = () => {
             <Container className="container-listings">
                 <Row>
                     <Col sm={3} className="settings-listings">
-                        <ListingsSettings advertises={advertises}/>
+                        <ListingsSettings advertises={advertises} />
                     </Col>
                     <Col sm={9} className="listings-listings">
                         <ListingsList advertises={advertises} />

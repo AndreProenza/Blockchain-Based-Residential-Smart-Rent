@@ -7,13 +7,17 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './redux/store'
 import { Provider } from 'react-redux'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import GoogleConfig from './google/GoogleConfig';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+  <GoogleOAuthProvider clientId={GoogleConfig.googleClientId}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+  </GoogleOAuthProvider >
   // </React.StrictMode>
 );
 

@@ -73,6 +73,7 @@ export const ProfileInfoSettings = () => {
                         aria-describedby="basic-addon1"
                         value={user?.email || ""}
                         onChange={(event) => handleChange(event, "email")}
+                        readOnly
                     />
                 </Col>
             </Row>
