@@ -17,6 +17,17 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
+    public User handleLogin(String userId, String email) {
+        Optional<User> existingUser = userRepository.findById(userId);
+        if(!existingUser.isPresent()) {
+            int phone = 0, taxId = 0;
+            User user = new User(userId, email, phone, taxId);
+            return userRepository.save(user);
+        }
+        return existingUser.get();
+    }
+
+    @Override
     public User saveUser(User user) {
         return userRepository.save(user);
     }
@@ -82,5 +93,11 @@ public class UserServiceImpl implements UserService {
         userRepository.findById(userId).orElseThrow(
                 () -> new ResourceNotFoundException("User", "ID", userId));
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    public User getUser(String userId) {
+        User user = new User(userId);
+        return user;
     }
 }

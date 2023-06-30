@@ -39,4 +39,15 @@ public class User {
     private String city;
     private List<String> advertises;
     private List<String> contracts;
+
+    public User(String userId, String email, int phone, int taxId) {
+        this.id = userId;
+        this.email = email;
+        this.phone = phone;
+        this.taxID = taxId;
+    }
+
+    public User(String userId) {
+        this.id = userId;
+    }
 }
