@@ -39,6 +39,7 @@ public class User {
     private String city;
     private List<String> advertises;
     private List<String> contracts;
+    private List<String> proposalAdvertises;
 
     public User(String userId, String email, int phone, int taxId) {
         this.id = userId;

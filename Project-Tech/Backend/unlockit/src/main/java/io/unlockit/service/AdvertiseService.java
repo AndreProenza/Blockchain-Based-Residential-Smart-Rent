@@ -11,7 +11,9 @@ public interface AdvertiseService {
     List<Advertise> getAllAdvertises();
     List<Advertise> getAllAdvertisesByUserId(String userId);
     List<Advertise> getAllAdvertisesByLocation(String location);
+    List<Advertise> getAllAdvertisesByUserAdvertisesList(List<String> advertisesIds);
     Advertise getAdvertiseById(String advertiseId);
     Advertise updateAdvertise(Advertise advertise, String advertiseId);
     void deleteAdvertise(String advertiseId);
+
 }

@@ -30,4 +30,5 @@ public class Advertise {
     @NotNull(message = "invalid location, cannot be null")
     @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{2,44}$", message = "invalid location")
     private String location;
+    private boolean active;
 }

@@ -54,6 +54,15 @@ public class AdvertiseServiceImpl implements AdvertiseService {
     }
 
     @Override
+    public List<Advertise> getAllAdvertisesByUserAdvertisesList(List<String> advertisesIds) {
+        List<Advertise> advertises = new ArrayList<>();
+        for (String advertiseId : advertisesIds) {
+            advertises.add(getAdvertiseById(advertiseId));
+        }
+        return advertises;
+    }
+
+    @Override
     public Advertise getAdvertiseById(String advertiseId) {
         Optional<Advertise> advertise = advertiseRepository.findById(advertiseId);
         if(advertise.isPresent()) {
@@ -78,6 +87,7 @@ public class AdvertiseServiceImpl implements AdvertiseService {
         existingAdvertise.setTitle(advertise.getTitle());
         existingAdvertise.setUserId(advertise.getUserId());
         existingAdvertise.setLocation(advertise.getLocation());
+        existingAdvertise.setActive(advertise.isActive());
     }
 
     @Override

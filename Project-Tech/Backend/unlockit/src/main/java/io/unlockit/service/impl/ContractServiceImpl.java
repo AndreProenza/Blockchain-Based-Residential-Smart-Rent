@@ -54,6 +54,7 @@ public class ContractServiceImpl implements ContractService {
         existingContract.setConditions(contract.getConditions());
         existingContract.setLandlordId(contract.getLandlordId());
         existingContract.setTenantId(contract.getTenantId());
+        existingContract.setSigned(contract.isSigned());
     }
 
     @Override

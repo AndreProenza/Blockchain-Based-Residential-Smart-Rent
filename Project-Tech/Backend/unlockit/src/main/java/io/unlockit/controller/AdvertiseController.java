@@ -46,6 +46,16 @@ public class AdvertiseController {
         return ResponseEntity.badRequest().body(null);
     }
 
+    @GetMapping("/user/get/advertises")
+    public ResponseEntity<List<Advertise>> getAllAdvertisesByUserAdvertisesList(@RequestHeader("Authorization") String authorizationHeader,
+                                                                                @RequestParam("advertisesIds") List<String> advertisesIds) {
+        if (GoogleUtils.isRequestAuthorized(authorizationHeader)) {
+            List<Advertise> advertises = advertiseService.getAllAdvertisesByUserAdvertisesList(advertisesIds);
+            return ResponseEntity.ok().body(advertises);
+        }
+        return ResponseEntity.badRequest().body(null);
+    }
+
     @GetMapping("/location/get/all/{id}")
     public ResponseEntity<List<Advertise>> getAllAdvertisesByLocation(@PathVariable("id") String location, @RequestHeader("Authorization") String authorizationHeader) {
         if (GoogleUtils.isRequestAuthorized(authorizationHeader)) {

@@ -38,4 +38,5 @@ public class Contract {
     @NotNull(message = "invalid landlordId, cannot be null")
     private String landlordId;
     private String tenantId;
+    private boolean signed;
 }

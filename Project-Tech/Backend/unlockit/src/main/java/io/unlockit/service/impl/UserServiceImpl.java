@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
         existingUser.setCity(user.getCity());
         existingUser.setAdvertises(user.getAdvertises());
         existingUser.setContracts(user.getContracts());
+        existingUser.setProposalAdvertises(user.getProposalAdvertises());
     }
 
     @Override
