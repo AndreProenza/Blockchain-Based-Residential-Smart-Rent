@@ -13,6 +13,16 @@
     position: relative;
 }
 
+.toggle-group-button-contracts {
+    display: block !important;
+    text-align: right !important;
+    margin-right: 1%;
+}
+
+.toggle-button-contracts {
+    color: #717BEF !important;
+}
+
 .contracts-publish-text {
     color: #717BEF;
 }
@@ -149,8 +159,32 @@
     font-weight: 250;
 }
 
+.contract-text-signed {
+    margin-bottom: 2% !important;
+    font-size: 0.9rem;
+    color: rgb(76, 179, 95);
+    font-weight: 400;
+    margin-bottom: 0 !important;
+}
+
+.contract-text-awaiting {
+    margin-bottom: 2% !important;
+    font-size: 0.9rem;
+    color: rgb(255, 175, 46);
+    font-weight: 400;
+    margin-bottom: 0 !important;
+}
+
 .full-contract-header-text {
     color: #717BEF;
     font-size: 1rem;
     font-weight: 400;
+}
+
+@media only screen and (max-width: 700px) {
+
+    .toggle-group-button-contracts {
+        margin-top: 2%;
+        text-align: left !important;
+    }
 }

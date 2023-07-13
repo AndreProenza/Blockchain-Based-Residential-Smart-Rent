@@ -9,6 +9,7 @@ class AdvertiseEndpoint extends React.Component {
     static all = AdvertiseEndpoint.baseEndpoint + "/all";
     static getAllByUserId = AdvertiseEndpoint.baseEndpoint + "/user/get/all/";
     static getAllByLocation = AdvertiseEndpoint.baseEndpoint + "/location/get/all/";
+    static getAllByUserAdvertisesList = AdvertiseEndpoint.baseEndpoint + "/user/get/advertises";
     static getById = AdvertiseEndpoint.baseEndpoint + "/get/";
     static updateById = AdvertiseEndpoint.baseEndpoint + "/update/";
     static deleteById = AdvertiseEndpoint.baseEndpoint + "/delete/";

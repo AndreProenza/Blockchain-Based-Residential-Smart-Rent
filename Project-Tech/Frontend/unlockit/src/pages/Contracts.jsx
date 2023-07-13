@@ -3,8 +3,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import { Button } from "react-bootstrap";
 import { Navigator } from "../components/Navigator";
+import { ModalContractSign } from "../components/ModalContractSign";
+import { ModalContractReject } from '../components/ModalContractReject';
 import { BsSearch } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
@@ -13,8 +17,8 @@ import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
-import axios from "axios";
 import Auth from '../auth/Auth';
+import axios from "axios";
 
 import "../components-css/Contracts.css";
 
@@ -26,8 +30,14 @@ export const Contracts = () => {
     const [advertises, setAdvertises] = useState([]);
     const [property, setProperty] = useState({});
     const [contract, setContract] = useState({});
+    const [currentAdvertise, setCurrentAdvertise] = useState({});
     const [landlord, setLandlord] = useState({});
     const [tenant, setTenant] = useState({});
+    const [userType, setUserType] = useState(null);
+    const [showSign, setShowSign] = useState(false);
+    const [showReject, setShowReject] = useState(false);
+    let user = {};
+    let contractTemp = {};
 
     const userLogin = useSelector((state) => state.userLogin);
 
@@ -38,8 +48,12 @@ export const Contracts = () => {
     // ------------
 
     const getAllByUserIdUrl = AdvertiseEndpoint.getAllByUserId;
+    const getAllByUserAdvertisesList = AdvertiseEndpoint.getAllByUserAdvertisesList;
+
     const getPropertyByIdUrl = PropertyEndpoint.getById;
+
     const getContractByIdUrl = ContractEndpoint.getById;
+
     const getByIdUrl = UserEndpoint.getById;
     const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
 
@@ -63,19 +77,22 @@ export const Contracts = () => {
         }
     };
 
-    const getUserById = async (userId, isLandlord) => {
+    const getUserById = async (userId, userType) => {
         try {
             const url = getByIdUrl + userId;
             const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
             if (response.status === 200) {
-                if (isLandlord) {
+                if (userType === "Landlord") {
                     console.log("Landlord: ", response.data);
                     setLandlord(await response.data);
                 }
-                else {
+                else if (userType === "Tenant") {
                     console.log("Tenant: ", response.data);
                     setTenant(await response.data);
+                }
+                else {
+                    user = await response.data;
                 }
             }
             else {
@@ -88,49 +105,121 @@ export const Contracts = () => {
         }
     };
 
+    const getPropertyById = async (advertise) => {
+        try {
+            const url = getPropertyByIdUrl + advertise.propertyId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            console.log("Property: ", response.data);
+            setProperty(await response.data);
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+    const getContractById = async (advertise) => {
+        try {
+            const url = getContractByIdUrl + advertise.contractId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            console.log("Contract: ", response.data);
+            setContract(await response.data);
+            contractTemp = await response.data;
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
     const handleContract = async (advertise) => {
         await checkLoginExpireTime();
 
-        const getPropertyById = async (advertise) => {
-            try {
-                const url = getPropertyByIdUrl + advertise.propertyId;
-                const response = await axios.get(url, Auth.authHeader());
-                console.log("Status: ", response.status);
-                console.log("Property: ", response.data);
-                setProperty(await response.data);
-                return true;
-            } catch (error) {
-                console.log(error);
-                console.log(error.response.data);
-                return false;
-            }
-        };
+        setCurrentAdvertise(advertise);
 
-        const getContractById = async (advertise) => {
-            try {
-                const url = getContractByIdUrl + advertise.contractId;
-                const response = await axios.get(url, Auth.authHeader());
-                console.log("Status: ", response.status);
-                console.log("Contract: ", response.data);
-                setContract(await response.data);
-                return true;
-            } catch (error) {
-                console.log(error);
-                console.log(error.response.data);
-                return false;
-            }
-        };
+        console.log("tenant: ", tenant);
+        if (tenant !== null) {
+            setTenant(null);
+        }
 
         await getPropertyById(advertise);
         await getContractById(advertise);
+
+        if (userType !== "Tenant") {
+            await getUserById(userId, "Landlord");
+            if (contractTemp.tenantId !== null) {
+                getUserById(contractTemp.tenantId, "Tenant");
+            }
+        }
+        else {
+            await getUserById(contractTemp.landlordId, "Landlord");
+            await getUserById(userId, "Tenant");
+        }
+
         setShowRental(true);
-        getUserById(userId, true);
+    }
+
+    const handleSign = async () => {
+        setShowSign(true);
+    }
+
+    const handleReject = async () => {
+        setShowReject(true);
     }
 
     // Format from yyyy-mm-dd to dd-mm-yyyy
     const formatDate = (dateString) => {
         const [year, month, day] = dateString.split('-');
         return `${day}-${month}-${year}`;
+    };
+
+    const handleToggle = async (value) => {
+        await checkLoginExpireTime();
+
+        setShowRental(false);
+        setTenant(null);
+
+        await getUserById(userId, "User");
+        if (value === 1) {
+            console.log('Contracts as a Landlord');
+            await getAdvertisesByUserAdvertisesList(user.advertises);
+            setUserType("Landlord");
+        }
+        else if (value === 2) {
+            console.log('Contracts as a Tenant');
+            await getAdvertisesByUserAdvertisesList(user.proposalAdvertises);
+            setUserType("Tenant");
+        }
+    };
+
+    const getAdvertisesByUserAdvertisesList = async (advertiseList) => {
+        try {
+            const url = getAllByUserAdvertisesList;
+            const response = await axios.get(url, {
+                headers: Auth.authHeader().headers,
+                params: {
+                    advertisesIds: advertiseList.join(','),
+                },
+            });
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                console.log("Advertises: ", response.data);
+                setAdvertises(await response.data);
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
     };
 
     useEffect(() => {
@@ -155,13 +244,10 @@ export const Contracts = () => {
             }
         };
 
-        getAllAdvertisesByUserId();
-
-        if (contract.tenantId !== undefined) {
-            getUserById(contract.tenantId, false);
+        if (userType === null) {
+            getAllAdvertisesByUserId();
         }
-
-    }, [contract]);
+    }, [tenant]);
 
     //------------------ //
 
@@ -171,8 +257,16 @@ export const Contracts = () => {
             <div className="listings-top">
                 <Container className="container-contracts-in-top">
                     <h5 className="contracts-publish-text">Contracts</h5>
-                    <p className="contracts-publish-subtext">Manage your contracts</p>
+                    <p className="contracts-publish-subtext">Manage your contracts as a Landlord or as a Tenant</p>
                     {/* <Button className="button-contracts">Sign</Button> */}
+                    <ToggleButtonGroup type="radio" name="options" defaultValue={1} className="toggle-group-button-contracts" onChange={handleToggle}>
+                        <ToggleButton variant="outline-light" id="tbg-radio-2" value={1} className="toggle-button-contracts">
+                            Landlord
+                        </ToggleButton>
+                        <ToggleButton variant="outline-light" id="tbg-radio-1" value={2} className="toggle-button-contracts">
+                            Tenant
+                        </ToggleButton>
+                    </ToggleButtonGroup>
                 </Container>
             </div>
 
@@ -216,13 +310,21 @@ export const Contracts = () => {
                     <Col sm={7} className="full-contract-div">
                         <Container className="full-contract-container">
                             <Row className="full-contract-buttons">
-                                {showRental ? (
+                                {showRental && !contract.signed && contract.tenantId !== null && (userType === "Landlord" || userType === null) &&
                                     <Col sm className="full-contract-buttons-div">
-                                        <Button variant="outline-success" size="sm" className="full-contract-button">Sign</Button>
-                                        <Button variant="outline-danger" size="sm" className="full-contract-button">Reject</Button>
-                                        {/* <Button className="full-contract-button">+</Button> */}
+                                        <Button variant="outline-success" size="sm" className="full-contract-button" onClick={() => handleSign()}>Sign</Button>
+                                        <Button variant="outline-danger" size="sm" className="full-contract-button" onClick={() => handleReject()}>Reject</Button>
                                     </Col>
-                                ) : null}
+                                }
+                                {showRental && contract.signed && (
+                                    <span className="contract-text-signed">Signed by both parties</span>
+                                )}
+                                {showRental && !contract.signed && contract.tenantId === null && (userType === "Landlord" || userType === null) && (
+                                    <span className="contract-text-awaiting">Awaiting a tenant proposal</span>
+                                )}
+                                {showRental && !contract.signed && userType === "Tenant" && (
+                                    <span className="contract-text-awaiting">Awaiting landlord's signature</span>
+                                )}
                             </Row>
                             <Row>
                                 <Col sm>
@@ -311,7 +413,7 @@ export const Contracts = () => {
                                                                 )}
                                                             </Col>
                                                         </Row>
-                                                        {showRental ? (
+                                                        {showRental && contract.signed && (
                                                             <Row className="full-contract-row">
                                                                 <Col sm>
                                                                     <p className="full-contract-text">
@@ -319,7 +421,7 @@ export const Contracts = () => {
                                                                     </p>
                                                                 </Col>
                                                             </Row>
-                                                        ) : null}
+                                                        )}
                                                     </Card.Body>
                                                 </Card>
                                             </Col>
@@ -330,6 +432,8 @@ export const Contracts = () => {
                         </Container>
                     </Col>
                 </Row>
+                <ModalContractSign showSign={showSign} setShowSign={setShowSign} contract={contract}/>
+                <ModalContractReject showReject={showReject} setShowReject={setShowReject} advertise={currentAdvertise} contract={contract} tenant={tenant}/>
             </Container>
         </div>
     );

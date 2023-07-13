@@ -47,6 +47,31 @@
     color: #198754;
 }
 
+.modal-text-title {
+    font-size: 1em !important;
+    color: #717BEF !important;
+    /*color: #696464;*/
+}
+
 .modal-error-text-search {
     font-size: 0.9em !important;
+}
+
+.modal-rent-text-details-title {
+    font-size: 0.8em !important;
+}
+
+.modal-rent-text-details {
+    font-size: 0.7em !important;
+    color: #696464;
+}
+
+.modal-rent-text-details-color {
+    color: #717BEF;
+    font-weight: bold;
+}
+
+.modal-rent-error-text-subtitle {
+    font-size: 0.7em !important;
+    color: #dc3545;
 }

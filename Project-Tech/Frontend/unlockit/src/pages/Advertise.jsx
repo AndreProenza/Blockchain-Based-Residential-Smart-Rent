@@ -154,7 +154,8 @@ export const Advertise = () => {
             price: parseInt(contract.price),
             conditions: contract.conditions,
             landlordId: userId,
-            tenantId: null
+            tenantId: null,
+            signed: false,
         }
     }
 
@@ -182,7 +183,8 @@ export const Advertise = () => {
             contractId: contractId,
             title: advertise.title,
             userId: userId,
-            location: advertise.location
+            location: advertise.location,
+            active: true
         }
     }
 
@@ -231,6 +233,30 @@ export const Advertise = () => {
         }
     };
 
+    const getUserProfile = async () => {
+        try {
+            const url = getUserByIdUrl + userId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                if (Number(response.data) <= Auth.expireTimeLimit) {
+                    Auth.removeTokenFromSessionStorage();
+                    navigate("/login");
+                }
+                //console.log("User Profile: ", response.data);
+                return response.data;
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return null;
+        }
+    };
+
     const setUser = () => {
         let updatedAdvertises = user.advertises;
         let updatedContracts = user.contracts;
@@ -258,6 +284,15 @@ export const Advertise = () => {
 
 
     //------------------ //
+
+    const isUserProfileValid = (userProfile) => {
+        for (const key in userProfile) {
+            if (userProfile[key] === null || userProfile[key] === "" || userProfile[key] === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     const schema = yup.object().shape({
         area: yup
@@ -362,9 +397,16 @@ export const Advertise = () => {
     }, [errorsDropdown, errors]);
 
 
-    const dropdownsValid = () => {
+    const dropdownsValid = (userProfile) => {
         let isValid = true;
 
+        if (userProfile === null) {
+            isValid = false;
+        }
+        if (!isUserProfileValid(userProfile)) {
+            setErrorsDropdown((prev) => [...prev, "Please fill in your profile information under \"Profile\" to create an advertisement."]);
+            isValid = false;
+        }
         if (property.location === "") {
             setErrorsDropdown((prev) => [...prev, "Empty location"]);
             isValid = false;
@@ -395,10 +437,12 @@ export const Advertise = () => {
 
     const validateAndPublish = async () => {
 
+        const userProfile = await getUserProfile();
+
         const mergedData = { ...advertise, ...property, ...contract };
 
         try {
-            const isDropdownValid = dropdownsValid();
+            const isDropdownValid = dropdownsValid(userProfile);
             console.log("isDropdownValid: ", isDropdownValid);
             setIsValid(isDropdownValid);
 

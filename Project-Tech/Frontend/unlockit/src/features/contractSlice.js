@@ -11,7 +11,8 @@ export const contractSlice = createSlice({
         price: 0,
         conditions: "",
         landlordId: "",
-        tenantId: ""
+        tenantId: "",
+        signed: false
     },
     reducers: {
         setContract: (state, action) => {
@@ -45,6 +46,9 @@ export const contractSlice = createSlice({
         setContractTenantId: (state, action) => {
             state.tenantId = action.payload;
         },
+        setContractSigned: (state, action) => {
+            state.signed = action.payload;
+        },
     },
 })
 
@@ -58,6 +62,7 @@ export const {
     setContractConditions,
     setContractLandlordId,
     setContractTenantId,
+    setContractSigned,
 } = contractSlice.actions;
 
 

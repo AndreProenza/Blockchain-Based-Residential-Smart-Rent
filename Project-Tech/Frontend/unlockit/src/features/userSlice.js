@@ -13,7 +13,8 @@ export const userSlice = createSlice({
         country: "",
         city: "",
         advertises: [],
-        contracts: []
+        contracts: [],
+        proposalAdvertises: []
     },
     reducers: {
         setUser: (state, action) => {
@@ -53,6 +54,9 @@ export const userSlice = createSlice({
         setUserContracts: (state, action) => {
             state.contracts = action.payload;
         },
+        setUserProposalAdvertises: (state, action) => {
+            state.proposalAdvertises = action.payload;
+        },
     },
 })
 
@@ -69,6 +73,7 @@ export const {
     setUserCity,
     setUserAdvertises,
     setUserContracts,
+    setUserProposalAdvertises,
 } = userSlice.actions;
 
 export default userSlice.reducer

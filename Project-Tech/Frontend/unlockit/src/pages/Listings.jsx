@@ -44,10 +44,10 @@ export const Listings = () => {
             console.log("Status: ", response.status);
             console.log("Advertises: ", response.data);
             if (listings.location === "") {
-                setAdvertises(await response.data);
+                setAdvertises(await response.data.filter((advertise) => advertise.active));
             }
             else {
-                setAdvertises(await response.data.filter((advertise) => advertise.location === listings.location));
+                setAdvertises(await response.data.filter((advertise) => advertise.location === listings.location && advertise.active));
             }
             return true;
         } catch (error) {
@@ -63,7 +63,7 @@ export const Listings = () => {
             const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Advertises: ", response.data);
-            setAdvertises(await response.data);
+            setAdvertises(await response.data.filter((advertise) => advertise.active));
             return true;
         } catch (error) {
             console.log(error);
@@ -140,7 +140,7 @@ export const Listings = () => {
             <Navigator />
             <div className="listings-top">
                 <Container className="container-in-top">
-                    <h5 className="listings-search-text">Search</h5>
+                    <h5 className="listings-search-text">Search Results</h5>
                     {isLocationValid(listings.location) ?
                         (
                             <p className="listings-search-subtext">
@@ -173,7 +173,7 @@ export const Listings = () => {
                         <ListingsSettings advertises={advertises} />
                     </Col>
                     <Col sm={9} className="listings-listings">
-                        <ListingsList advertises={advertises} />
+                        <ListingsList advertises={advertises} userId={userId}/>
                     </Col>
                 </Row>
             </Container>

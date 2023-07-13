@@ -9,6 +9,7 @@ export const advertiseSlice = createSlice({
         title: "",
         userId: "",
         location: "",
+        active: true,
     },
     reducers: {
         setAdvertise: (state, action) => {
@@ -33,6 +34,9 @@ export const advertiseSlice = createSlice({
         setAdvertiseLocation: (state, action) => {
             state.location = action.payload;
         },
+        setAdvertiseActive: (state, action) => {
+            state.active = action.payload;
+        },
     },
 })
 
@@ -44,6 +48,7 @@ export const {
     setAdvertiseTitle,
     setAdvertiseUserId,
     setAdvertiseLocation,
+    setAdvertiseActive,
 } = advertiseSlice.actions
 
 export default advertiseSlice.reducer

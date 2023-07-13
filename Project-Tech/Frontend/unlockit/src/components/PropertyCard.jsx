@@ -6,10 +6,13 @@ import Col from 'react-bootstrap/Col';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { ModalListingContact } from './ModalListingContact'
+import { ModalListingRent } from './ModalListingRent'
+import Auth from '../auth/Auth';
+import UserEndpoint from '../endpoints/UserEndpoint';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import axios from "axios";
-import Auth from '../auth/Auth';
 
 import banner from '../assets/home-banner.jpg';
 import bannerEmpty from '../assets/empty-banner.png';
@@ -18,17 +21,51 @@ export const PropertyCard = (props) => {
 
     const navigate = useNavigate();
 
-    const { show, advertise } = props;
+    const { show, advertise, userId } = props;
 
     const listings = useSelector((state) => state.listings);
 
+    const [landlord, setLandlord] = useState({});
+    const [tenant, setTenant] = useState({});
     const [property, setProperty] = useState({});
     const [contract, setContract] = useState({});
+    const [showContact, setShowContact] = useState(false);
+    const [showRent, setShowRent] = useState(false);
 
     //------- API ------- //
 
+    const getByIdUrl = UserEndpoint.getById;
+
     const getPropertyByIdUrl = PropertyEndpoint.getById;
+
     const getContractByIdUrl = ContractEndpoint.getById;
+
+    const getUserById = async (userId, userType) => {
+        try {
+            const url = getByIdUrl + userId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                if (userType === "Landlord") {
+                    console.log("Landlord: ", response.data);
+                    setLandlord(await response.data);
+                }
+                else {
+                    console.log("Tenant: ", response.data);
+                    setTenant(await response.data);
+                }
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
 
     const getPropertyById = async () => {
         try {
@@ -74,6 +111,8 @@ export const PropertyCard = (props) => {
 
     useEffect(() => {
         if (advertise !== null) {
+            getUserById(advertise.userId, "Landlord");
+            getUserById(userId, "Tenant");
             getPropertyById();
             getContractById();
         }
@@ -163,10 +202,21 @@ export const PropertyCard = (props) => {
                                                         <Card.Text className="card-details-normal-font">{contract.term} from {contract.initialDate} to {contract.finalDate}</Card.Text>
                                                     </Col>
                                                 </Row> */}
-                                                    <Col sm>
-                                                        <Button className="card-details-button">Contact</Button>
-                                                        <Button className="card-details-button">Rent</Button>
-                                                    </Col>
+                                                    {userId !== advertise.userId ?
+                                                        (
+                                                            <>
+                                                                <Col sm>
+                                                                    <Button className="card-details-button" onClick={() => setShowContact(true)}>Contact</Button>
+                                                                    <Button className="card-details-button" onClick={() => setShowRent(true)}>Rent</Button>
+                                                                </Col>
+                                                                <ModalListingContact showContact={showContact} setShowContact={setShowContact} landlord={landlord}/>
+                                                                <ModalListingRent showRent={showRent} setShowRent={setShowRent} landlord={landlord} tenant={tenant} property={property} contract={contract} userId={userId} advertise={advertise} />
+                                                            </>
+                                                        ) :
+                                                        (
+                                                            <></>
+                                                        )
+                                                    }
                                                 </Row>
                                             </>
                                         ) :
