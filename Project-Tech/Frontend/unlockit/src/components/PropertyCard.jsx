@@ -11,6 +11,7 @@ import { ModalListingRent } from './ModalListingRent'
 import Auth from '../auth/Auth';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
+import PropertyPhotoEndpoint from '../endpoints/PropertyPhotoEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import axios from "axios";
 
@@ -28,6 +29,7 @@ export const PropertyCard = (props) => {
     const [landlord, setLandlord] = useState({});
     const [tenant, setTenant] = useState({});
     const [property, setProperty] = useState({});
+    const [propertyPhoto, setPropertyPhoto] = useState({});
     const [contract, setContract] = useState({});
     const [showContact, setShowContact] = useState(false);
     const [showRent, setShowRent] = useState(false);
@@ -37,6 +39,8 @@ export const PropertyCard = (props) => {
     const getByIdUrl = UserEndpoint.getById;
 
     const getPropertyByIdUrl = PropertyEndpoint.getById;
+
+    const getPropertyByPropertyIdUrl = PropertyPhotoEndpoint.getByPropertyId;
 
     const getContractByIdUrl = ContractEndpoint.getById;
 
@@ -88,6 +92,27 @@ export const PropertyCard = (props) => {
         }
     };
 
+    const getPropertyPhotoByPropertyId = async () => {
+        try {
+            const url = getPropertyByPropertyIdUrl + advertise.propertyId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                console.log("PropertyPhoto: ", response.data);
+                setPropertyPhoto(await response.data);
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
     const getContractById = async () => {
         try {
             const url = getContractByIdUrl + advertise.contractId;
@@ -114,6 +139,7 @@ export const PropertyCard = (props) => {
             getUserById(advertise.userId, "Landlord");
             getUserById(userId, "Tenant");
             getPropertyById();
+            getPropertyPhotoByPropertyId();
             getContractById();
         }
     }, []);
@@ -160,7 +186,7 @@ export const PropertyCard = (props) => {
                         <Row className="card-container-row">
                             <Col sm={5}>
                                 {show ?
-                                    (<Card.Img src={property.photo || banner} />) :
+                                    (<Card.Img src={propertyPhoto.photo || banner} />) :
                                     (<Card.Img src={bannerEmpty} />)
                                 }
                             </Col>

@@ -4,7 +4,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
@@ -19,6 +22,8 @@ export const ModalListingRent = (props) => {
     const { showRent, setShowRent, landlord, tenant, property, contract, userId, advertise } = props;
 
     const navigate = useNavigate();
+
+    const [rentalPrice, setRentalPrice] = useState(contract.price.toString());
 
     const handleClose = () => setShowRent(false);
 
@@ -68,6 +73,10 @@ export const ModalListingRent = (props) => {
             }
         }
         return true;
+    }
+
+    const isRentalPriceValid = () => {
+        return !rentalPrice.startsWith('0') && rentalPrice !== '';
     }
 
     const setUserProposalAdvertises = () => {
@@ -145,6 +154,7 @@ export const ModalListingRent = (props) => {
         try {
             setContractTenantId();
             const url = updateContractByIdUrl + contract.id;
+            contract.price = Number(rentalPrice);
             const response = await axios.put(url, contract, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Contract: ", response.data);
@@ -185,6 +195,14 @@ export const ModalListingRent = (props) => {
             console.log(error);
         }
     };
+
+    const handlePriceChange = (event) => {
+        const price = event.target.value;
+        setRentalPrice(price);
+    };
+
+    useEffect(() => {
+    }, [rentalPrice])
 
     return (
         <>
@@ -264,14 +282,40 @@ export const ModalListingRent = (props) => {
                                                 </p>
                                                 <p className="full-contract-text">
                                                     <strong>RENT.</strong> The rent to be paid by the Tenant to the Landlord throughout the term of this Agreement is
-                                                    to be made in monthly installments of <strong>€ {contract.price}</strong> and shall be due on the <strong>first</strong> day of
+                                                    to be made in monthly installments of <strong>€ {rentalPrice}</strong> and shall be due on the <strong>first</strong> day of
                                                     each month.
                                                 </p>
+                                                <p className="full-contract-text">
+                                                    The rental price asked by the landlord is <strong> € {contract.price}</strong>.
+                                                </p>
+                                            </Col>
+                                        </Row>
+                                        <Row className="advertise-settings-row">
+                                            <Col sm>
+                                                <p className="full-contract-text"><strong>Propose a different rental price</strong></p>
+                                                { rentalPrice.startsWith('0') ? <span className="modal-rent-error-text-subtitle">Rental Price cannot be {rentalPrice}</span> : <></> }
+                                                { rentalPrice === '' ? <span className="modal-rent-error-text-subtitle">Rental Price cannot be empty</span> : <></> }
+                                                <InputGroup className="mb-3">
+                                                    <InputGroup.Text>€</InputGroup.Text>
+                                                    <Form.Control
+                                                        type="text"
+                                                        name="price"
+                                                        placeholder="Price"
+                                                        aria-label="Rent payment frequency"
+                                                        value={rentalPrice}
+                                                        onChange={(event) => handlePriceChange(event)}
+                                                    />
+                                                    <InputGroup.Text>Month</InputGroup.Text>
+                                                </InputGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row className="advertise-settings-row">
+                                            <Col sm>
                                                 <p className="full-contract-text">
                                                     The rent should be paid automatically through <strong>Crypto Coins.</strong>
                                                 </p>
                                                 <p className="full-contract-text">
-                                                    Signed automatically by both parties through digital signatures
+                                                    This contract will be signed automatically by both parties through digital signatures
                                                 </p>
                                             </Col>
                                         </Row>
@@ -288,7 +332,7 @@ export const ModalListingRent = (props) => {
                         If in the meantime you want to accelerate the process, please contact the landlord by email or phone.</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="outline-success" disabled={!isTenantProfileValid(tenant)} onClick={submitProposal}>
+                    <Button variant="outline-success" disabled={!isTenantProfileValid(tenant) || !isRentalPriceValid()} onClick={submitProposal}>
                         Submit Proposal
                     </Button>
                     <Button variant="primary" className="button-modal" onClick={handleClose}>

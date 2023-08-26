@@ -11,8 +11,9 @@ import { ModalAdvertise } from "../components/ModalAdvertise";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPropertyPhoto } from '../features/propertySlice'
+import { setPropertyPhotoPhoto } from '../features/propertyPhotoSlice'
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
+import PropertyPhotoEndpoint from '../endpoints/PropertyPhotoEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
@@ -31,6 +32,7 @@ export const Advertise = () => {
 
     const advertise = useSelector((state) => state.advertise);
     const property = useSelector((state) => state.property);
+    const propertyPhoto = useSelector((state) => state.propertyPhoto);
     const contract = useSelector((state) => state.contract);
     const userLogin = useSelector((state) => state.userLogin);
 
@@ -48,7 +50,9 @@ export const Advertise = () => {
     const userId = userLogin.id;
     // ------------
     let propertyData = {};
+    let propertyPhotoData = {};
     let propertyId = "";
+    let propertyPhotoId = "";
     let contractData = {};
     let contractId = "";
     let advertiseData = {};
@@ -60,21 +64,15 @@ export const Advertise = () => {
     const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
 
     const registerPropertyUrl = PropertyEndpoint.register;
-    const allPropertyUrl = PropertyEndpoint.all;
-    const getPropertyByIdUrl = PropertyEndpoint.getById;
-    const updatePropertyByIdUrl = PropertyEndpoint.updateById;
     const deletePropertyByIdUrl = PropertyEndpoint.deleteById;
 
+    const registerPropertyPhotoUrl = PropertyPhotoEndpoint.register;
+    const deletePropertyPhotoByIdUrl = PropertyPhotoEndpoint.deleteById;
+
     const registerContractUrl = ContractEndpoint.register;
-    const allContractUrl = ContractEndpoint.all;
-    const getContractByIdUrl = ContractEndpoint.getById;
-    const updateContractByIdUrl = ContractEndpoint.updateById;
     const deleteContractByIdUrl = ContractEndpoint.deleteById;
 
     const registerAdvertiseUrl = AdvertiseEndpoint.register;
-    const allAdvertiseUrl = AdvertiseEndpoint.all;
-    const getAdvertiseByIdUrl = AdvertiseEndpoint.getById;
-    const updateAdvertiseByIdUrl = AdvertiseEndpoint.updateById;
     const deleteAdvertiseByIdUrl = AdvertiseEndpoint.deleteById;
 
     const checkLoginExpireTime = async () => {
@@ -114,6 +112,23 @@ export const Advertise = () => {
         }
     };
 
+    const registerPropertyPhoto = async () => {
+        try {
+            setPropertyPhotoData();
+
+            console.log(propertyPhotoData);
+            const response = await axios.post(registerPropertyPhotoUrl, propertyPhotoData, Auth.authHeader());
+            console.log("Status: ", response.status);
+            console.log("PropertyPhotoId: ", response.data.id);
+            propertyPhotoId = response.data.id;
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
     const setPropertyData = () => {
 
         propertyData = {
@@ -123,7 +138,14 @@ export const Advertise = () => {
             type: property.type,
             area: parseInt(property.area),
             description: property.description,
-            photo: property.photo ? property.photo : null
+        }
+    }
+
+    const setPropertyPhotoData = () => {
+
+        propertyPhotoData = {
+            propertyId: propertyId,
+            photo: propertyPhoto.photo ? propertyPhoto.photo : null
         }
     }
 
@@ -191,6 +213,16 @@ export const Advertise = () => {
     const deleteProperty = async () => {
         try {
             const url = deletePropertyByIdUrl + propertyId;
+            const response = await axios.delete(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deletePropertyPhoto = async () => {
+        try {
+            const url = deletePropertyPhotoByIdUrl + propertyPhotoId;
             const response = await axios.delete(url, Auth.authHeader());
             console.log("Status: ", response.status);
         } catch (error) {
@@ -335,30 +367,40 @@ export const Advertise = () => {
             console.log("publish");
             try {
                 if (await registerProperty()) {
-                    if (await registerContract()) {
-                        if (await registerAdvertise()) {
-                            await getUser()
-                                .then(() => {
-                                    setUser();
-                                })
-                                .catch(error => {
-                                    console.log("Error getting user");
-                                    deleteProperty();
-                                    deleteContract();
-                                    deleteAdvertise();
-                                });
+                    if (await registerPropertyPhoto()) {
+                        if (await registerContract()) {
+                            if (await registerAdvertise()) {
+                                await getUser()
+                                    .then(() => {
+                                        setUser();
+                                    })
+                                    .catch(error => {
+                                        console.log("Error getting user");
+                                        deleteProperty();
+                                        deletePropertyPhoto();
+                                        deleteContract();
+                                        deleteAdvertise();
+                                    });
+                            }
+                            else {
+                                console.log("Error registering advertise");
+                                await deleteProperty();
+                                await deletePropertyPhoto();
+                                await deleteContract();
+                                await deleteAdvertise();
+                            }
                         }
                         else {
-                            console.log("Error registering advertise");
+                            console.log("Error registering contract");
                             await deleteProperty();
+                            await deletePropertyPhoto();
                             await deleteContract();
-                            await deleteAdvertise();
                         }
                     }
                     else {
-                        console.log("Error registering contract");
+                        console.log("Error registering property photo");
                         await deleteProperty();
-                        await deleteContract();
+                        await deletePropertyPhoto();
                     }
                 }
                 else {
@@ -372,6 +414,7 @@ export const Advertise = () => {
                 else {
                     console.log("Error updating user");
                     await deleteProperty();
+                    await deletePropertyPhoto();
                     await deleteContract();
                     await deleteAdvertise();
                 }
@@ -427,7 +470,7 @@ export const Advertise = () => {
             setErrorsDropdown((prev) => [...prev, "Empty rental final date"]);
             isValid = false;
         }
-        if (property.photo === "") {
+        if (propertyPhoto.photo === "") {
             setErrorsDropdown((prev) => [...prev, "Empty photo. Please upload a photo"]);
             isValid = false;
         }
@@ -439,7 +482,7 @@ export const Advertise = () => {
 
         const userProfile = await getUserProfile();
 
-        const mergedData = { ...advertise, ...property, ...contract };
+        const mergedData = { ...advertise, ...property, ...propertyPhoto, ...contract };
 
         try {
             const isDropdownValid = dropdownsValid(userProfile);
@@ -482,7 +525,7 @@ export const Advertise = () => {
         const photoFile = event.target.files[0];
         const photoBase64 = await convertToBase64(photoFile);
 
-        dispatch(setPropertyPhoto(photoBase64));
+        dispatch(setPropertyPhotoPhoto(photoBase64));
         //console.log("photoBase64: ", photoBase64);
         //console.log("property.photo: ", property.photo);
     };
@@ -506,7 +549,7 @@ export const Advertise = () => {
                         </Col>
                         <Col sm={6} className="photo-advertise">
                             <Card className="photo-card-advertise">
-                                <Card.Img src={property.photo || banner} className="photo-card-img-advertise" />
+                                <Card.Img src={propertyPhoto.photo || banner} className="photo-card-img-advertise" />
                                 <Card.Body className="card-advertise">
                                     <Form.Group controlId="formFile" className="mb-3">
                                         <Form.Label>Show your property in a photo</Form.Label>
