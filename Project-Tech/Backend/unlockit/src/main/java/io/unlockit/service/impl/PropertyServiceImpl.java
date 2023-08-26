@@ -52,7 +52,6 @@ public class PropertyServiceImpl implements PropertyService {
         existingProperty.setType(property.getType());
         existingProperty.setArea(property.getArea());
         existingProperty.setDescription(property.getDescription());
-        existingProperty.setPhoto(property.getPhoto());
     }
 
     @Override

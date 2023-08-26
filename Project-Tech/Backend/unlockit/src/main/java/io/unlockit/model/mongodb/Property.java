@@ -38,6 +38,5 @@ public class Property {
     @NotNull(message = "invalid description, cannot be null")
     @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\d\\s,.]{1,300}$", message = "invalid description. Use only letters dots and commas and numbers")
     private String description;
-    private String photo;
 }
 
