@@ -9,7 +9,6 @@ export const propertySlice = createSlice({
         area: 0,
         propertyAddress: "",
         description: "",
-        photo: "",
         landlordId: ""
     },
     reducers: {
@@ -35,9 +34,6 @@ export const propertySlice = createSlice({
         setPropertyDescription: (state, action) => {
             state.description = action.payload;
         },
-        setPropertyPhoto: (state, action) => {
-            state.photo = action.payload;
-        },
         setPropertyLandlordId: (state, action) => {
             state.landlordId = action.payload;
         },
@@ -51,7 +47,6 @@ export const {
     setPropertyArea,
     setPropertyAddress,
     setPropertyDescription,
-    setPropertyPhoto,
     setPropertyLandlordId,
 } = propertySlice.actions;
 
