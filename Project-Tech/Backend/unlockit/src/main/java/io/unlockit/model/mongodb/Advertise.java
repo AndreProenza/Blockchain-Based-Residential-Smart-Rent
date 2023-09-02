@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,5 +32,6 @@ public class Advertise {
     @NotNull(message = "invalid location, cannot be null")
     @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]{2,44}$", message = "invalid location")
     private String location;
+    private List<String> activeUsers;
     private boolean active;
 }

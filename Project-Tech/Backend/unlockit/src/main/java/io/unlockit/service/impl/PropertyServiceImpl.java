@@ -27,6 +27,11 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    public List<Property> getAllPropertiesByLandlordId(String landlordId) {
+        return propertyRepository.findByLandlordId(landlordId);
+    }
+
+    @Override
     public Property getPropertyById(String propertyId) {
         Optional<Property> property = propertyRepository.findById(propertyId);
         if(property.isPresent()) {

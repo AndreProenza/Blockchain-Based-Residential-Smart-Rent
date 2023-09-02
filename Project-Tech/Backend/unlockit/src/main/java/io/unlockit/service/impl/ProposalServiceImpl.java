@@ -32,6 +32,25 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     @Override
+    public Proposal updateProposal(Proposal proposal, String proposalId) {
+        Proposal existingProposal = proposalRepository.findById(proposalId).orElseThrow(
+                () -> new ResourceNotFoundException("Proposal", "ID", proposalId));
+        updateProposal(existingProposal, proposal);
+        //Save in Database
+        proposalRepository.save(existingProposal);
+        return existingProposal;
+    }
+
+    private void updateProposal(Proposal existingProposal, Proposal proposal) {
+        existingProposal.setTenantId(proposal.getTenantId());
+        existingProposal.setContractId(proposal.getContractId());
+        existingProposal.setOriginalPrice(proposal.getOriginalPrice());
+        existingProposal.setProposalPrice(proposal.getProposalPrice());
+        existingProposal.setActive(proposal.isActive());
+        existingProposal.setStatus(proposal.getStatus());
+    }
+
+    @Override
     public Proposal getProposalById(String proposalId) {
         Optional<Proposal> proposal = proposalRepository.findById(proposalId);
         if(proposal.isPresent()) {

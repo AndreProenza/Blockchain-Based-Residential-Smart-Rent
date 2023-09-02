@@ -1,6 +1,7 @@
 package io.unlockit.controller;
 
 import io.unlockit.google.GoogleUtils;
+import io.unlockit.model.mongodb.Contract;
 import io.unlockit.model.mongodb.Proposal;
 import io.unlockit.service.ProposalService;
 import io.unlockit.utils.FrontendEndpoint;
@@ -42,6 +43,15 @@ public class ProposalController {
         if (GoogleUtils.isRequestAuthorized(authorizationHeader)) {
             List<Proposal> proposals = proposalService.getAllProposalsByContractId(contractId);
             return ResponseEntity.ok().body(proposals);
+        }
+        return ResponseEntity.badRequest().body(null);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Proposal> updateProposal(@RequestBody @Valid Proposal proposal, @PathVariable("id") String proposalId, @RequestHeader("Authorization") String authorizationHeader) {
+        if (GoogleUtils.isRequestAuthorized(authorizationHeader)) {
+            Proposal updatedProposal = proposalService.updateProposal(proposal, proposalId);
+            return ResponseEntity.ok(updatedProposal);
         }
         return ResponseEntity.badRequest().body(null);
     }

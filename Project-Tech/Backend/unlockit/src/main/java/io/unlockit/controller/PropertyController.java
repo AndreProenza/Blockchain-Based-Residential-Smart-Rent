@@ -36,6 +36,15 @@ public class PropertyController {
         return ResponseEntity.badRequest().body(null);
     }
 
+    @GetMapping("/landlord/all/by/{id}")
+    public ResponseEntity<List<Property>> getAllProperties(@PathVariable("id") String landlordId, @RequestHeader("Authorization") String authorizationHeader) {
+        if (GoogleUtils.isRequestAuthorized(authorizationHeader)) {
+            List<Property> properties = propertyService.getAllPropertiesByLandlordId(landlordId);
+            return ResponseEntity.ok().body(properties);
+        }
+        return ResponseEntity.badRequest().body(null);
+    }
+
     @GetMapping("/get/{id}")
     public ResponseEntity<Property> getPropertyById(@PathVariable("id") String propertyId, @RequestHeader("Authorization") String authorizationHeader) {
         if (GoogleUtils.isRequestAuthorized(authorizationHeader)) {

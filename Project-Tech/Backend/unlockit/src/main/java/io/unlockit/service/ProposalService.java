@@ -9,6 +9,7 @@ public interface ProposalService {
     Proposal saveProposal(Proposal proposal);
     List<Proposal> getAllProposalsByTenantId(String tenantId);
     List<Proposal> getAllProposalsByContractId(String contractId);
+    Proposal updateProposal(Proposal proposal, String proposalId);
     Proposal getProposalById(String proposalId);
     void deleteProposal(String proposalId);
 

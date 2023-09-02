@@ -24,5 +24,10 @@ public class Proposal {
     private String contractId;
     @NotNull(message = "invalid price, cannot be null")
     @Min(1)
-    private int price;
+    private int originalPrice;
+    @Min(1)
+    private int proposalPrice;
+    private boolean active;
+    @NotNull()
+    private String status;
 }

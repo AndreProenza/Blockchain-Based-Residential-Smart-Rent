@@ -38,8 +38,10 @@ public class User {
     @Pattern(regexp = "^[A-Za-z ]{2,44}$", message = "invalid city")
     private String city;
     private List<String> advertises;
-    private List<String> contracts;
+    private List<String> landlordContracts;
+    private List<String> tenantContracts;
     private List<String> proposalAdvertises;
+    private List<String> proposals;
 
     public User(String userId, String email, int phone, int taxId) {
         this.id = userId;

@@ -87,6 +87,7 @@ public class AdvertiseServiceImpl implements AdvertiseService {
         existingAdvertise.setTitle(advertise.getTitle());
         existingAdvertise.setUserId(advertise.getUserId());
         existingAdvertise.setLocation(advertise.getLocation());
+        existingAdvertise.setActiveUsers(advertise.getActiveUsers());
         existingAdvertise.setActive(advertise.isActive());
     }
 
