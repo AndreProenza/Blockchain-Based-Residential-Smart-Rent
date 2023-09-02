@@ -1,6 +1,10 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import UserEndpoint from '../endpoints/UserEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
+import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
+import ProposalEndpoint from '../endpoints/ProposalEndpoint';
+import RentalInfoEndpoint from '../endpoints/RentalInfoEndpoint';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -8,9 +12,33 @@ import '../components-css/Modal.css';
 
 export const ModalContractSign = (props) => {
 
-    const { showSign, setShowSign, contract } = props;
+    const { showSign, setShowSign, contract, proposal, proposals, advertise, tenant } = props;
+
+    let rentalInfoData = {};
+
+    const updateUserByIdUrl = UserEndpoint.updateById;
 
     const updateContractByIdUrl = ContractEndpoint.updateById;
+
+    const updateAdvertiseByIdUrl = AdvertiseEndpoint.updateById;
+
+    const updateProposalByIdUrl = ProposalEndpoint.updateById;
+
+    const registerRentalInfoUrl = RentalInfoEndpoint.register;
+
+    const updateUserById = async (user) => {
+        try {
+            const url = updateUserByIdUrl + user.id;
+            const response = await axios.put(url, user, Auth.authHeader());
+            console.log("Status: ", response.status);
+            console.log("User: ", response.data);
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
 
     const updateContractById = async (contract) => {
         try {
@@ -25,14 +53,132 @@ export const ModalContractSign = (props) => {
             return false;
         }
     };
+    
+    const setContractProposalTenantId = (contract) => {
+        contract.tenantId = proposal.tenantId;
+    };
+
+    const setContractProposalPrice = (contract) => {
+        contract.price = proposal.proposalPrice;
+    };
 
     const setContractSigned = (contract) => {
         contract.signed = true;
+    };
+
+    const updateAdvertiseById = async (advertise) => {
+        try {
+            const url = updateAdvertiseByIdUrl + advertise.id;
+            const response = await axios.put(url, advertise, Auth.authHeader());
+            console.log("Status: ", response.status);
+            console.log("Advertise: ", response.data);
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+    const setAdvertiseActiveUsersEmpty = (advertise) => {
+        advertise.activeUsers = [];
+    }
+
+    const setAdvertiseInactive = (advertise) => {
+        advertise.active = false;
+    }
+
+    const updateProposalById = async (proposal) => {
+        try {
+            const url = updateProposalByIdUrl + proposal.id;
+            const response = await axios.put(url, proposal, Auth.authHeader());
+            console.log("Status: ", response.status);
+            console.log("Proposal: ", response.data);
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+    const setProposalStatus = (proposal, status) => {
+        proposal.status = status;
+    };
+
+    const setProposalInactive = (proposal) => {
+        proposal.active = false;
+    };
+
+    const setProposals = async (proposalsList) => {
+        let updatedProposalsList = [];
+        for (const currentProposal of proposalsList) {
+            if (currentProposal.id !== proposal.id) {
+                setProposalStatus(currentProposal, "rejected");
+                setProposalInactive(currentProposal);
+            }
+            else {
+                setProposalStatus(currentProposal, "accepted");
+                setProposalInactive(currentProposal);
+            }
+            updatedProposalsList.push(currentProposal);
+        }
+        console.log(updatedProposalsList);
+        return updatedProposalsList;
+    };
+
+    const updatedProposals = async (proposalsList) => {
+        for (const proposal of proposalsList) {
+            await updateProposalById(proposal);
+        }
+    };
+
+    const registerRentalInfo = async () => {
+        try {
+            setRentalInfoData();
+
+            console.log(rentalInfoData);
+            const response = await axios.post(registerRentalInfoUrl, rentalInfoData, Auth.authHeader());
+            console.log("Status: ", response.status);
+            console.log("Rental Info: ", response.data);
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+    const setRentalInfoData = () => {
+
+        rentalInfoData = {
+            propertyId: contract.propertyId,
+            term: contract.term,
+            initialDate: contract.initialDate,
+            finalDate: contract.finalDate,
+            highestProposal: contract.price,
+            numberOfProposals: proposals.length,
+        }
+    }
+
+    const setTenantContracts = () => {
+        let updatedContracts = tenant.tenantContracts;
+        updatedContracts.push(contract.id);
+        tenant.tenantContracts = updatedContracts;
     }
 
     const handleYes = async () => {
+        setTenantContracts();
+        await updateUserById(tenant);
         setContractSigned(contract);
-        updateContractById(contract);
+        setContractProposalTenantId(contract);
+        setContractProposalPrice(contract);
+        await updateContractById(contract);
+        setAdvertiseActiveUsersEmpty(advertise);
+        setAdvertiseInactive(advertise);
+        await updateAdvertiseById(advertise);
+        updatedProposals(await setProposals(proposals));
+        await registerRentalInfo();
         setShowSign(false);
     }
 

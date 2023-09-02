@@ -73,6 +73,12 @@
     font-size: 1rem !important;
 }
 
+.card-details-title-property {
+    margin-top: 2% !important;
+    color: #717BEF;
+    font-size: 0.85rem !important;
+}
+
 .card-details-price {
     font-size: 1.3rem;
     line-height: 1.875rem;

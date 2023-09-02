@@ -5,18 +5,21 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import React from 'react';
+import { BsSearch } from "react-icons/bs";
+import { BsPlusLg } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { Button } from "react-bootstrap";
 import { Navigator } from "../components/Navigator";
 import { ModalContractSign } from "../components/ModalContractSign";
 import { ModalContractReject } from '../components/ModalContractReject';
-import { BsSearch } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
+import ProposalEndpoint from '../endpoints/ProposalEndpoint';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -28,9 +31,11 @@ export const Contracts = () => {
 
     const [showRental, setShowRental] = useState(false);
     const [advertises, setAdvertises] = useState([]);
+    const [proposals, setProposals] = useState([]);
     const [property, setProperty] = useState({});
     const [contract, setContract] = useState({});
     const [currentAdvertise, setCurrentAdvertise] = useState({});
+    const [currentProposal, setCurrentProposal] = useState({});
     const [landlord, setLandlord] = useState({});
     const [tenant, setTenant] = useState({});
     const [userType, setUserType] = useState(null);
@@ -56,6 +61,9 @@ export const Contracts = () => {
 
     const getByIdUrl = UserEndpoint.getById;
     const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
+
+    const getAllByContractIdUrl = ProposalEndpoint.allByContractId;
+
 
     const checkLoginExpireTime = async () => {
         try {
@@ -136,10 +144,17 @@ export const Contracts = () => {
         }
     };
 
-    const handleContract = async (advertise) => {
+    const showProposals = async (advertise) => {
+        await checkLoginExpireTime();
+        await getAllProposalsByContractId(advertise);
+        setShowRental(false);
+    }
+
+    const handleContract = async (advertise, proposal) => {
         await checkLoginExpireTime();
 
         setCurrentAdvertise(advertise);
+        setCurrentProposal(proposal);
 
         console.log("tenant: ", tenant);
         if (tenant !== null) {
@@ -151,9 +166,7 @@ export const Contracts = () => {
 
         if (userType !== "Tenant") {
             await getUserById(userId, "Landlord");
-            if (contractTemp.tenantId !== null) {
-                getUserById(contractTemp.tenantId, "Tenant");
-            }
+            await getUserById(proposal.tenantId, "Tenant");
         }
         else {
             await getUserById(contractTemp.landlordId, "Landlord");
@@ -182,6 +195,7 @@ export const Contracts = () => {
 
         setShowRental(false);
         setTenant(null);
+        setProposals([]);
 
         await getUserById(userId, "User");
         if (value === 1) {
@@ -209,6 +223,27 @@ export const Contracts = () => {
             if (response.status === 200) {
                 console.log("Advertises: ", response.data);
                 setAdvertises(await response.data);
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+    const getAllProposalsByContractId = async (advertise) => {
+        try {
+            const url = getAllByContractIdUrl + advertise.contractId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                console.log("Proposals: ", response.data);
+                setProposals(await response.data);
             }
             else {
                 Auth.removeTokenFromSessionStorage();
@@ -277,20 +312,66 @@ export const Contracts = () => {
                             {advertises.length > 0 ?
                                 (advertises.map((advertise) => {
                                     return (
-                                        <ListGroup.Item key={advertise.id} className="contracts-list-item">
-                                            <Container className="container-contract-in">
-                                                <Row>
-                                                    <Col sm={11}>
-                                                        <p className="contract-list-item-head-font">Advertise ID: <span className="contract-list-item-id" >{advertise.id}</span></p>
-                                                        <p className="contract-list-item-body-font">Property ID: <span className="contract-list-item-id" >{advertise.propertyId}</span></p>
-                                                        <p className="contract-list-item-body-font">Contract ID: <span className="contract-list-item-id" >{advertise.contractId}</span></p>
-                                                    </Col>
-                                                    <Col sm={1} className="button-contracts-c">
-                                                        <Button className="button-contracts" onClick={() => handleContract(advertise)}><BsSearch></BsSearch></Button>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
-                                        </ListGroup.Item>
+                                        <React.Fragment key={advertise.id}>
+                                            <ListGroup.Item key={advertise.id} className="contracts-list-item">
+                                                <Container className="container-contract-in">
+                                                    <Row>
+                                                        <Col sm={11}>
+                                                            <p className="contract-list-item-head-font">Contract ID: <span className="contract-list-item-id" >{advertise.contractId}</span></p>
+                                                            <p className="contract-list-item-body-font">Advertise ID: <span className="contract-list-item-id" >{advertise.id}</span></p>
+                                                            <p className="contract-list-item-body-font">Property ID: <span className="contract-list-item-id" >{advertise.propertyId}</span></p>
+                                                        </Col>
+                                                        <Col sm={1} className="button-contracts-c">
+                                                            <Button className="button-contracts" onClick={() => showProposals(advertise)}><BsPlusLg></BsPlusLg></Button>
+                                                        </Col>
+                                                    </Row>
+                                                </Container>
+                                            </ListGroup.Item>
+                                            {(proposals.length > 0 && proposals[0].contractId === advertise.contractId) ? (
+                                                <ListGroup className="list-proposals">
+                                                    {
+                                                        (proposals.map((proposal) => {
+                                                            if (userType === "Tenant") {
+                                                                if (proposal.tenantId === userId) {
+                                                                    return (
+                                                                        <ListGroup.Item key={proposal.id} className="proposals-list-item">
+                                                                            <Container className="proposal-contract-in">
+                                                                                <Row>
+                                                                                    <Col sm={11}>
+                                                                                        <p className="contract-list-item-head-font">Proposal ID: <span className="contract-list-item-id" >{proposal.id}</span></p>
+                                                                                    </Col>
+                                                                                    <Col sm={1} className="button-contracts-c">
+                                                                                        <Button className="button-contracts" onClick={() => handleContract(advertise, proposal)}><BsSearch></BsSearch></Button>
+                                                                                    </Col>
+                                                                                </Row>
+                                                                            </Container>
+                                                                        </ListGroup.Item>
+                                                                    );
+                                                                }
+                                                            }
+                                                            else {
+                                                                return (
+                                                                    <ListGroup.Item key={proposal.id} className="proposals-list-item">
+                                                                        <Container className="proposal-contract-in">
+                                                                            <Row>
+                                                                                <Col sm={11}>
+                                                                                    <p className="contract-list-item-head-font">Proposal ID: <span className="contract-list-item-id" >{proposal.id}</span></p>
+                                                                                </Col>
+                                                                                <Col sm={1} className="button-contracts-c">
+                                                                                    <Button className="button-contracts" onClick={() => handleContract(advertise, proposal)}><BsSearch></BsSearch></Button>
+                                                                                </Col>
+                                                                            </Row>
+                                                                        </Container>
+                                                                    </ListGroup.Item>
+                                                                );
+                                                            }
+                                                        }))
+                                                    }
+                                                </ListGroup>
+                                            ) :
+                                                <> </>
+                                            }
+                                        </React.Fragment>
                                     );
                                 })) :
                                 (
@@ -310,20 +391,23 @@ export const Contracts = () => {
                     <Col sm={7} className="full-contract-div">
                         <Container className="full-contract-container">
                             <Row className="full-contract-buttons">
-                                {showRental && !contract.signed && contract.tenantId !== null && (userType === "Landlord" || userType === null) &&
+                                {showRental && !contract.signed && currentProposal.active && currentProposal.status === "awaiting" && (userType === "Landlord" || userType === null) &&
                                     <Col sm className="full-contract-buttons-div">
                                         <Button variant="outline-success" size="sm" className="full-contract-button" onClick={() => handleSign()}>Sign</Button>
                                         <Button variant="outline-danger" size="sm" className="full-contract-button" onClick={() => handleReject()}>Reject</Button>
                                     </Col>
                                 }
-                                {showRental && contract.signed && (
+                                {showRental && contract.signed && !currentProposal.active && currentProposal.status === "accepted" && (
                                     <span className="contract-text-signed">Signed by both parties</span>
                                 )}
-                                {showRental && !contract.signed && contract.tenantId === null && (userType === "Landlord" || userType === null) && (
-                                    <span className="contract-text-awaiting">Awaiting a tenant proposal</span>
-                                )}
-                                {showRental && !contract.signed && userType === "Tenant" && (
+                                {showRental && !contract.signed && currentProposal.active && currentProposal.status === "awaiting" && userType === "Tenant" && (
                                     <span className="contract-text-awaiting">Awaiting landlord's signature</span>
+                                )}
+                                {showRental && !currentProposal.active && currentProposal.status === "rejected" && userType === "Tenant" && (
+                                    <span className="contract-text-rejected">Proposal was rejected by the landlord</span>
+                                )}
+                                {showRental && !currentProposal.active && currentProposal.status === "rejected" && (userType === "Landlord" || userType === null) && (
+                                    <span className="contract-text-rejected">You rejected this proposal</span>
                                 )}
                             </Row>
                             <Row>
@@ -381,29 +465,50 @@ export const Contracts = () => {
                                                                             {contract.conditions}
                                                                         </p>
                                                                         <p className="full-contract-text">
-                                                                            <strong>RENT.</strong> The rent to be paid by the Tenant to the Landlord throughout the term of this Agreement is
-                                                                            to be made in monthly installments of <strong>€ {contract.price}</strong> and shall be due on the <strong>first</strong> day of
-                                                                            each month.
+                                                                            <strong>RENT.</strong>
                                                                         </p>
                                                                         <p className="full-contract-text">
-                                                                            The rent should be paid automatically through <strong>Crypto Coins.</strong>
+                                                                            The rental price asked by the landlord is <strong> € {currentProposal?.originalPrice}</strong>.
+                                                                            The rental price proposed by the tenant is <strong> € {currentProposal?.proposalPrice}</strong>.
                                                                         </p>
+                                                                        {!currentProposal.active && currentProposal.status === "rejected" ? (
+                                                                            <>
+                                                                                <p className="full-contract-text">
+                                                                                    This contract proposal was rejected by the landlord. Some possible reasons: Unattractive proposal or tenant-landlord incompatibility.
+                                                                                </p>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <p className="full-contract-text">
+                                                                                    The rent to be paid by the Tenant to the Landlord throughout the term of this Agreement is
+                                                                                    to be made in monthly installments of <strong>€ {currentProposal?.proposalPrice}</strong> and shall be due on the <strong>first</strong> day of
+                                                                                    each month.
+                                                                                </p>
+                                                                                <p className="full-contract-text">
+                                                                                    The rent should be paid automatically through <strong>Crypto Coins.</strong>
+                                                                                </p>
+                                                                            </>
+                                                                        )}
                                                                     </>
                                                                 ) : (
                                                                     <>
                                                                         <p className="full-contract-text"><strong>No Rental Agreement available to display</strong>
                                                                         </p>
-                                                                        <p className="full-contract-text">Please click on the magnifying
-                                                                            glass of one of your contracts on the left side of your screen to see further details.
+                                                                        <p className="full-contract-text">Please click on the plus symbol
+                                                                            of one of your contracts on the left side of your screen to see the proposal(s) for each contract.
+                                                                        </p>
+                                                                        <p className="full-contract-text">Once a proposal is shown under the contract, please click on the magnifying
+                                                                            glass to view further details about the proposal and the contract.
                                                                         </p>
                                                                         <p className="full-contract-text"><strong>Note:</strong> If you have no contracts on the left, please follow these
                                                                             instructions
                                                                         </p>
                                                                         <p className="full-contract-text"><strong>If you are a Landlord:</strong> and if you don't have any contracts on the left waiting to be signed,
-                                                                            wait for interested tenants to rent your property and accept your offer, or create a new listing for your property.
+                                                                            wait for interested tenants to submit a proposal to rent your property. Please create a new listing for your property to receive proposals.
+                                                                            Once your contract has received a proposal, you may accept or reject it.
                                                                         </p>
-                                                                        <p className="full-contract-text"><strong>If you are a Tenant:</strong> and if you don't have any contracts on the left already signed by
-                                                                            a landlord, please accept and sign an offer on the listings page.
+                                                                        <p className="full-contract-text"><strong>If you are a Tenant:</strong> and if you don't have any contracts on the left already signed  or
+                                                                            rejected by a landlord, please submit a proposal for a property on the listings page.
                                                                         </p>
                                                                         <p className="full-contract-text"><strong>If you are a Landlord and a Tenant:</strong> the instructions above apply.
                                                                             Both tenants and landlords can view their contracts here, however only landlords can sign or reject contracts
@@ -413,7 +518,7 @@ export const Contracts = () => {
                                                                 )}
                                                             </Col>
                                                         </Row>
-                                                        {showRental && contract.signed && (
+                                                        {showRental && contract.signed && !currentProposal.active && currentProposal.status === "accepted" && (
                                                             <Row className="full-contract-row">
                                                                 <Col sm>
                                                                     <p className="full-contract-text">
@@ -432,8 +537,8 @@ export const Contracts = () => {
                         </Container>
                     </Col>
                 </Row>
-                <ModalContractSign showSign={showSign} setShowSign={setShowSign} contract={contract}/>
-                <ModalContractReject showReject={showReject} setShowReject={setShowReject} advertise={currentAdvertise} contract={contract} tenant={tenant}/>
+                <ModalContractSign showSign={showSign} setShowSign={setShowSign} contract={contract} proposal={currentProposal} proposals={proposals} advertise={currentAdvertise} tenant={tenant}/>
+                <ModalContractReject showReject={showReject} setShowReject={setShowReject} advertise={currentAdvertise} proposal={currentProposal} tenant={tenant} />
             </Container>
         </div>
     );

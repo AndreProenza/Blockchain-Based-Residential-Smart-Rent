@@ -9,6 +9,7 @@ class ProposalEndpoint extends React.Component {
     static register = ProposalEndpoint.baseEndpoint + "/register";
     static allByTenantId = ProposalEndpoint.baseEndpoint + "/all/by/tenant/";
     static allByContractId = ProposalEndpoint.baseEndpoint + "/all/by/contract/";
+    static updateById = ProposalEndpoint.baseEndpoint + "/update/";
     static getById = ProposalEndpoint.baseEndpoint + "/get/";
     static deleteById = ProposalEndpoint.baseEndpoint + "/delete/";
 }

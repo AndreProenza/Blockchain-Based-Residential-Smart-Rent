@@ -31,6 +31,7 @@ export const Navigator = () => {
                             <Nav.Link href="/listings">Listings</Nav.Link>
                             <Nav.Link href="/advertise">Advertise</Nav.Link>
                             <Nav.Link href="/contracts">Contracts</Nav.Link>
+                            <Nav.Link href="/properties">Properties</Nav.Link>
                             <Nav.Link href="/profile">Profile</Nav.Link>
                         </Nav>
                         <Button variant="outline-light" className="logout-btn" onClick={() => logout()}>Logout</Button>{' '}

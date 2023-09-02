@@ -206,6 +206,7 @@ export const Advertise = () => {
             title: advertise.title,
             userId: userId,
             location: advertise.location,
+            activeUsers: [],
             active: true
         }
     }
@@ -291,13 +292,13 @@ export const Advertise = () => {
 
     const setUser = () => {
         let updatedAdvertises = user.advertises;
-        let updatedContracts = user.contracts;
+        let updatedContracts = user.landlordContracts;
 
         updatedAdvertises.push(advertiseId);
         updatedContracts.push(contractId);
 
         user.advertises = updatedAdvertises;
-        user.contracts = updatedContracts;
+        user.landlordContracts = updatedContracts;
     }
 
     const updateUserById = async () => {

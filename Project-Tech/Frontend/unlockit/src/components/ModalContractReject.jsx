@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
-import ContractEndpoint from '../endpoints/ContractEndpoint';
+import ProposalEndpoint from '../endpoints/ProposalEndpoint';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -10,20 +10,18 @@ import '../components-css/Modal.css';
 
 export const ModalContractReject = (props) => {
 
-    const { showReject, setShowReject, advertise, contract, tenant } = props;
+    const { showReject, setShowReject, advertise, proposal, tenant } = props;
 
     const updateUserByIdUrl = UserEndpoint.updateById;
 
     const updateAdvertiseByIdUrl = AdvertiseEndpoint.updateById;
 
-    const updateContractByIdUrl = ContractEndpoint.updateById;
+    const updateProposalByIdUrl = ProposalEndpoint.updateById;
 
-    const setAdvertiseActive = (advertise) => {
-        advertise.active = true;
-    }
 
-    const setContractTenantId = (contract) => {
-        contract.tenantId = null;
+    const setAdvertiseActiveUsers = (advertise) => {
+        const updatedActiveUsers = advertise.activeUsers.filter((id) => id !== proposal.tenantId);
+        advertise.activeUsers = updatedActiveUsers;
     }
 
     const updateAdvertiseById = async (advertise) => {
@@ -32,20 +30,6 @@ export const ModalContractReject = (props) => {
             const response = await axios.put(url, advertise, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Advertise: ", response.data);
-            return true;
-        } catch (error) {
-            console.log(error);
-            console.log(error.response.data);
-            return false;
-        }
-    };
-
-    const updateContractById = async (contract) => {
-        try {
-            const url = updateContractByIdUrl + contract.id;
-            const response = await axios.put(url, contract, Auth.authHeader());
-            console.log("Status: ", response.status);
-            console.log("Contract: ", response.data);
             return true;
         } catch (error) {
             console.log(error);
@@ -73,13 +57,36 @@ export const ModalContractReject = (props) => {
         }
     };
 
+    const updateProposalById = async (proposal) => {
+        try {
+            const url = updateProposalByIdUrl + proposal.id;
+            const response = await axios.put(url, proposal, Auth.authHeader());
+            console.log("Status: ", response.status);
+            console.log("Proposal: ", response.data);
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+    const setProposalStatus = (proposal) => {
+        proposal.status = "rejected";
+    };
+
+    const setProposalInactive = (proposal) => {
+        proposal.active = false;
+    };
+
     const handleYes = () => {
-        setAdvertiseActive(advertise);
+        setAdvertiseActiveUsers(advertise);
         updateAdvertiseById(advertise);
-        setContractTenantId(contract);
-        updateContractById(contract);
-        setUserProposalAdvertises(tenant, advertise.id);
+        //setUserProposalAdvertises(tenant, advertise.id);
         updateUserById(tenant);
+        setProposalStatus(proposal);
+        setProposalInactive(proposal);
+        updateProposalById(proposal);
         setShowReject(false);
     }
 

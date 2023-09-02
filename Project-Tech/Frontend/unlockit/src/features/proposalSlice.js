@@ -6,7 +6,10 @@ export const proposalSlice = createSlice({
         id: "",
         tenantId: "",
         contractId: "",
-        price: 0,
+        originalPrice: 0,
+        proposalPrice: 0,
+        active: true,
+        accepted: false,
     },
     reducers: {
         setProposal: (state, action) => {
@@ -22,8 +25,17 @@ export const proposalSlice = createSlice({
         setProposalContractId: (state, action) => {
             state.contractId = action.payload;
         },
-        setProposalPrice: (state, action) => {
-            state.price = action.payload;
+        setProposalOriginalPrice: (state, action) => {
+            state.originalPrice = action.payload;
+        },
+        setProposalProposalPrice: (state, action) => {
+            state.proposalPrice = action.payload;
+        },
+        setProposalActive: (state, action) => {
+            state.active = action.payload;
+        },
+        setProposalAccepted: (state, action) => {
+            state.accepted = action.payload;
         },
     },
 })
@@ -33,7 +45,10 @@ export const {
     setProposalId,
     setProposalTenantId,
     setProposalContractId,
-    setProposalPrice,
+    setProposalOriginalPrice,
+    setProposalProposalPrice,
+    setProposalActive,
+    setProposalAccepted,
 } = proposalSlice.actions
 
 export default proposalSlice.reducer

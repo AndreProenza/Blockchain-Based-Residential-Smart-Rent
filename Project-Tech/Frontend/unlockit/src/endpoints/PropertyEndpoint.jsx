@@ -7,6 +7,7 @@ class PropertyEndpoint extends React.Component {
 
     static register = PropertyEndpoint.baseEndpoint + "/register";
     static all = PropertyEndpoint.baseEndpoint + "/all";
+    static allByLandlordId = PropertyEndpoint.baseEndpoint + "/landlord/all/by/";
     static getById = PropertyEndpoint.baseEndpoint + "/get/";
     static updateById = PropertyEndpoint.baseEndpoint + "/update/";
     static deleteById = PropertyEndpoint.baseEndpoint + "/delete/";

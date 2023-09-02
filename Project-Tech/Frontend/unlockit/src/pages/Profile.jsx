@@ -169,8 +169,10 @@ export const Profile = () => {
                     country: user.country,
                     city: user.city,
                     advertises: user.advertises,
-                    contracts: user.contracts,
-                    proposalAdvertises: user.proposalAdvertises
+                    landlordContracts: user.landlordContracts,
+                    tenantContracts: user.tenantContracts,
+                    proposalAdvertises: user.proposalAdvertises,
+                    proposals: user.proposals
                 }
 
                 //console.log("User Data: ", userData);

@@ -8,8 +8,6 @@ export const ListingsList = (props) => {
 
     const { advertises, userId } = props;
 
-    const [keys, setKeys] = useState(advertises.map((advertise) => advertise.id));
-
     // useEffect(() => {
 
     // }, []);
@@ -18,7 +16,7 @@ export const ListingsList = (props) => {
         <ListGroup>
             {advertises.length > 0 ?
                 (advertises.map((advertise) => {
-                    if (advertise.active) {
+                    if (advertise.active && !advertise.activeUsers.includes(userId)) {
                         return (
                             <ListGroup.Item className="listings-property-item" key={advertise.id}>
                                 <PropertyCard show={true} advertise={advertise} userId={userId} />

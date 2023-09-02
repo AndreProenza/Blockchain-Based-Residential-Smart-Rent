@@ -32,6 +32,11 @@
     margin-bottom: 0.2%;
 }
 
+.contracts-publish-sub-subtext {
+    font-size: 0.7rem;
+    margin-bottom: 0.2%;
+}
+
 .button-contracts-container {
     padding-left: 0% !important;
     padding-right: 0% !important;
@@ -59,7 +64,7 @@
 .list-contracts {
     background-color: rgb(246, 246, 246);
     margin-top: 5%;
-}   
+}
 
 /* .full-contract-div {
     background-color: rgb(120, 120, 126);
@@ -175,11 +180,32 @@
     margin-bottom: 0 !important;
 }
 
+.contract-text-rejected {
+    margin-bottom: 2% !important;
+    font-size: 0.9rem;
+    color: rgb(224, 77, 60);
+    font-weight: 400;
+    margin-bottom: 0 !important;
+}
+
 .full-contract-header-text {
     color: #717BEF;
     font-size: 1rem;
     font-weight: 400;
 }
+
+.list-proposals {
+    background-color: rgb(246, 246, 246);
+    margin-top: 0%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.proposals-list-item {
+    margin: 1%;
+    background-color: rgb(255, 255, 255) !important;
+}
+
 
 @media only screen and (max-width: 700px) {
 

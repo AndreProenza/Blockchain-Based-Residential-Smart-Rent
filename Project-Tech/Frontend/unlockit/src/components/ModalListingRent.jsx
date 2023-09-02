@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
-import ContractEndpoint from '../endpoints/ContractEndpoint';
+import ProposalEndpoint from '../endpoints/ProposalEndpoint';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -29,8 +29,10 @@ export const ModalListingRent = (props) => {
 
     console.log("showRent: ", showRent);
 
+    //------- API ------- //
     let user = {};
-    let contractData = {};
+    let proposalData = {};
+    let proposalId = "";
 
     const getUserByIdUrl = UserEndpoint.getById;
     const updateUserByIdUrl = UserEndpoint.updateById;
@@ -38,7 +40,9 @@ export const ModalListingRent = (props) => {
 
     const updateAdvertiseByIdUrl = AdvertiseEndpoint.updateById;
 
-    const updateContractByIdUrl = ContractEndpoint.updateById;
+    const registerProposalUrl = ProposalEndpoint.register;
+    const deleteProposalByIdUrl = ProposalEndpoint.deleteById;
+
 
     const checkLoginExpireTime = async () => {
         try {
@@ -82,8 +86,11 @@ export const ModalListingRent = (props) => {
     const setUserProposalAdvertises = () => {
         let updatedProposalAdvertises = user.proposalAdvertises;
 
-        updatedProposalAdvertises.push(advertise.id);
-        user.proposalAdvertises = updatedProposalAdvertises;
+        if (!updatedProposalAdvertises.includes(advertise.id)) {
+            updatedProposalAdvertises.push(advertise.id);
+            user.proposalAdvertises = updatedProposalAdvertises;
+        }
+
     }
 
     const setUserProposalAdvertisesRevert = () => {
@@ -92,6 +99,22 @@ export const ModalListingRent = (props) => {
         if (updatedProposalAdvertises.length > 0) {
             updatedProposalAdvertises.pop();
             user.proposalAdvertises = updatedProposalAdvertises;
+        }
+    }
+
+    const setUserProposals = () => {
+        let updatedProposals = user.proposals;
+
+        updatedProposals.push(proposalId);
+        user.proposals = updatedProposals;
+    }
+
+    const setUserProposalsRevert = () => {
+        let updatedProposals = user.proposals;
+
+        if (updatedProposals.length > 0) {
+            updatedProposals.pop();
+            user.proposals = updatedProposals;
         }
     }
 
@@ -124,12 +147,11 @@ export const ModalListingRent = (props) => {
         }
     };
 
-    const setAdvertiseInactive = () => {
-        advertise.active = false;
-    }
+    const setAdvertiseActiveUsers = () => {
+        let updatedActiveUsers = advertise.activeUsers;
 
-    const setAdvertiseActive = () => {
-        advertise.active = true;
+        updatedActiveUsers.push(userId);
+        advertise.activeUsers = updatedActiveUsers;
     }
 
     const updateAdvertiseById = async () => {
@@ -146,18 +168,27 @@ export const ModalListingRent = (props) => {
         }
     };
 
-    const setContractTenantId = () => {
-        contract.tenantId = userId;
+    const setProposalData = () => {
+
+        proposalData = {
+            tenantId: userId,
+            contractId: contract.id,
+            originalPrice: contract.price,
+            proposalPrice: Number(rentalPrice),
+            active: true,
+            status: "awaiting",
+        }
     }
 
-    const updateContractById = async () => {
+    const registerProposal = async () => {
         try {
-            setContractTenantId();
-            const url = updateContractByIdUrl + contract.id;
-            contract.price = Number(rentalPrice);
-            const response = await axios.put(url, contract, Auth.authHeader());
+            setProposalData();
+
+            console.log(proposalData);
+            const response = await axios.post(registerProposalUrl, proposalData, Auth.authHeader());
             console.log("Status: ", response.status);
-            console.log("Contract: ", response.data);
+            console.log("ProposalId: ", response.data.id);
+            proposalId = response.data.id;
             return true;
         } catch (error) {
             console.log(error);
@@ -166,28 +197,38 @@ export const ModalListingRent = (props) => {
         }
     };
 
+    const deleteProposal = async () => {
+        try {
+            const url = deleteProposalByIdUrl + proposalId;
+            const response = await axios.delete(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const submitProposal = async () => {
         await checkLoginExpireTime();
 
         try {
             if (await getUser()) {
-                setUserProposalAdvertises();
-                if (await updateUserById()) {
-                    setAdvertiseInactive();
-                    if (await updateAdvertiseById()) {
-                        if (await updateContractById()) {
+                if (await registerProposal()) {
+                    setUserProposalAdvertises();
+                    setUserProposals();
+                    if (await updateUserById()) {
+                        setAdvertiseActiveUsers();
+                        if (await updateAdvertiseById()) {
                             navigate("/contracts");
                         }
                         else {
                             setUserProposalAdvertisesRevert();
+                            setUserProposalsRevert();
                             await updateUserById();
-                            setAdvertiseActive();
-                            await updateAdvertiseById();
+                            await deleteProposal();
                         }
                     }
                     else {
-                        setUserProposalAdvertisesRevert();
-                        await updateUserById();
+                        await deleteProposal();
                     }
                 }
             }
@@ -195,6 +236,8 @@ export const ModalListingRent = (props) => {
             console.log(error);
         }
     };
+
+    //------------------ //
 
     const handlePriceChange = (event) => {
         const price = event.target.value;
@@ -293,8 +336,8 @@ export const ModalListingRent = (props) => {
                                         <Row className="advertise-settings-row">
                                             <Col sm>
                                                 <p className="full-contract-text"><strong>Propose a different rental price</strong></p>
-                                                { rentalPrice.startsWith('0') ? <span className="modal-rent-error-text-subtitle">Rental Price cannot be {rentalPrice}</span> : <></> }
-                                                { rentalPrice === '' ? <span className="modal-rent-error-text-subtitle">Rental Price cannot be empty</span> : <></> }
+                                                {rentalPrice.startsWith('0') ? <span className="modal-rent-error-text-subtitle">Rental Price cannot be {rentalPrice}</span> : <></>}
+                                                {rentalPrice === '' ? <span className="modal-rent-error-text-subtitle">Rental Price cannot be empty</span> : <></>}
                                                 <InputGroup className="mb-3">
                                                     <InputGroup.Text>€</InputGroup.Text>
                                                     <Form.Control

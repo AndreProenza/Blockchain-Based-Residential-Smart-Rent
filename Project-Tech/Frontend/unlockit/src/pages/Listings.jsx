@@ -44,10 +44,10 @@ export const Listings = () => {
             console.log("Status: ", response.status);
             console.log("Advertises: ", response.data);
             if (listings.location === "") {
-                setAdvertises(await response.data.filter((advertise) => advertise.active));
+                setAdvertises(await response.data.filter((advertise) => advertise.active && !advertise.activeUsers.includes(userId)));
             }
             else {
-                setAdvertises(await response.data.filter((advertise) => advertise.location === listings.location && advertise.active));
+                setAdvertises(await response.data.filter((advertise) => advertise.location === listings.location && advertise.active && !advertise.activeUsers.includes(userId)));
             }
             return true;
         } catch (error) {
@@ -63,7 +63,7 @@ export const Listings = () => {
             const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Advertises: ", response.data);
-            setAdvertises(await response.data.filter((advertise) => advertise.active));
+            setAdvertises(await response.data.filter((advertise) => !advertise.activeUsers.includes(userId)));
             return true;
         } catch (error) {
             console.log(error);
