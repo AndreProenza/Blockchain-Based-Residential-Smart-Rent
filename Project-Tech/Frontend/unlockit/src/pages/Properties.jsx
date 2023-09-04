@@ -15,6 +15,7 @@ import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import PropertyPhotoEndpoint from '../endpoints/PropertyPhotoEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
+import { getCurrentRealWorldDate, extractDateFromString, extractDate } from '../utils/DateUtils';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -169,10 +170,7 @@ export const Properties = () => {
 
     const getListOfActiveContracts = async (contractIdList) => {
 
-        console.log("contractIdList: ", contractIdList);
-
         const currentDate = await getCurrentRealWorldDate();
-        console.log("currentDate: ", currentDate);
 
         let activeContracts = [];
         for (const contractId of contractIdList) {
@@ -226,43 +224,6 @@ export const Properties = () => {
 
 
     };
-
-    const getCurrentRealWorldDate = async () => {
-
-        const url = 'https://world-time2.p.rapidapi.com/ip';
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': 'fe197ed0a7mshe9b5eac8160b9b5p1b39edjsndfdf57d4d517',
-                'X-RapidAPI-Host': 'world-time2.p.rapidapi.com'
-            }
-        };
-
-        try {
-            const response = await fetch(url, options);
-            const result = await response.json();
-
-            const currentLocalDate = new Date(result.datetime);
-            return extractDate(currentLocalDate);
-        } catch (error) {
-            console.error('Error fetching current date:', error);
-            return extractDate(new Date()); // Fallback to using local system date in case of an error
-        }
-    }
-
-    const extractDateFromString = (dateString) => {
-        const [year, month, day] = dateString.split('-').map(Number);
-        return new Date(year, month - 1, day);
-    }
-
-    const extractDate = (date) => {
-        const extractedDate = new Date(
-            date.getFullYear(),
-            date.getMonth(),
-            date.getDate()
-        );
-        return extractedDate;
-    }
 
     const handleToggle = async (value) => {
         await checkLoginExpireTime();

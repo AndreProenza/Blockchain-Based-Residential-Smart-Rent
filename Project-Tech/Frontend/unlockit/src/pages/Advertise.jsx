@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import InputGroup from 'react-bootstrap/InputGroup';
 import { Button } from "react-bootstrap";
 import { Navigator } from "../components/Navigator";
 import { AdvertiseSettings } from "../components/AdvertiseSettings";
@@ -12,6 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPropertyPhotoPhoto } from '../features/propertyPhotoSlice'
+import { setPropertyAddress, setPropertyArea, setPropertyDescription, setPropertyLocation, setPropertyType } from '../features/propertySlice';
+import { getCurrentRealWorldDate, extractDateFromString, extractDate } from '../utils/DateUtils';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import PropertyPhotoEndpoint from '../endpoints/PropertyPhotoEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
@@ -43,6 +46,8 @@ export const Advertise = () => {
     const [errors, setErrors] = useState({});
     const [errorsDropdown, setErrorsDropdown] = useState([]);
     const [isValid, setIsValid] = useState(null);
+    const [inputPropertyId, setInputPropertyId] = useState("");
+    const [propertyIdError, setPropertyIdError] = useState(false);
 
     //------- API ------- //
 
@@ -64,12 +69,15 @@ export const Advertise = () => {
     const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
 
     const registerPropertyUrl = PropertyEndpoint.register;
+    const getPropertyByIdUrl = PropertyEndpoint.getById;
     const deletePropertyByIdUrl = PropertyEndpoint.deleteById;
 
     const registerPropertyPhotoUrl = PropertyPhotoEndpoint.register;
+    const getPropertyByPropertyIdUrl = PropertyPhotoEndpoint.getByPropertyId;
     const deletePropertyPhotoByIdUrl = PropertyPhotoEndpoint.deleteById;
 
     const registerContractUrl = ContractEndpoint.register;
+    const getAllByPropertyId = ContractEndpoint.allByPropertyId;
     const deleteContractByIdUrl = ContractEndpoint.deleteById;
 
     const registerAdvertiseUrl = AdvertiseEndpoint.register;
@@ -315,6 +323,114 @@ export const Advertise = () => {
         }
     };
 
+    const getAllContractsByPropertyId = async (propertyId) => {
+        try {
+            const url = getAllByPropertyId + propertyId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            let contracts = null;
+            if (response.status === 200) {
+                console.log("Property: ", response.data);
+                contracts = await response.data;
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+            return contracts;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return null;
+        }
+    };
+    
+    const isContractActive = async (contract, currentDate) => {
+        console.log("currentDate: ", currentDate);
+
+        const contractFinalDate = extractDate(extractDateFromString(contract.finalDate));
+        console.log("contractFinalDate: ", contractFinalDate);
+
+        console.log("contractFinalDate >= currentDate: ", contractFinalDate >= currentDate);
+        // Contract still valid and active
+        return contractFinalDate >= currentDate;
+    }
+
+    const checkPropertyAvailabilityAndSetPropertyFields = async (property) => {
+
+        const contracts = await getAllContractsByPropertyId(property.id);
+        console.log("contracts: ", contracts);
+        if (!contracts) {
+            setPropertyIdError(true);
+        }
+        else {
+            const currentDate = await getCurrentRealWorldDate();
+            let foundActiveContract = false;
+            for (const currentContract of contracts) {
+                if (await isContractActive(currentContract, currentDate)) {
+                    console.log("Entrei: ", isContractActive(currentContract, currentDate));
+                    foundActiveContract = true;
+                    break;
+                }
+            }
+            console.log("foundActiveContract: ", foundActiveContract);
+            if (foundActiveContract) {
+                setPropertyIdError(true);
+            }
+            else {
+                await getPropertyPhotoByPropertyId(property.id);
+                dispatch(setPropertyAddress(property.address));
+                dispatch(setPropertyLocation(property.location));
+                dispatch(setPropertyType(property.type));
+                dispatch(setPropertyArea(property.area));
+                dispatch(setPropertyDescription(property.description));
+            }
+        }
+
+    }
+
+    const getPropertyById = async (propertyId) => {
+        try {
+            const url = getPropertyByIdUrl + propertyId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                console.log("Property: ", response.data);
+                checkPropertyAvailabilityAndSetPropertyFields(await response.data);
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
+    const getPropertyPhotoByPropertyId = async (propertyId) => {
+        try {
+            const url = getPropertyByPropertyIdUrl + propertyId;
+            const response = await axios.get(url, Auth.authHeader());
+            console.log("Status: ", response.status);
+            if (response.status === 200) {
+                console.log("PropertyPhoto: ", response.data);
+                dispatch(setPropertyPhotoPhoto(await response.data.photo));
+            }
+            else {
+                Auth.removeTokenFromSessionStorage();
+                navigate("/login");
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            console.log(error.response.data);
+            return false;
+        }
+    };
+
 
     //------------------ //
 
@@ -527,9 +643,27 @@ export const Advertise = () => {
         const photoBase64 = await convertToBase64(photoFile);
 
         dispatch(setPropertyPhotoPhoto(photoBase64));
-        //console.log("photoBase64: ", photoBase64);
-        //console.log("property.photo: ", property.photo);
     };
+
+    const handlePropertyId = async (event) => {
+        const propertyId = event.target.value;
+        setPropertyIdError(false);
+        setInputPropertyId(propertyId);
+        const isPropertyValid = await getPropertyById(propertyId);
+        if (!isPropertyValid) {
+            setPropertyNull();
+        }
+        console.log("property: ", property);
+    };
+
+    const setPropertyNull = async () => {
+        dispatch(setPropertyAddress(""));
+        dispatch(setPropertyLocation(""));
+        dispatch(setPropertyType(""));
+        dispatch(setPropertyArea(""));
+        dispatch(setPropertyDescription(""));
+        dispatch(setPropertyPhotoPhoto(""));
+    }
 
     return (
         <>
@@ -539,6 +673,9 @@ export const Advertise = () => {
                     <Container className="container-advertise-in-top">
                         <h5 className="advertise-publish-text">Publish</h5>
                         <p className="advertise-publish-subtext">Publish your rental property</p>
+                        <p className="contracts-publish-sub-subtext">You can register a new property and create a new advertisement, or you can create an advertisement for an existent property.</p>
+                        <p className="contracts-publish-sub-subtext">To create an advertisement for an existent property, just copy a property id from properties page and paste it below.</p>
+                        {propertyIdError ? <p className="modal-rent-error-text-subtitle">Impossible to create an new advertisement for this property id. The property is currently under a rental contract.</p> : <></>}
                         <Button className="button-advertise" onClick={validateAndPublish}>Publish</Button>
                     </Container>
                 </div>
@@ -546,6 +683,17 @@ export const Advertise = () => {
                 <Container className="container-advertise">
                     <Row>
                         <Col sm={6} className="settings-advertise">
+                            <InputGroup className="mb-1">
+                                <InputGroup.Text>ID</InputGroup.Text>
+                                <Form.Control
+                                    type="text"
+                                    name="id"
+                                    placeholder="Property Id"
+                                    aria-label="Property Id"
+                                    value={inputPropertyId}
+                                    onChange={(event) => handlePropertyId(event)}
+                                />
+                            </InputGroup>
                             <AdvertiseSettings />
                         </Col>
                         <Col sm={6} className="photo-advertise">

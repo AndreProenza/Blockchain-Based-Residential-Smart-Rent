@@ -7,6 +7,7 @@ class ContractEndpoint extends React.Component {
 
     static register = ContractEndpoint.baseEndpoint + "/register";
     static all = ContractEndpoint.baseEndpoint + "/all";
+    static allByPropertyId = ContractEndpoint.baseEndpoint + "/property/get/all/by/";
     static getById = ContractEndpoint.baseEndpoint + "/get/";
     static updateById = ContractEndpoint.baseEndpoint + "/update/";
     static deleteById = ContractEndpoint.baseEndpoint + "/delete/";
