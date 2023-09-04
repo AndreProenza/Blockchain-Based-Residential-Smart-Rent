@@ -46,6 +46,15 @@ public class ContractController {
         return ResponseEntity.badRequest().body(null);
     }
 
+    @GetMapping("/property/get/all/by/{id}")
+    public ResponseEntity<List<Contract>> getAllContractByPropertyId(@PathVariable("id") String propertyId, @RequestHeader("Authorization") String authorizationHeader) {
+        if (GoogleUtils.isRequestAuthorized(authorizationHeader)) {
+            List<Contract> contracts = contractService.getAllContractByPropertyId(propertyId);
+            return ResponseEntity.ok().body(contracts);
+        }
+        return ResponseEntity.badRequest().body(null);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Contract> updateContract(@RequestBody @Valid Contract contract, @PathVariable("id") String contractId, @RequestHeader("Authorization") String authorizationHeader) {
         if (GoogleUtils.isRequestAuthorized(authorizationHeader)) {

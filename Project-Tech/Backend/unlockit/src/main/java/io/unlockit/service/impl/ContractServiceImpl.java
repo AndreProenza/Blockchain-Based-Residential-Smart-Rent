@@ -27,6 +27,11 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public List<Contract> getAllContractByPropertyId(String propertyId) {
+        return contractRepository.findByPropertyId(propertyId);
+    }
+
+    @Override
     public Contract getContractById(String contractId) {
         Optional<Contract> contract = contractRepository.findById(contractId);
         if(contract.isPresent()) {
