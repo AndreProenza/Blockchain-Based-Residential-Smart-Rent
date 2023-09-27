@@ -24,6 +24,17 @@
     box-shadow: 10px 10px 10px 10px rgb(0.2 0.2 0.2 / 0.2);
 }
 
+.container-card-load-waiting {
+    align-items: center;
+    padding: 2%;
+    margin: auto;
+    width: 30vw;
+    border-radius: 1%;
+    backdrop-filter: blur(10px);
+    border: solid 0px rgb(188, 188, 188) !important;
+}
+
+
 .unlockit-logo-load {
     width: 17% !important;
     margin: 5%;
