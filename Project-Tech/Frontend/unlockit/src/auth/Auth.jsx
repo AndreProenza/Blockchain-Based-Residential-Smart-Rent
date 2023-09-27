@@ -31,6 +31,27 @@ class Auth extends React.Component {
         };
     };
 
+    static authAndUserCredentialsHeader(username, password) {
+        const accessToken = this.getTokenFromSessionStorage();
+        return {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                username: username,
+                password: password,
+            },
+        };
+    };
+
+    static authAndUsernameHeader(username) {
+        const accessToken = this.getTokenFromSessionStorage();
+        return {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                username: username,
+            },
+        };
+    };
+
     static expireTimeLimit = 15; // Seconds
 
 }
