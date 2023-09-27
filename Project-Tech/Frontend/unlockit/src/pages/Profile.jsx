@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUserFirstName, setUserLastName, setUserEmail, setUserPhone, setUserTaxId, setUserAddress, setUserCountry, setUserCity } from '../features/userSlice';
 import UserEndpoint from '../endpoints/UserEndpoint';
+import BlockchainEndpoint from '../endpoints/BlockchainEndpoint';
+import { ModalLoadWaiting } from '../components/ModalLoadWaiting';
 import axios from "axios";
 import * as yup from 'yup';
 import Auth from '../auth/Auth';
@@ -30,6 +32,8 @@ export const Profile = () => {
     const [showSuccess, setShowSuccess] = useState(false);
     const [show, setShow] = useState(null);
     const [errors, setErrors] = useState({});
+    const [loadingWaiting, setLoadingWaiting] = useState(false);
+
 
     //------- API ------- //
 
@@ -39,10 +43,8 @@ export const Profile = () => {
     let userData = {};
 
     const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
-    const allUrl = UserEndpoint.all;
     const getByIdUrl = UserEndpoint.getById;
     const updateByIdUrl = UserEndpoint.updateById;
-    const deleteByIdUrl = UserEndpoint.deleteById;
 
     const checkLoginExpireTime = async () => {
         try {
@@ -67,18 +69,6 @@ export const Profile = () => {
     const updateUserById = () => {
         const url = updateByIdUrl + userId;
         axios.put(url, userData, Auth.authHeader())
-            .then(res => {
-                console.log("Status: ", res.status);
-                console.log("Data: ", res.data);
-            })
-            .catch(err => {
-                console.log(err);
-                console.log(err.response.data);
-            });
-    }
-
-    const getUsers = () => {
-        axios.get(allUrl, Auth.authHeader())
             .then(res => {
                 console.log("Status: ", res.status);
                 console.log("Data: ", res.data);
@@ -201,18 +191,172 @@ export const Profile = () => {
 
     useEffect(() => {
         getUserById();
-
-        // if (show === null) {
-        //     console.log("No popup");
-        // }
-        // else if (show) {
-        //     console.log("Success");
-        // }
-        // else {
-        //     console.log("Errors");
-        // }
-
     }, []);
+
+    /* ------------ TEST -------------- */
+
+
+    const test = async () => {
+        setLoadingWaiting(true);
+        //Wait 3 Seconds
+        setTimeout(() => {
+            setLoadingWaiting(false);
+        }, 1000 * 3);
+    }
+
+    const registerProperty = async () => {
+        try {
+            const url = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
+            const assetData = {
+                fcn: BlockchainEndpoint.createPropertyAssetFunction,
+                args: ["107709419344541253411", "Rua 1", "Lisbon", "T2", "85", "Description 1"],
+            };
+
+            const response = await axios.post(url, assetData, Auth.authAndUsernameHeader(userId));
+            console.log('Status:', response.status);
+            console.log('response.data:', await response.data);
+            return await response.data;
+        } catch (error) {
+            console.error(error);
+            console.error(error.response.data);
+            return null;
+        }
+    };
+
+    const deleteProperty = async () => {
+        try {
+            const url = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
+            const assetData = {
+                fcn: BlockchainEndpoint.deletePropertyAssetFunction,
+                args: ["PropertyAsset-c42v2708u1y8erli7zkwgmwb1i"],
+            };
+
+            const response = await axios.post(url, assetData, Auth.authAndUsernameHeader(userId));
+            console.log('Status:', response.status);
+            console.log('response.data:', await response.data);
+            return await response.data;
+        } catch (error) {
+            console.error(error);
+            console.error(error.response.data);
+            return null;
+        }
+    };
+
+    const getAllAssetsByAssetType = async () => {
+        try {
+            const url = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
+            const assetsData = {
+                fcn: BlockchainEndpoint.getAllAssetsByAssetTypeFunction,
+                args: ["PropertyAsset"],
+            };
+
+            const response = await axios.post(url, assetsData, Auth.authHeader());
+            console.log('Status:', response.status);
+            console.log('response.data:', await response.data);
+            return await response.data;
+        } catch (error) {
+            console.error(error);
+            console.error(error.response.data);
+            return null;
+        }
+    }
+
+    const registerAsset = async () => {
+        try {
+            const url = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
+            const assetData = {
+                fcn: 'CreateAsset',
+                args: ["asset0", "grey", "20", "600"],
+            };
+
+            const response = await axios.post(url, assetData, Auth.authAndUsernameHeader(userId));
+            console.log('Status:', response.status);
+            console.log('response.data:', await response.data);
+            return await response.data;
+        } catch (error) {
+            console.error(error);
+            console.error(error.response.data);
+            return null;
+        }
+    };
+
+    const getAssetById = async () => {
+        try {
+            const url = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
+            const data = {
+                fcn: 'ReadAsset',
+                args: [userId, "asset0"],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
+            console.log('Status:', response.status);
+            console.log('response.data:', await response.data);
+            return await response.data;
+        } catch (error) {
+            console.error(error);
+            console.error(error.response.data);
+            return null;
+        }
+    }
+
+    const getAllAssets = async () => {
+        try {
+            const url = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
+            const assetsData = {
+                fcn: 'GetAllAssets',
+            };
+
+            const response = await axios.post(url, assetsData, Auth.authHeader());
+            console.log('Status:', response.status);
+            console.log('response.data:', await response.data);
+            return await response.data;
+        } catch (error) {
+            console.error(error);
+            console.error(error.response.data);
+            return null;
+        }
+    }
+
+    const assetsExists = async () => {
+        try {
+            const url = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
+            const assetsData = {
+                fcn: BlockchainEndpoint.assetExistsFunction,
+                args: ["asset0"],
+            };
+
+            const response = await axios.post(url, assetsData, Auth.authHeader());
+            console.log('Status:', response.status);
+            console.log('response.data:', await response.data);
+            return await response.data;
+        } catch (error) {
+            console.error(error);
+            console.error(error.response.data);
+            return null;
+        }
+    }
+
+    const updateAssetById = async () => {
+        try {
+            const url = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
+            const assetData = {
+                fcn: BlockchainEndpoint.updateAssetFunction,
+                args: ["asset0", "green", "1", "1"],
+            };
+
+            const response = await axios.post(url, assetData, Auth.authHeader());
+            console.log('Status:', response.status);
+            console.log('response.data:', await response.data);
+            return await response.data;
+        } catch (error) {
+            console.error(error);
+            console.error(error.response.data);
+            return null;
+        }
+    }
+
+
+    /* ---------------------------------- */
 
     return (
         <>
@@ -238,10 +382,12 @@ export const Profile = () => {
                     <Row>
                         <Col sm={6} className="settings-profile">
                             <ProfileDangerSettings />
+                            <Button className="button-profile" onClick={test}>Test</Button>
                         </Col>
                     </Row>
                 </Container>
             </div>
+            <ModalLoadWaiting show={loadingWaiting} />
             <ModalProfile show={show} setShow={setShow} errors={errors} setErrors={setErrors} showSuccess={showSuccess} setShowSuccess={setShowSuccess} />
         </>
     );

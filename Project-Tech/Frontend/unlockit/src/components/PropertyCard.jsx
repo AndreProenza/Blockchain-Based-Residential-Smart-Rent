@@ -13,6 +13,7 @@ import UserEndpoint from '../endpoints/UserEndpoint';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import PropertyPhotoEndpoint from '../endpoints/PropertyPhotoEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
+import BlockchainEndpoint from '../endpoints/BlockchainEndpoint';
 import axios from "axios";
 
 import banner from '../assets/home-banner.jpg';
@@ -44,6 +45,8 @@ export const PropertyCard = (props) => {
 
     const getContractByIdUrl = ContractEndpoint.getById;
 
+    const evaluateBlockchainOrg1 = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
+
     const getUserById = async (userId, userType) => {
         try {
             const url = getByIdUrl + userId;
@@ -71,10 +74,36 @@ export const PropertyCard = (props) => {
         }
     };
 
+    // const getPropertyById = async () => {
+    //     try {
+    //         const url = getPropertyByIdUrl + advertise.propertyId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         if (response.status === 200) {
+    //             console.log("Property: ", response.data);
+    //             setProperty(await response.data);
+    //         }
+    //         else {
+    //             Auth.removeTokenFromSessionStorage();
+    //             navigate("/login");
+    //         }
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const getPropertyById = async () => {
         try {
-            const url = getPropertyByIdUrl + advertise.propertyId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAssetFunction,
+                args: [advertise.propertyId, "PropertyAsset"],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             if (response.status === 200) {
                 console.log("Property: ", response.data);
@@ -90,7 +119,7 @@ export const PropertyCard = (props) => {
             console.log(error.response.data);
             return false;
         }
-    };
+    }
 
     const getPropertyPhotoByPropertyId = async () => {
         try {
@@ -113,10 +142,36 @@ export const PropertyCard = (props) => {
         }
     };
 
+    // const getContractById = async () => {
+    //     try {
+    //         const url = getContractByIdUrl + advertise.contractId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         if (response.status === 200) {
+    //             console.log("Contract: ", response.data);
+    //             setContract(await response.data);
+    //         }
+    //         else {
+    //             Auth.removeTokenFromSessionStorage();
+    //             navigate("/login");
+    //         }
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const getContractById = async () => {
         try {
-            const url = getContractByIdUrl + advertise.contractId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAssetFunction,
+                args: [advertise.contractId, "ContractAsset"],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             if (response.status === 200) {
                 console.log("Contract: ", response.data);
@@ -132,7 +187,7 @@ export const PropertyCard = (props) => {
             console.log(error.response.data);
             return false;
         }
-    };
+    }
 
     useEffect(() => {
         if (advertise !== null) {

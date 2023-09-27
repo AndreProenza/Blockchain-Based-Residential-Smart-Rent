@@ -1,6 +1,7 @@
 import { Navigator } from "../components/Navigator";
 import { ListingsList } from "../components/ListingsList";
 import { ListingsSettings } from "../components/ListingsSettings";
+import { ModalLoadWaiting } from '../components/ModalLoadWaiting';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import Container from 'react-bootstrap/Container';
@@ -24,6 +25,7 @@ export const Listings = () => {
     const userLogin = useSelector((state) => state.userLogin);
 
     const [advertises, setAdvertises] = useState([]);
+    const [loadingWaiting, setLoadingWaiting] = useState(false);
 
     //------- API ------- //
 
@@ -58,17 +60,21 @@ export const Listings = () => {
     };
 
     const getAllAdvertisesByLocation = async () => {
+        setLoadingWaiting(true);
         try {
             const url = getAllByLocationUrl + listings.location;
             const response = await axios.get(url, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Advertises: ", response.data);
-            setAdvertises(await response.data.filter((advertise) => !advertise.activeUsers.includes(userId)));
+            setAdvertises(await response.data.filter((advertise) => advertise.active && !advertise.activeUsers.includes(userId)));
             return true;
         } catch (error) {
             console.log(error);
             console.log(error.response.data);
             return false;
+        }
+        finally {
+            setLoadingWaiting(false);
         }
     };
 
@@ -96,12 +102,14 @@ export const Listings = () => {
     };
 
     const handleToggle = async (value) => {
+        setLoadingWaiting(true);
+
         await checkLoginExpireTime();
 
         if (value === 1) {
             console.log('Listings button clicked');
             if (listings.location !== "") {
-                getAllAdvertisesByLocation();
+                await getAllAdvertisesByLocation();
             }
             else {
                 setAdvertises([]);
@@ -109,8 +117,9 @@ export const Listings = () => {
         }
         else if (value === 2) {
             console.log('My Listings button clicked');
-            getAllAdvertisesByUserId();
+            await getAllAdvertisesByUserId();
         }
+        setLoadingWaiting(false);
     };
 
     useEffect(() => {
@@ -177,6 +186,7 @@ export const Listings = () => {
                     </Col>
                 </Row>
             </Container>
+            <ModalLoadWaiting show={loadingWaiting} />
         </div>
     );
 };

@@ -9,6 +9,7 @@ import { Navigator } from "../components/Navigator";
 import { AdvertiseSettings } from "../components/AdvertiseSettings";
 import { AdvertiseRental } from "../components/AdvertiseRental";
 import { ModalAdvertise } from "../components/ModalAdvertise";
+import { ModalLoadWaiting } from '../components/ModalLoadWaiting';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,6 +21,7 @@ import PropertyPhotoEndpoint from '../endpoints/PropertyPhotoEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
+import BlockchainEndpoint from '../endpoints/BlockchainEndpoint';
 import axios from "axios";
 import * as yup from 'yup';
 import Auth from '../auth/Auth';
@@ -48,6 +50,7 @@ export const Advertise = () => {
     const [isValid, setIsValid] = useState(null);
     const [inputPropertyId, setInputPropertyId] = useState("");
     const [propertyIdError, setPropertyIdError] = useState(false);
+    const [loadingWaiting, setLoadingWaiting] = useState(false);
 
     //------- API ------- //
 
@@ -83,6 +86,9 @@ export const Advertise = () => {
     const registerAdvertiseUrl = AdvertiseEndpoint.register;
     const deleteAdvertiseByIdUrl = AdvertiseEndpoint.deleteById;
 
+    const evaluateBlockchainOrg1 = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
+    const submitBlockchainOrg1 = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
+
     const checkLoginExpireTime = async () => {
         try {
             const response = await axios.get(getLoginExpireTimeUrl, Auth.authHeader());
@@ -103,12 +109,34 @@ export const Advertise = () => {
         }
     };
 
+    // const registerProperty = async () => {
+    //     try {
+    //         setPropertyData();
+
+    //         console.log(propertyData);
+    //         const response = await axios.post(registerPropertyUrl, propertyData, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("PropertyId: ", response.data.id);
+    //         propertyId = response.data.id;
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const registerProperty = async () => {
         try {
-            setPropertyData();
+            setBlockchainPropertyData();
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.createPropertyAssetFunction,
+                args: [propertyData.landlordId, propertyData.address, propertyData.location, propertyData.type,
+                propertyData.area, propertyData.description],
+            };
 
-            console.log(propertyData);
-            const response = await axios.post(registerPropertyUrl, propertyData, Auth.authHeader());
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
             console.log("PropertyId: ", response.data.id);
             propertyId = response.data.id;
@@ -149,6 +177,18 @@ export const Advertise = () => {
         }
     }
 
+    const setBlockchainPropertyData = () => {
+
+        propertyData = {
+            landlordId: userId,
+            address: property.propertyAddress,
+            location: property.location,
+            type: property.type,
+            area: property.area,
+            description: property.description,
+        }
+    }
+
     const setPropertyPhotoData = () => {
 
         propertyPhotoData = {
@@ -157,12 +197,34 @@ export const Advertise = () => {
         }
     }
 
+    // const registerContract = async () => {
+    //     try {
+    //         setContractData();
+
+    //         console.log(contractData);
+    //         const response = await axios.post(registerContractUrl, contractData, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("ContractId: ", response.data.id);
+    //         contractId = response.data.id;
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const registerContract = async () => {
         try {
-            setContractData();
+            setBlockchainContractData();
 
-            console.log(contractData);
-            const response = await axios.post(registerContractUrl, contractData, Auth.authHeader());
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.createContractAssetFunction,
+                args: [contractData.propertyId, contractData.term, contractData.initialDate, contractData.finalDate,
+                contractData.price, contractData.conditions, contractData.landlordId],
+            };
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
             console.log("ContractId: ", response.data.id);
             contractId = response.data.id;
@@ -186,6 +248,19 @@ export const Advertise = () => {
             landlordId: userId,
             tenantId: null,
             signed: false,
+        }
+    }
+
+    const setBlockchainContractData = () => {
+
+        contractData = {
+            propertyId: propertyId,
+            term: contract.term,
+            initialDate: contract.initialDate,
+            finalDate: contract.finalDate,
+            price: contract.price,
+            conditions: contract.conditions,
+            landlordId: userId,
         }
     }
 
@@ -219,10 +294,25 @@ export const Advertise = () => {
         }
     }
 
+    // const deleteProperty = async () => {
+    //     try {
+    //         const url = deletePropertyByIdUrl + propertyId;
+    //         const response = await axios.delete(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
     const deleteProperty = async () => {
         try {
-            const url = deletePropertyByIdUrl + propertyId;
-            const response = await axios.delete(url, Auth.authHeader());
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.deletePropertyAssetFunction,
+                args: [propertyId],
+            };
+
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
         } catch (error) {
             console.log(error);
@@ -239,10 +329,25 @@ export const Advertise = () => {
         }
     };
 
+    // const deleteContract = async () => {
+    //     try {
+    //         const url = deleteContractByIdUrl + contractId;
+    //         const response = await axios.delete(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
     const deleteContract = async () => {
         try {
-            const url = deleteContractByIdUrl + contractId;
-            const response = await axios.delete(url, Auth.authHeader());
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.deleteContractAsset,
+                args: [contractId],
+            };
+
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
         } catch (error) {
             console.log(error);
@@ -323,10 +428,37 @@ export const Advertise = () => {
         }
     };
 
+    // const getAllContractsByPropertyId = async (propertyId) => {
+    //     try {
+    //         const url = getAllByPropertyId + propertyId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         let contracts = null;
+    //         if (response.status === 200) {
+    //             console.log("Property: ", response.data);
+    //             contracts = await response.data;
+    //         }
+    //         else {
+    //             Auth.removeTokenFromSessionStorage();
+    //             navigate("/login");
+    //         }
+    //         return contracts;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return null;
+    //     }
+    // };
+
     const getAllContractsByPropertyId = async (propertyId) => {
         try {
-            const url = getAllByPropertyId + propertyId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAllContractsByPropertyIdFunction,
+                args: [propertyId],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             let contracts = null;
             if (response.status === 200) {
@@ -343,8 +475,8 @@ export const Advertise = () => {
             console.log(error.response.data);
             return null;
         }
-    };
-    
+    }
+
     const isContractActive = async (contract, currentDate) => {
         console.log("currentDate: ", currentDate);
 
@@ -368,12 +500,10 @@ export const Advertise = () => {
             let foundActiveContract = false;
             for (const currentContract of contracts) {
                 if (await isContractActive(currentContract, currentDate)) {
-                    console.log("Entrei: ", isContractActive(currentContract, currentDate));
                     foundActiveContract = true;
                     break;
                 }
             }
-            console.log("foundActiveContract: ", foundActiveContract);
             if (foundActiveContract) {
                 setPropertyIdError(true);
             }
@@ -389,10 +519,36 @@ export const Advertise = () => {
 
     }
 
+    // const getPropertyById = async (propertyId) => {
+    //     try {
+    //         const url = getPropertyByIdUrl + propertyId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         if (response.status === 200) {
+    //             console.log("Property: ", response.data);
+    //             checkPropertyAvailabilityAndSetPropertyFields(await response.data);
+    //         }
+    //         else {
+    //             Auth.removeTokenFromSessionStorage();
+    //             navigate("/login");
+    //         }
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const getPropertyById = async (propertyId) => {
         try {
-            const url = getPropertyByIdUrl + propertyId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAssetFunction,
+                args: [propertyId, "PropertyAsset"],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             if (response.status === 200) {
                 console.log("Property: ", response.data);
@@ -408,7 +564,7 @@ export const Advertise = () => {
             console.log(error.response.data);
             return false;
         }
-    };
+    }
 
     const getPropertyPhotoByPropertyId = async (propertyId) => {
         try {
@@ -480,7 +636,7 @@ export const Advertise = () => {
 
         const publish = async () => {
             await checkLoginExpireTime();
-
+            setLoadingWaiting(true);
             console.log("publish");
             try {
                 if (await registerProperty()) {
@@ -527,6 +683,8 @@ export const Advertise = () => {
 
                 if (await updateUserById()) {
                     console.log("User updated");
+                    setShowSuccess(true);
+                    setShow(true);
                 }
                 else {
                     console.log("Error updating user");
@@ -538,6 +696,9 @@ export const Advertise = () => {
             } catch (error) {
                 console.log(error);
             }
+            finally {
+                setLoadingWaiting(false);
+            }
         }
 
         if (isValid === null) {
@@ -546,8 +707,8 @@ export const Advertise = () => {
         else if (isValid) {
             publish();
             console.log("Success");
-            setShowSuccess(true);
-            setShow(true);
+            // setShowSuccess(true);
+            // setShow(true);
         }
         else {
             console.log("Errors");
@@ -715,6 +876,7 @@ export const Advertise = () => {
                     </Row>
                 </Container>
             </div>
+            <ModalLoadWaiting show={loadingWaiting} />
             <ModalAdvertise show={show} setShow={setShow} errors={errors}
                 showSuccess={showSuccess} setShowSuccess={setShowSuccess}
                 errorsDropdown={errorsDropdown} setErrorsDropdown={setErrorsDropdown} setIsValid={setIsValid} />

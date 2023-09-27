@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import ProposalEndpoint from '../endpoints/ProposalEndpoint';
+import BlockchainEndpoint from '../endpoints/BlockchainEndpoint';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -42,6 +43,8 @@ export const ModalListingRent = (props) => {
 
     const registerProposalUrl = ProposalEndpoint.register;
     const deleteProposalByIdUrl = ProposalEndpoint.deleteById;
+
+    const submitBlockchainOrg1 = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
 
 
     const checkLoginExpireTime = async () => {
@@ -180,12 +183,43 @@ export const ModalListingRent = (props) => {
         }
     }
 
+    const setBlockchainProposalData = () => {
+
+        proposalData = {
+            tenantId: userId,
+            contractId: contract.id,
+            originalPrice: contract.price.toString(),
+            proposalPrice: rentalPrice,
+        }
+    }
+
+    // const registerProposal = async () => {
+    //     try {
+    //         setProposalData();
+
+    //         console.log(proposalData);
+    //         const response = await axios.post(registerProposalUrl, proposalData, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("ProposalId: ", response.data.id);
+    //         proposalId = response.data.id;
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const registerProposal = async () => {
         try {
-            setProposalData();
+            setBlockchainProposalData();
 
-            console.log(proposalData);
-            const response = await axios.post(registerProposalUrl, proposalData, Auth.authHeader());
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.createProposalFunction,
+                args: [proposalData.tenantId, proposalData.contractId, proposalData.originalPrice, proposalData.proposalPrice],
+            };
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
             console.log("ProposalId: ", response.data.id);
             proposalId = response.data.id;
@@ -197,10 +231,25 @@ export const ModalListingRent = (props) => {
         }
     };
 
+    // const deleteProposal = async () => {
+    //     try {
+    //         const url = deleteProposalByIdUrl + proposalId;
+    //         const response = await axios.delete(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
     const deleteProposal = async () => {
         try {
-            const url = deleteProposalByIdUrl + proposalId;
-            const response = await axios.delete(url, Auth.authHeader());
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.deleteProposalFunction,
+                args: [proposalId],
+            };
+
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
         } catch (error) {
             console.log(error);

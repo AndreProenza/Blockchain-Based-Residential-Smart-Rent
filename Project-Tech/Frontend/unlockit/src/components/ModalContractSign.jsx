@@ -5,6 +5,7 @@ import ContractEndpoint from '../endpoints/ContractEndpoint';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import ProposalEndpoint from '../endpoints/ProposalEndpoint';
 import RentalInfoEndpoint from '../endpoints/RentalInfoEndpoint';
+import BlockchainEndpoint from '../endpoints/BlockchainEndpoint';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -12,7 +13,7 @@ import '../components-css/Modal.css';
 
 export const ModalContractSign = (props) => {
 
-    const { showSign, setShowSign, contract, proposal, proposals, advertise, tenant } = props;
+    const { showSign, setShowSign, contract, proposal, proposals, advertise, tenant, userId } = props;
 
     let rentalInfoData = {};
 
@@ -25,6 +26,8 @@ export const ModalContractSign = (props) => {
     const updateProposalByIdUrl = ProposalEndpoint.updateById;
 
     const registerRentalInfoUrl = RentalInfoEndpoint.register;
+
+    const submitBlockchainOrg1 = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
 
     const updateUserById = async (user) => {
         try {
@@ -40,10 +43,28 @@ export const ModalContractSign = (props) => {
         }
     };
 
-    const updateContractById = async (contract) => {
+    // const updateContractById = async (contract) => {
+    //     try {
+    //         const url = updateContractByIdUrl + contract.id;
+    //         const response = await axios.put(url, contract, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("Contract: ", response.data);
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
+    const updateContractById = async (contract, proposal) => {
         try {
-            const url = updateContractByIdUrl + contract.id;
-            const response = await axios.put(url, contract, Auth.authHeader());
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.updateContractAssetFunction,
+                args: [contract.id, proposal.id],
+            };
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
             console.log("Contract: ", response.data);
             return true;
@@ -54,17 +75,17 @@ export const ModalContractSign = (props) => {
         }
     };
     
-    const setContractProposalTenantId = (contract) => {
-        contract.tenantId = proposal.tenantId;
-    };
+    // const setContractProposalTenantId = (contract) => {
+    //     contract.tenantId = proposal.tenantId;
+    // };
 
-    const setContractProposalPrice = (contract) => {
-        contract.price = proposal.proposalPrice;
-    };
+    // const setContractProposalPrice = (contract) => {
+    //     contract.price = proposal.proposalPrice;
+    // };
 
-    const setContractSigned = (contract) => {
-        contract.signed = true;
-    };
+    // const setContractSigned = (contract) => {
+    //     contract.signed = true;
+    // };
 
     const updateAdvertiseById = async (advertise) => {
         try {
@@ -88,10 +109,28 @@ export const ModalContractSign = (props) => {
         advertise.active = false;
     }
 
+    // const updateProposalById = async (proposal) => {
+    //     try {
+    //         const url = updateProposalByIdUrl + proposal.id;
+    //         const response = await axios.put(url, proposal, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("Proposal: ", response.data);
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const updateProposalById = async (proposal) => {
         try {
-            const url = updateProposalByIdUrl + proposal.id;
-            const response = await axios.put(url, proposal, Auth.authHeader());
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.updateProposalFunction,
+                args: [proposal.id, proposal.status],
+            };
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
             console.log("Proposal: ", response.data);
             return true;
@@ -133,21 +172,21 @@ export const ModalContractSign = (props) => {
         }
     };
 
-    const registerRentalInfo = async () => {
-        try {
-            setRentalInfoData();
+    // const registerRentalInfo = async () => {
+    //     try {
+    //         setRentalInfoData();
 
-            console.log(rentalInfoData);
-            const response = await axios.post(registerRentalInfoUrl, rentalInfoData, Auth.authHeader());
-            console.log("Status: ", response.status);
-            console.log("Rental Info: ", response.data);
-            return true;
-        } catch (error) {
-            console.log(error);
-            console.log(error.response.data);
-            return false;
-        }
-    };
+    //         console.log(rentalInfoData);
+    //         const response = await axios.post(registerRentalInfoUrl, rentalInfoData, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("Rental Info: ", response.data);
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
 
     const setRentalInfoData = () => {
 
@@ -170,15 +209,15 @@ export const ModalContractSign = (props) => {
     const handleYes = async () => {
         setTenantContracts();
         await updateUserById(tenant);
-        setContractSigned(contract);
-        setContractProposalTenantId(contract);
-        setContractProposalPrice(contract);
-        await updateContractById(contract);
+        // setContractSigned(contract);
+        // setContractProposalTenantId(contract);
+        // setContractProposalPrice(contract);
+        await updateContractById(contract, proposal);
         setAdvertiseActiveUsersEmpty(advertise);
         setAdvertiseInactive(advertise);
         await updateAdvertiseById(advertise);
         updatedProposals(await setProposals(proposals));
-        await registerRentalInfo();
+        // await registerRentalInfo();
         setShowSign(false);
     }
 

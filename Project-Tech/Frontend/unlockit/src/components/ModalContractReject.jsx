@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import ProposalEndpoint from '../endpoints/ProposalEndpoint';
+import BlockchainEndpoint from '../endpoints/BlockchainEndpoint';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -10,13 +11,15 @@ import '../components-css/Modal.css';
 
 export const ModalContractReject = (props) => {
 
-    const { showReject, setShowReject, advertise, proposal, tenant } = props;
+    const { showReject, setShowReject, advertise, proposal, tenant, userId } = props;
 
     const updateUserByIdUrl = UserEndpoint.updateById;
 
     const updateAdvertiseByIdUrl = AdvertiseEndpoint.updateById;
 
     const updateProposalByIdUrl = ProposalEndpoint.updateById;
+
+    const submitBlockchainOrg1 = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
 
 
     const setAdvertiseActiveUsers = (advertise) => {
@@ -57,10 +60,28 @@ export const ModalContractReject = (props) => {
         }
     };
 
+    // const updateProposalById = async (proposal) => {
+    //     try {
+    //         const url = updateProposalByIdUrl + proposal.id;
+    //         const response = await axios.put(url, proposal, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("Proposal: ", response.data);
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const updateProposalById = async (proposal) => {
         try {
-            const url = updateProposalByIdUrl + proposal.id;
-            const response = await axios.put(url, proposal, Auth.authHeader());
+            const url = submitBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.updateProposalFunction,
+                args: [proposal.id, proposal.status],
+            };
+            const response = await axios.post(url, data, Auth.authAndUsernameHeader(userId));
             console.log("Status: ", response.status);
             console.log("Proposal: ", response.data);
             return true;

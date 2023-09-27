@@ -11,10 +11,12 @@ import { useState, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { Button } from "react-bootstrap";
 import { Navigator } from "../components/Navigator";
+import { ModalLoadWaiting } from '../components/ModalLoadWaiting';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import PropertyPhotoEndpoint from '../endpoints/PropertyPhotoEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
+import BlockchainEndpoint from '../endpoints/BlockchainEndpoint';
 import { getCurrentRealWorldDate, extractDateFromString, extractDate } from '../utils/DateUtils';
 import Auth from '../auth/Auth';
 import axios from "axios";
@@ -32,6 +34,7 @@ export const Properties = () => {
     const [landlord, setLandlord] = useState({});
     const [tenant, setTenant] = useState({});
     const [userType, setUserType] = useState(null);
+    const [loadingWaiting, setLoadingWaiting] = useState(false);
     let user = {};
     let contractTemp = {};
 
@@ -52,6 +55,8 @@ export const Properties = () => {
 
     const getByIdUrl = UserEndpoint.getById;
     const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
+
+    const evaluateBlockchainOrg1 = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
 
 
     const checkLoginExpireTime = async () => {
@@ -131,10 +136,31 @@ export const Properties = () => {
         setProperties(propertiesList);
     }
 
+    // const getContractById = async (contractId) => {
+    //     try {
+    //         const url = getContractByIdUrl + contractId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("Contract: ", response.data);
+    //         setContract(await response.data);
+    //         contractTemp = await response.data;
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const getContractById = async (contractId) => {
         try {
-            const url = getContractByIdUrl + contractId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAssetFunction,
+                args: [contractId, "ContractAsset"],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Contract: ", response.data);
             setContract(await response.data);
@@ -145,12 +171,39 @@ export const Properties = () => {
             console.log(error.response.data);
             return false;
         }
-    };
+    }
+
+    // const getAllPropertiesByLandlordId = async () => {
+    //     try {
+    //         const url = getAllByLandlordIdUrl + userId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         if (response.status === 200) {
+    //             console.log("Properties: ", response.data);
+    //             setPropertiesWithPhoto(await response.data);
+    //         }
+    //         else {
+    //             Auth.removeTokenFromSessionStorage();
+    //             navigate("/login");
+    //         }
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
 
     const getAllPropertiesByLandlordId = async () => {
+        setLoadingWaiting(true);
         try {
-            const url = getAllByLandlordIdUrl + userId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAllPropertiesByLandlordIdFunction,
+                args: [userId],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             if (response.status === 200) {
                 console.log("Properties: ", response.data);
@@ -166,7 +219,10 @@ export const Properties = () => {
             console.log(error.response.data);
             return false;
         }
-    };
+        finally {
+            setLoadingWaiting(false);
+        }
+    }
 
     const getListOfActiveContracts = async (contractIdList) => {
 
@@ -203,8 +259,14 @@ export const Properties = () => {
             let propertiesList = [];
             for (const currentActiveContract of activeContracts) {
                 try {
-                    const url = getPropertyByIdUrl + currentActiveContract.propertyId;
-                    const response = await axios.get(url, Auth.authHeader());
+                    // const url = getPropertyByIdUrl + currentActiveContract.propertyId;
+                    // const response = await axios.get(url, Auth.authHeader());
+                    const url = evaluateBlockchainOrg1;
+                    const data = {
+                        fcn: BlockchainEndpoint.readAssetFunction,
+                        args: [currentActiveContract.propertyId, "PropertyAsset"],
+                    };
+                    const response = await axios.post(url, data, Auth.authHeader());
                     console.log("Status: ", response.status);
                     if (response.status === 200) {
                         console.log("Property: ", response.data);
@@ -226,8 +288,10 @@ export const Properties = () => {
     };
 
     const handleToggle = async (value) => {
+        setLoadingWaiting(true);
+        
         await checkLoginExpireTime();
-
+        
         setTenant(null);
         setProperties([]);
 
@@ -242,6 +306,7 @@ export const Properties = () => {
             await getAllCurrentActivePropertiesByTenantId(userId);
             setUserType("Tenant");
         }
+        setLoadingWaiting(false);
     };
 
     const copyPropertyId = async (property) => {
@@ -362,6 +427,7 @@ export const Properties = () => {
                     </Col>
                 </Row>
             </Container>
+            <ModalLoadWaiting show={loadingWaiting} />
         </div>
     );
 };

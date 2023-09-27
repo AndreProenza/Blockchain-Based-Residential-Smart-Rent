@@ -15,11 +15,13 @@ import { Button } from "react-bootstrap";
 import { Navigator } from "../components/Navigator";
 import { ModalContractSign } from "../components/ModalContractSign";
 import { ModalContractReject } from '../components/ModalContractReject';
+import { ModalLoadWaiting } from '../components/ModalLoadWaiting';
 import AdvertiseEndpoint from '../endpoints/AdvertiseEndpoint';
 import PropertyEndpoint from '../endpoints/PropertyEndpoint';
 import ContractEndpoint from '../endpoints/ContractEndpoint';
 import UserEndpoint from '../endpoints/UserEndpoint';
 import ProposalEndpoint from '../endpoints/ProposalEndpoint';
+import BlockchainEndpoint from '../endpoints/BlockchainEndpoint';
 import Auth from '../auth/Auth';
 import axios from "axios";
 
@@ -41,6 +43,7 @@ export const Contracts = () => {
     const [userType, setUserType] = useState(null);
     const [showSign, setShowSign] = useState(false);
     const [showReject, setShowReject] = useState(false);
+    const [loadingWaiting, setLoadingWaiting] = useState(false);
     let user = {};
     let contractTemp = {};
 
@@ -63,6 +66,8 @@ export const Contracts = () => {
     const getLoginExpireTimeUrl = UserEndpoint.getLoginExpireTime;
 
     const getAllByContractIdUrl = ProposalEndpoint.allByContractId;
+
+    const evaluateBlockchainOrg1 = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
 
 
     const checkLoginExpireTime = async () => {
@@ -113,10 +118,30 @@ export const Contracts = () => {
         }
     };
 
+    // const getPropertyById = async (advertise) => {
+    //     try {
+    //         const url = getPropertyByIdUrl + advertise.propertyId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("Property: ", response.data);
+    //         setProperty(await response.data);
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const getPropertyById = async (advertise) => {
         try {
-            const url = getPropertyByIdUrl + advertise.propertyId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAssetFunction,
+                args: [advertise.propertyId, "PropertyAsset"],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Property: ", response.data);
             setProperty(await response.data);
@@ -126,12 +151,33 @@ export const Contracts = () => {
             console.log(error.response.data);
             return false;
         }
-    };
+    }
+
+    // const getContractById = async (advertise) => {
+    //     try {
+    //         const url = getContractByIdUrl + advertise.contractId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         console.log("Contract: ", response.data);
+    //         setContract(await response.data);
+    //         contractTemp = await response.data;
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
 
     const getContractById = async (advertise) => {
         try {
-            const url = getContractByIdUrl + advertise.contractId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAssetFunction,
+                args: [advertise.contractId, "ContractAsset"],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             console.log("Contract: ", response.data);
             setContract(await response.data);
@@ -142,7 +188,7 @@ export const Contracts = () => {
             console.log(error.response.data);
             return false;
         }
-    };
+    }
 
     const showProposals = async (advertise) => {
         await checkLoginExpireTime();
@@ -191,6 +237,8 @@ export const Contracts = () => {
     };
 
     const handleToggle = async (value) => {
+        setLoadingWaiting(true);
+
         await checkLoginExpireTime();
 
         setShowRental(false);
@@ -208,6 +256,7 @@ export const Contracts = () => {
             await getAdvertisesByUserAdvertisesList(user.proposalAdvertises);
             setUserType("Tenant");
         }
+        setLoadingWaiting(false);
     };
 
     const getAdvertisesByUserAdvertisesList = async (advertiseList) => {
@@ -236,10 +285,36 @@ export const Contracts = () => {
         }
     };
 
+    // const getAllProposalsByContractId = async (advertise) => {
+    //     try {
+    //         const url = getAllByContractIdUrl + advertise.contractId;
+    //         const response = await axios.get(url, Auth.authHeader());
+    //         console.log("Status: ", response.status);
+    //         if (response.status === 200) {
+    //             console.log("Proposals: ", response.data);
+    //             setProposals(await response.data);
+    //         }
+    //         else {
+    //             Auth.removeTokenFromSessionStorage();
+    //             navigate("/login");
+    //         }
+    //         return true;
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(error.response.data);
+    //         return false;
+    //     }
+    // };
+
     const getAllProposalsByContractId = async (advertise) => {
         try {
-            const url = getAllByContractIdUrl + advertise.contractId;
-            const response = await axios.get(url, Auth.authHeader());
+            const url = evaluateBlockchainOrg1;
+            const data = {
+                fcn: BlockchainEndpoint.readAllProposalsByContractIdFunction,
+                args: [advertise.contractId],
+            };
+
+            const response = await axios.post(url, data, Auth.authHeader());
             console.log("Status: ", response.status);
             if (response.status === 200) {
                 console.log("Proposals: ", response.data);
@@ -255,10 +330,11 @@ export const Contracts = () => {
             console.log(error.response.data);
             return false;
         }
-    };
+    }
 
     useEffect(() => {
         const getAllAdvertisesByUserId = async () => {
+            setLoadingWaiting(true);
             try {
                 const url = getAllByUserIdUrl + userId;
                 const response = await axios.get(url, Auth.authHeader());
@@ -276,6 +352,9 @@ export const Contracts = () => {
                 console.log(error);
                 console.log(error.response.data);
                 return false;
+            }
+            finally {
+                setLoadingWaiting(false);
             }
         };
 
@@ -537,8 +616,9 @@ export const Contracts = () => {
                         </Container>
                     </Col>
                 </Row>
-                <ModalContractSign showSign={showSign} setShowSign={setShowSign} contract={contract} proposal={currentProposal} proposals={proposals} advertise={currentAdvertise} tenant={tenant}/>
-                <ModalContractReject showReject={showReject} setShowReject={setShowReject} advertise={currentAdvertise} proposal={currentProposal} tenant={tenant} />
+                <ModalLoadWaiting show={loadingWaiting} />
+                <ModalContractSign showSign={showSign} setShowSign={setShowSign} contract={contract} proposal={currentProposal} proposals={proposals} advertise={currentAdvertise} tenant={tenant} userId={userId} />
+                <ModalContractReject showReject={showReject} setShowReject={setShowReject} advertise={currentAdvertise} proposal={currentProposal} tenant={tenant} userId={userId} />
             </Container>
         </div>
     );

@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from 'react-router-dom';
 
 import '../components-css/Modal.css';
 
@@ -7,13 +8,18 @@ export const ModalAdvertise = (props) => {
 
     const { show, setShow, errors, showSuccess, setShowSuccess, errorsDropdown, setErrorsDropdown, setIsValid} = props;
 
+    const navigate = useNavigate();
+
     const handleClose = () => {
         setErrorsDropdown([]);
         setShow(false);
         setIsValid(null);
+        navigate("/listings");
     };
 
-    const handleCloseSuccess = () => setShowSuccess(false);
+    const handleCloseSuccess = () => {
+        setShowSuccess(false);
+    }
 
     // console.log("show: ", show);
     // console.log("errors:", errors);

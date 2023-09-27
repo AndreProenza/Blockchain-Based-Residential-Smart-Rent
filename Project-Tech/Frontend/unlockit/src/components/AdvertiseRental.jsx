@@ -125,7 +125,7 @@ export const AdvertiseRental = () => {
                                             value={contract?.price}
                                             onChange={(event) => handleChange(event, "price")}
                                         />
-                                        <InputGroup.Text>Month</InputGroup.Text>
+                                        <InputGroup.Text>{contract.term === "Long Term" ? "Monthly" : "One-Time"}</InputGroup.Text>
                                     </InputGroup>
                                 </Col>
                             </Row>
