@@ -49,7 +49,8 @@ The Thesis idea was provided by [Instituto Superior Técnico](https://tecnico.ul
 
 [Unlockit](https://unlockit.io/) - Real estate made simple
 
-<img src="https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/assets/78174997/f0fb1bf0-b810-45f2-81ab-4e01ec3aa205" width="200"/>
+<img src="https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/assets/78174997/01771207-41d8-4ca1-a0c1-826399ae8366" width="200" />
+
 
 ---
 
