@@ -1,6 +1,7 @@
 # Blockchain Based Residential Smart Rent
 
-A tokenization model, allowing for users to self-manage a representation of their properties on the ledger for diverse purposes.
+GDPR-compliant blockchain-based residential rental platform, designed to allow landlords and tenants to establish and digitally sign
+rental contracts and make rental payments through stablecoins with a high level of security and transparency.
 
 ## Master Thesis in Computer Science and Engineering
 
