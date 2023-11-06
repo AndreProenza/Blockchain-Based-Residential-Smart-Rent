@@ -30,11 +30,10 @@ rental contracts and make rental payments through stablecoins with a high level 
 4. [Cooperation](#cooperation)
 5. [More about Unlockit](#more-about-unlockit)
 6. [Introduction](#introduction)
-7. [Description](#description)
-8. [Expected Results](#expected-results)
-9. [Desirable knowledge for further reading](#desirable-knowledge-for-further-reading)
-10. [Used Technologies](#used-technologies)
-11. [Getting Started](#getting-started)
+7. [Expected Results](#expected-results)
+8. [Desirable knowledge for further reading](#desirable-knowledge-for-further-reading)
+9. [Used Technologies](#used-technologies)
+10. [Getting Started](#getting-started)
 
 
 
@@ -50,9 +49,7 @@ The Thesis idea was provided by [Instituto Superior Técnico](https://tecnico.ul
 
 [Unlockit](https://unlockit.io/) - Real estate made simple
 
-"We digitized and streamlined the real estate transactional process so you can close deals faster, from anywhere and from any device."
-
-![unlockit](https://user-images.githubusercontent.com/78174997/190391282-19aaad62-4e3f-443c-9d6e-355d3230bfb9.jpeg)
+![unlockit-logo](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/assets/78174997/f0fb1bf0-b810-45f2-81ab-4e01ec3aa205)
 
 ---
 
@@ -81,36 +78,13 @@ Companies and governments alike are now investing heavily in DLT technology to o
 
 #
 
-## Description
-
-<details>
-  <summary><b>&nbsp;Show&nbsp;more</b></summary>
-<div>
-
-<h6>
-The main solution to be developed specifies a tokenization model, allowing for users to self-manage a representation of their properties on the ledger for diverse purposes. This representation is often referred to as Digital Twin. Our platform will provide Digital Twin-based services anchored in a DLT which will further promote flexibility to manage real estate.  
-</h6>
-
-<h6>
-One of the use cases is allowing partitioning the ownership of a property (smart rent), where the owner of real estate can sell or rent parts of it to one or more clients. This activity includes designing the model for Digital Twins, implementing the smart rent as a smart contract, and providing the end-user tools to manage their properties.
-</h6>
-
-<h6>
-The work will be done on a decentralised ledger that aims to solve some of the above problems. 
-</h6>
-  
-</div>
-</details>
-
-#
- 
 ## Expected Results
 
 - Study the state of the art on blockchain technology (permissionless and private DLTs) and solutions that apply to the real estate market. 
 - Identify the main challenges currently faced by Real Estate rent processes; 
 - Understand and study blockchain solutions which apply to real estate smart rent; 
-- Implement a PoC of the smart rent solution and evaluate it; 
-- Write the thesis and optionally publish an academic paper.
+- Implement a smart rent PoC and evaluate it; 
+- Write the thesis and an academic paper.
 
 ---
 
@@ -124,16 +98,18 @@ The work will be done on a decentralised ledger that aims to solve some of the a
 
 ## Used Technologies
 
-* [Daml](https://docs.daml.com/index.html) - Smart contract language designed to build composable applications on an abstract Daml Ledger Model;
-
+* [Hyperledger Fabric](https://hyperledger-fabric.readthedocs.io/en/release-2.5/) - A Blockchain Platform for the Enterprise;
+* [React](https://react.dev/) - The library for web and native user interfaces;
+* [MongoDB](https://www.mongodb.com/) - The Cloud-Native Database;
+* [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) -  OAuth 2.0 protocol for authentication and authorization;
+* [TypeScript](https://www.typescriptlang.org/) -  A strongly typed programming language that builds on JavaScript;
 
 ---
 
 ## Getting Started
 
-The thesis process requires writing 3 documents plus 1 optional:
+The thesis process requires writing 3 documents:
 
 1) [Project Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Project-Paper)
 2) [Dissertation](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Dissertation)
 3) [Extended Summary](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Extended-Summary)
-4) [Scientific/Technical Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Scientific-Paper) on the Thesis Topic (optional)
