@@ -113,4 +113,4 @@ The thesis process requires writing 3 documents:
 
 1) [Project Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Project-Paper)
 2) [Dissertation](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Dissertation)
-3) [Extended Summary](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Extended-Summary)
+3) [Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Paper)
