@@ -111,6 +111,6 @@ Companies and governments alike are now investing heavily in DLT technology to o
 
 The thesis process requires writing 3 documents:
 
-1) [Project Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Project-Paper)
+1) [Project](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Project)
 2) [Dissertation](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Dissertation)
 3) [Paper](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/tree/main/Paper)
