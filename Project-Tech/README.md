@@ -1,7 +1,6 @@
 ## Prerequisites
 
-- Setup the Hyperledger Fabric network.
-- README-HLF.md
+- Setup [Hyperledger Fabric](https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/edit/main/Project-Tech/README-HLF.md)
 
 ## Getting Started
 
