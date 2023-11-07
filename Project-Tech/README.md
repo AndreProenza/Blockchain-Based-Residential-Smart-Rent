@@ -1,5 +1,3 @@
----
-
 ## Getting Started
 
 The following instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -27,5 +25,3 @@ npm run server:org1:dev
 cd Blockchain/client/
 npm run server:org2:dev
 ```
-
----
