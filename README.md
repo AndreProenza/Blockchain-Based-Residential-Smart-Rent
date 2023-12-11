@@ -120,7 +120,7 @@ Index Terms – Blockchain, Smart Contracts, Real Estate, GDPR
 
 ## Demo
 
-
+https://github.com/AndreProenza/Blockchain-Based-Residential-Smart-Rent/assets/78174997/02def10d-82d0-484f-918a-8d666bef4f22
 
 ---
 
