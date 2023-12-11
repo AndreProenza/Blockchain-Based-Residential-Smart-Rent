@@ -53,10 +53,10 @@
 } */
 
 .profile-settings-container-danger {
-    background-color: none;
+    background-color: white;
     margin: 4%;
     border-radius: 1%;
-    border: solid 1.5px rgb(255, 134, 134);
+    border: solid 1.5px rgb(215, 215, 215);
     padding: 1%;
     margin-top: 0%;
 }
@@ -101,7 +101,7 @@
 }
 
 .profile-settings-header-text-danger {
-    color: #c75d40;
+    color: #b62700;
     font-size: 1.1rem;
 }
 

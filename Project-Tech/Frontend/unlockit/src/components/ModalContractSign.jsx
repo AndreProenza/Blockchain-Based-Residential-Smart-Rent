@@ -234,10 +234,10 @@ export const ModalContractSign = (props) => {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title className="modal-success-text-title">Sign Contract</Modal.Title>
+                    <Modal.Title className="modal-success-text-title">Verify Payment</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p className="modal-success-text">Are you sure you want to sign this contract?</p>
+                    <p className="modal-success-text">Are you sure you want to verify the contract payment?</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-success" onClick={handleYes}>

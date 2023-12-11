@@ -1,17 +1,15 @@
 const getCurrentRealWorldDate = async () => {
 
-    const url = 'https://world-time2.p.rapidapi.com/ip';
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': 'fe197ed0a7mshe9b5eac8160b9b5p1b39edjsndfdf57d4d517',
-            'X-RapidAPI-Host': 'world-time2.p.rapidapi.com'
-        }
-    };
+    const url = 'http://worldtimeapi.org/api/timezone/Europe/Lisbon';
 
     try {
-        const response = await fetch(url, options);
+        const response = await fetch(url);
         const result = await response.json();
+
+        // ------ TEMP -------
+        // const result = "2023-12-30T18:55:48.620744+00:00";
+        // const currentLocalDate = new Date(result);
+        // -------------------
 
         const currentLocalDate = new Date(result.datetime);
         return extractDate(currentLocalDate);

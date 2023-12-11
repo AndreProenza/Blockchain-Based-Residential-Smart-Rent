@@ -75,3 +75,8 @@
     font-size: 0.7em !important;
     color: #dc3545;
 }
+
+.modal-settings-dropdown {
+    display:inline-block;
+    margin-right: 2%;
+}

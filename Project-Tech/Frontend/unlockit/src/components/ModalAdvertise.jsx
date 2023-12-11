@@ -14,7 +14,7 @@ export const ModalAdvertise = (props) => {
         setErrorsDropdown([]);
         setShow(false);
         setIsValid(null);
-        navigate("/listings");
+        //navigate(0);
     };
 
     const handleCloseSuccess = () => {

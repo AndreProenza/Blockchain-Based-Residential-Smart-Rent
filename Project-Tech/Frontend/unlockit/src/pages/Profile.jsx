@@ -17,6 +17,7 @@ import { ModalLoadWaiting } from '../components/ModalLoadWaiting';
 import axios from "axios";
 import * as yup from 'yup';
 import Auth from '../auth/Auth';
+import { Coinbase } from '../coinbase/Coinbase';
 
 import "../components-css/Profile.css";
 
@@ -32,6 +33,8 @@ export const Profile = () => {
     const [showSuccess, setShowSuccess] = useState(false);
     const [show, setShow] = useState(null);
     const [errors, setErrors] = useState({});
+
+    // TEST
     const [loadingWaiting, setLoadingWaiting] = useState(false);
 
 
@@ -197,11 +200,14 @@ export const Profile = () => {
 
 
     const test = async () => {
-        setLoadingWaiting(true);
-        //Wait 3 Seconds
-        setTimeout(() => {
-            setLoadingWaiting(false);
-        }, 1000 * 3);
+
+        // setLoadingWaiting(true);
+        // //Wait 3 Seconds
+        // setTimeout(() => {
+        //     setLoadingWaiting(false);
+        // }, 1000 * 3);
+
+        Coinbase.createPayment();
     }
 
     const registerProperty = async () => {
@@ -222,139 +228,6 @@ export const Profile = () => {
             return null;
         }
     };
-
-    const deleteProperty = async () => {
-        try {
-            const url = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
-            const assetData = {
-                fcn: BlockchainEndpoint.deletePropertyAssetFunction,
-                args: ["PropertyAsset-c42v2708u1y8erli7zkwgmwb1i"],
-            };
-
-            const response = await axios.post(url, assetData, Auth.authAndUsernameHeader(userId));
-            console.log('Status:', response.status);
-            console.log('response.data:', await response.data);
-            return await response.data;
-        } catch (error) {
-            console.error(error);
-            console.error(error.response.data);
-            return null;
-        }
-    };
-
-    const getAllAssetsByAssetType = async () => {
-        try {
-            const url = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
-            const assetsData = {
-                fcn: BlockchainEndpoint.getAllAssetsByAssetTypeFunction,
-                args: ["PropertyAsset"],
-            };
-
-            const response = await axios.post(url, assetsData, Auth.authHeader());
-            console.log('Status:', response.status);
-            console.log('response.data:', await response.data);
-            return await response.data;
-        } catch (error) {
-            console.error(error);
-            console.error(error.response.data);
-            return null;
-        }
-    }
-
-    const registerAsset = async () => {
-        try {
-            const url = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
-            const assetData = {
-                fcn: 'CreateAsset',
-                args: ["asset0", "grey", "20", "600"],
-            };
-
-            const response = await axios.post(url, assetData, Auth.authAndUsernameHeader(userId));
-            console.log('Status:', response.status);
-            console.log('response.data:', await response.data);
-            return await response.data;
-        } catch (error) {
-            console.error(error);
-            console.error(error.response.data);
-            return null;
-        }
-    };
-
-    const getAssetById = async () => {
-        try {
-            const url = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
-            const data = {
-                fcn: 'ReadAsset',
-                args: [userId, "asset0"],
-            };
-
-            const response = await axios.post(url, data, Auth.authHeader());
-            console.log('Status:', response.status);
-            console.log('response.data:', await response.data);
-            return await response.data;
-        } catch (error) {
-            console.error(error);
-            console.error(error.response.data);
-            return null;
-        }
-    }
-
-    const getAllAssets = async () => {
-        try {
-            const url = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
-            const assetsData = {
-                fcn: 'GetAllAssets',
-            };
-
-            const response = await axios.post(url, assetsData, Auth.authHeader());
-            console.log('Status:', response.status);
-            console.log('response.data:', await response.data);
-            return await response.data;
-        } catch (error) {
-            console.error(error);
-            console.error(error.response.data);
-            return null;
-        }
-    }
-
-    const assetsExists = async () => {
-        try {
-            const url = BlockchainEndpoint.evaluateBlockchainOrg1ServerUrl;
-            const assetsData = {
-                fcn: BlockchainEndpoint.assetExistsFunction,
-                args: ["asset0"],
-            };
-
-            const response = await axios.post(url, assetsData, Auth.authHeader());
-            console.log('Status:', response.status);
-            console.log('response.data:', await response.data);
-            return await response.data;
-        } catch (error) {
-            console.error(error);
-            console.error(error.response.data);
-            return null;
-        }
-    }
-
-    const updateAssetById = async () => {
-        try {
-            const url = BlockchainEndpoint.submitBlockchainOrg1ServerUrl;
-            const assetData = {
-                fcn: BlockchainEndpoint.updateAssetFunction,
-                args: ["asset0", "green", "1", "1"],
-            };
-
-            const response = await axios.post(url, assetData, Auth.authHeader());
-            console.log('Status:', response.status);
-            console.log('response.data:', await response.data);
-            return await response.data;
-        } catch (error) {
-            console.error(error);
-            console.error(error.response.data);
-            return null;
-        }
-    }
-
 
     /* ---------------------------------- */
 
@@ -377,14 +250,15 @@ export const Profile = () => {
                         </Col>
                         <Col sm={6} className="settings-profile">
                             <ProfileAddressSettings />
+                            <ProfileDangerSettings />
                         </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                         <Col sm={6} className="settings-profile">
                             <ProfileDangerSettings />
                             <Button className="button-profile" onClick={test}>Test</Button>
                         </Col>
-                    </Row>
+                    </Row> */}
                 </Container>
             </div>
             <ModalLoadWaiting show={loadingWaiting} />

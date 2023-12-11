@@ -229,6 +229,9 @@ export const Properties = () => {
         const currentDate = await getCurrentRealWorldDate();
 
         let activeContracts = [];
+        if (contractIdList === null) {
+            return activeContracts;
+        }
         for (const contractId of contractIdList) {
             console.log("contractId: ", contractId);
             await getContractById(contractId);

@@ -12,7 +12,10 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { Button } from "react-bootstrap";
+import { useWeb3Modal } from '@web3modal/wagmi/react'
+import { useAccount } from 'wagmi'
 import { Navigator } from "../components/Navigator";
+import { ModalRequestPayment } from "../components/ModalRequestPayment";
 import { ModalContractSign } from "../components/ModalContractSign";
 import { ModalContractReject } from '../components/ModalContractReject';
 import { ModalLoadWaiting } from '../components/ModalLoadWaiting';
@@ -42,8 +45,11 @@ export const Contracts = () => {
     const [tenant, setTenant] = useState({});
     const [userType, setUserType] = useState(null);
     const [showSign, setShowSign] = useState(false);
+    const [showRequestPayment, setShowRequestPayment] = useState(false);
     const [showReject, setShowReject] = useState(false);
     const [loadingWaiting, setLoadingWaiting] = useState(false);
+    const { open } = useWeb3Modal()
+    const { address, isConnecting, isDisconnected } = useAccount()
     let user = {};
     let contractTemp = {};
 
@@ -226,6 +232,10 @@ export const Contracts = () => {
         setShowSign(true);
     }
 
+    const handleRequestPayment = async () => {
+        setShowRequestPayment(true);
+    }
+
     const handleReject = async () => {
         setShowReject(true);
     }
@@ -261,6 +271,10 @@ export const Contracts = () => {
 
     const getAdvertisesByUserAdvertisesList = async (advertiseList) => {
         try {
+            if (advertiseList === null) {
+                setAdvertises([]);
+                return true;
+            }
             const url = getAllByUserAdvertisesList;
             const response = await axios.get(url, {
                 headers: Auth.authHeader().headers,
@@ -331,6 +345,17 @@ export const Contracts = () => {
             return false;
         }
     }
+
+    const truncateAddress = (inputString) => {
+        return inputString.substr(0, 4) + "..." + inputString.substr(-4);
+    }
+
+    // TEST
+    const test = async () => {
+        
+    }
+
+    
 
     useEffect(() => {
         const getAllAdvertisesByUserId = async () => {
@@ -472,15 +497,21 @@ export const Contracts = () => {
                             <Row className="full-contract-buttons">
                                 {showRental && !contract.signed && currentProposal.active && currentProposal.status === "awaiting" && (userType === "Landlord" || userType === null) &&
                                     <Col sm className="full-contract-buttons-div">
-                                        <Button variant="outline-success" size="sm" className="full-contract-button" onClick={() => handleSign()}>Sign</Button>
+                                        {/* <Button variant="primary" size="sm" className="full-contract-button" onClick={test}>Test</Button> */}
+                                        <Button variant="primary" size="sm" className="full-contract-button" onClick={() => open()}>{!isConnecting && !isDisconnected ? truncateAddress(address) : (<span>Connect Wallet</span>)}</Button>
+                                        <Button variant="outline-success" size="sm" className="full-contract-button" onClick={() => handleRequestPayment()}>Request Payment</Button>
+                                        {/* <Button variant="outline-success" size="sm" className="full-contract-button" onClick={() => handleSign()}>Verify Payment</Button> */}
                                         <Button variant="outline-danger" size="sm" className="full-contract-button" onClick={() => handleReject()}>Reject</Button>
                                     </Col>
                                 }
+                                {/* <span className="contract-text-awaiting">Awaiting for payment confirmation</span> */}
                                 {showRental && contract.signed && !currentProposal.active && currentProposal.status === "accepted" && (
-                                    <span className="contract-text-signed">Signed by both parties</span>
+                                    <span className="contract-text-signed">Payment confirmed. Signed by both parties</span>
                                 )}
                                 {showRental && !contract.signed && currentProposal.active && currentProposal.status === "awaiting" && userType === "Tenant" && (
-                                    <span className="contract-text-awaiting">Awaiting landlord's signature</span>
+                                    <span className="contract-text-awaiting">Awaiting landlord approval and payment request</span>
+                                    // <span className="contract-text-awaiting">Consult the payment details and pay within the time limit</span>
+
                                 )}
                                 {showRental && !currentProposal.active && currentProposal.status === "rejected" && userType === "Tenant" && (
                                     <span className="contract-text-rejected">Proposal was rejected by the landlord</span>
@@ -582,16 +613,12 @@ export const Contracts = () => {
                                                                         <p className="full-contract-text"><strong>Note:</strong> If you have no contracts on the left, please follow these
                                                                             instructions
                                                                         </p>
-                                                                        <p className="full-contract-text"><strong>If you are a Landlord:</strong> and if you don't have any contracts on the left waiting to be signed,
+                                                                        <p className="full-contract-text"><strong>If you are a Landlord:</strong> and if you don't have any contracts on the left waiting to be accepted,
                                                                             wait for interested tenants to submit a proposal to rent your property. Please create a new listing for your property to receive proposals.
                                                                             Once your contract has received a proposal, you may accept or reject it.
                                                                         </p>
-                                                                        <p className="full-contract-text"><strong>If you are a Tenant:</strong> and if you don't have any contracts on the left already signed  or
+                                                                        <p className="full-contract-text"><strong>If you are a Tenant:</strong> and if you don't have any contracts on the left already accepted  or
                                                                             rejected by a landlord, please submit a proposal for a property on the listings page.
-                                                                        </p>
-                                                                        <p className="full-contract-text"><strong>If you are a Landlord and a Tenant:</strong> the instructions above apply.
-                                                                            Both tenants and landlords can view their contracts here, however only landlords can sign or reject contracts
-                                                                            while tenants can only view them.
                                                                         </p>
                                                                     </>
                                                                 )}
@@ -617,6 +644,7 @@ export const Contracts = () => {
                     </Col>
                 </Row>
                 <ModalLoadWaiting show={loadingWaiting} />
+                <ModalRequestPayment showRequestPayment={showRequestPayment} setShowRequestPayment={setShowRequestPayment} address={address} contract={contract} proposal={currentProposal} proposals={proposals} advertise={currentAdvertise} tenant={tenant} userId={userId} />
                 <ModalContractSign showSign={showSign} setShowSign={setShowSign} contract={contract} proposal={currentProposal} proposals={proposals} advertise={currentAdvertise} tenant={tenant} userId={userId} />
                 <ModalContractReject showReject={showReject} setShowReject={setShowReject} advertise={currentAdvertise} proposal={currentProposal} tenant={tenant} userId={userId} />
             </Container>
