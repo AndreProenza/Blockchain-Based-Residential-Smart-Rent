@@ -30,10 +30,12 @@ rental contracts and make rental payments through stablecoins with a high level 
 4. [Cooperation](#cooperation)
 5. [More about Unlockit](#more-about-unlockit)
 6. [Introduction](#introduction)
-7. [Expected Results](#expected-results)
-8. [Desirable knowledge for further reading](#desirable-knowledge-for-further-reading)
-9. [Used Technologies](#used-technologies)
-10. [Getting Started](#getting-started)
+7. [Abstract](#abstract)
+8. [Demo](#demo)
+9. [Expected Results](#expected-results)
+10. [Desirable knowledge for further reading](#desirable-knowledge-for-further-reading)
+11. [Used Technologies](#used-technologies)
+12. [Getting Started](#getting-started)
 
 
 
@@ -116,7 +118,7 @@ Index Terms – Blockchain, Smart Contracts, Real Estate, GDPR
 
 ---
 
-## Project Demo
+## Demo
 
 
 
