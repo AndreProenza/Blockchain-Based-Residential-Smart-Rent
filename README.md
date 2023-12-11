@@ -97,6 +97,31 @@ Companies and governments alike are now investing heavily in DLT technology to o
 
 ---
 
+## Abstract
+
+<details>
+  <summary><b>&nbsp;Show more</b></summary>
+<div>
+
+<h6>
+The real estate market includes complex and inefficient mediation processes. Renting a property envolves multiple entities with different responsibilities and interests. Therefore it is imperative to establish a trustful relationship between parties through intermediaries such as notaries, banks or real estate
+agencies to avoid eventual disputes. Although an intermediary ensures trust, the current process still has some drawbacks concerning efficiency, costs, transparency, bureaucracy and data security. The blockchain technology aims to reduce this issues by providing transparent and secure real estate transactions. We propose a GDPR compliant blockchain-based residential smart rental platform, designed to allow both landlords and tenants to establish rental contracts and make rental payments securely. 
+</h6>
+
+<h6>
+Index Terms – Blockchain, Smart Contracts, Real Estate, GDPR
+</h6>
+
+</details>
+
+---
+
+## Project Demo
+
+
+
+---
+
 ## Used Technologies
 
 * [Hyperledger Fabric](https://hyperledger-fabric.readthedocs.io/en/release-2.5/) - A Blockchain Platform for the Enterprise;
