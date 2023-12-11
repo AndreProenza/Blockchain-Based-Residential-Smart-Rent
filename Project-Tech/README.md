@@ -20,12 +20,12 @@ npm start
 
 - Launch the Blockchain Interface Server for Org1
 ```bash
-cd Blockchain/client/
+cd Hyperledger-Fabric/client/
 npm run server:org1:dev
 ```
 
 - Launch the Blockchain Interface Server for Org2
 ```bash
-cd Blockchain/client/
+cd Hyperledger-Fabric/client/
 npm run server:org2:dev
 ```
